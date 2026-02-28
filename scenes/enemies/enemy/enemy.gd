@@ -16,7 +16,5 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	
 func _on_collision_shape_2d_body_entered(body: Node2D) -> void:
-	print("AAA")
 	if body.is_in_group("player"):
-		print("BBB")
 		queue_free()
