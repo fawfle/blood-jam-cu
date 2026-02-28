@@ -4,7 +4,6 @@ extends CharacterBody2D
 @export var stop_acceleration: float = 800.0
 @export var max_speed: float = 500.0
 
-
 @export var min_dash_speed: float = 200
 ## amount of previous speed to keep when dashing
 @export var dash_multiplier: float = 0.2
@@ -12,10 +11,23 @@ extends CharacterBody2D
 ## damping applied on bounce
 @export var bounce_multiplier: float = 0.8
 
+@export var blood_scale: float = 10.0
+
+var size: float = 1
+
 var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
+	update_size()
+	
+	handle_move(delta)
+	var painted: int = Global.ground.paint_circle(global_position, size)
+
+func update_size():
+	size = Global.blood / blood_scale
+
+func handle_move(delta):
 	movement_input = Input.get_vector("left", "right", "forward", "backward")
 	if movement_input != Vector2.ZERO: last_movement_input = movement_input
 	
