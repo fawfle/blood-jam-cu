@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0xl0mbw34dfe"]
+[gd_scene load_steps=5 format=3 uid="uid://c0xl0mbw34dfe"]
+
+[ext_resource type="Script" uid="uid://bf7y8ggmj0n0g" path="res://scenes/player/player.gd" id="1_8afob"]
 
 [sub_resource type="Gradient" id="Gradient_8afob"]
 offsets = PackedFloat32Array(0, 0.45308474, 0.47419995, 1)
@@ -14,6 +16,7 @@ metadata/_snap_enabled = true
 radius = 20.024984
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_8afob")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_dovo2")
