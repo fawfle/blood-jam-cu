@@ -6,9 +6,10 @@
 script = ExtResource("1_kh67j")
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="Area2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
+autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

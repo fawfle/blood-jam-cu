@@ -7,6 +7,7 @@ extends Enemy
 func shoot() -> void:
 	var shot_projectile = Projectile.instantiate()
 	shot_projectile.direction = position.direction_to(player.position)
+	shot_projectile.position = position
 	owner.add_child(shot_projectile)
 
 func find_direction() -> void:

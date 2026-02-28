@@ -28,6 +28,10 @@ window/stretch/mode="viewport"
 window/stretch/scale=1.19
 window/stretch/scale_mode="integer"
 
+[global_group]
+
+player=""
+
 [input]
 
 forward={
