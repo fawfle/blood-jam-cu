@@ -1,3 +1,12 @@
-[gd_scene format=3 uid="uid://c8evxvjut3sps"]
+[gd_scene load_steps=3 format=3 uid="uid://c8evxvjut3sps"]
+
+[ext_resource type="PackedScene" uid="uid://dbxpkx7jsbcf2" path="res://scenes/floor/floor.tscn" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://c0xl0mbw34dfe" path="res://scenes/player/player.tscn" id="1_o5qli"]
 
 [node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Floor" parent="." instance=ExtResource("1_0wfyh")]
+
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
