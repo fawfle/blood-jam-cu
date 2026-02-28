@@ -1,17 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfkm3747747pj"]
+[gd_scene load_steps=4 format=3 uid="uid://cfkm3747747pj"]
 
 [ext_resource type="Script" uid="uid://v3fok166oqv1" path="res://scenes/enemies/shooter/shooter.gd" id="1_gdnfp"]
+[ext_resource type="PackedScene" uid="uid://csauc27gbupua" path="res://scenes/enemies/projectile/projectile.tscn" id="2_d8kji"]
+[ext_resource type="Texture2D" uid="uid://bm24yxn6r6ubk" path="res://sprites/player-mid-single.png" id="2_duk37"]
 
 [node name="Shooter" type="CharacterBody2D"]
 script = ExtResource("1_gdnfp")
-distance_min = null
-speed = null
-blood = null
+distance_min = 50
+Projectile = ExtResource("2_d8kji")
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="Area2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_duk37")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

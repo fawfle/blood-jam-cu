@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bbrc0q72at20t"]
+[gd_scene load_steps=3 format=3 uid="uid://bbrc0q72at20t"]
 
 [ext_resource type="Script" uid="uid://shvkl6fgbo11" path="res://scenes/enemies/enemy/enemy.gd" id="1_q7lov"]
+[ext_resource type="Texture2D" uid="uid://bm24yxn6r6ubk" path="res://sprites/player-mid-single.png" id="2_7ytu1"]
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_q7lov")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7ytu1")
+
+[connection signal="area_entered" from="CollisionShape2D" to="." method="_on_collision_shape_2d_area_entered"]
