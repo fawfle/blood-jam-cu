@@ -18,6 +18,3 @@ max_speed = 500.0
 min_dash_speed = 200.0
 dash_multiplier = 0.2
 bounce_multiplier = 0.8
-
-[node name="Wall_test" parent="." instance=ExtResource("3_sugp2")]
-position = Vector2(0, 70)

@@ -23,6 +23,7 @@ func _ready() -> void:
 	# (material as ShaderMaterial).set_shader_parameter("blood", blood_texture)
 
 func paint_circle(circle_pos: Vector2i, radius: int) -> int:
+	radius += 1
 	circle_pos += room_size / 2
 	var painted_pixels = 0;
 	var start_x: int = max(circle_pos.x - radius, 0)

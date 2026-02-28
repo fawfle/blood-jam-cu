@@ -1,5 +1,8 @@
 class_name Player extends CharacterBody2D
 
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
 @export var max_speed: float = 500.0
@@ -10,10 +13,12 @@ class_name Player extends CharacterBody2D
 
 ## damping applied on bounce
 @export var bounce_multiplier: float = 0.8
+## min speed required to bounce
+@export var min_speed_to_bounce: float = 80
 
 @export var blood_scale: float = 10.0
 
-@export var slowdown_per_pixel: float = 1000
+@export var slowdown_per_pixel: float = 0.1
 
 var size: float = 1
 
@@ -27,13 +32,20 @@ func _physics_process(delta: float) -> void:
 	update_size()
 	
 	handle_move(delta)
-	var painted: int = Global.ground.paint_circle(global_position, round(size))
-	if painted != 0: print(painted)
-	velocity.move_toward(Vector2.ZERO, painted * slowdown_per_pixel)
+	paint_trail()
+	
 	# TODO: slow down based on painted pixels
 
 func update_size():
 	size = Global.blood / blood_scale
+	(collision_shape.shape as CircleShape2D).radius = size
+	
+
+func paint_trail():
+	var painted: int = Global.ground.paint_circle(global_position, round(size))
+	# var prev_vel = velocity
+	velocity = velocity.move_toward(Vector2.ZERO, painted * slowdown_per_pixel)
+	# if painted != 0: print(velocity - prev_vel)
 
 func handle_move(delta):
 	movement_input = Input.get_vector("left", "right", "forward", "backward")
@@ -50,11 +62,13 @@ func handle_move(delta):
 	move_and_slide()
 	
 	var collision := get_last_slide_collision()
-	if collision != null: bounce(previous_velocity, collision)
+	if collision != null:
+		paint_trail()
+		bounce(previous_velocity, collision)
 
 func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
+	if previous_velocity.length() < min_speed_to_bounce: return
 	velocity = -previous_velocity.reflect(collision.get_normal()) * bounce_multiplier
-	print(velocity)
 	move_and_slide()
 
 func dash() -> void:
