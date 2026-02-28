@@ -14,3 +14,5 @@
 
 [node name="Wall_test" parent="." instance=ExtResource("3_sugp2")]
 position = Vector2(0, 70)
+=======
+script = null

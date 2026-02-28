@@ -9,7 +9,6 @@ func _ready() -> void:
 	blood_image = Image.create(room_size.x, room_size.y, false, Image.FORMAT_RGBA8)
 	blood_image.fill(Color(0, 0, 0, 0))
 	blood_texture.set_image(blood_image)
-	print(blood_texture)
 	
 	#for i in range(50):
 	#	for j in range(50):
