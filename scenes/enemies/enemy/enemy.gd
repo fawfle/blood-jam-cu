@@ -10,8 +10,12 @@ var direction: Vector2 = Vector2.ZERO
 func find_direction() -> void:
 	pass
 
+func choose_animation() -> void:
+	pass
+
 func _physics_process(_delta: float) -> void:
 	find_direction()
+	choose_animation()
 	velocity = direction * speed
 	move_and_slide()
 	
