@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var speed := 200.0
+@export var dash_multiplier := 10.0
 var movement_input := Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
@@ -20,3 +21,17 @@ func move_logic(delta) -> void:
 		vel_2d = vel_2d.move_toward(Vector2.ZERO, speed * 4.0 * delta)
 		velocity.x = vel_2d.x
 		velocity.y = vel_2d.y
+	if Input.is_action_just_pressed("dash"):
+		dash_logic(vel_2d)
+	if is_on_wall():
+		vel_2d = vel_2d.bounce() * speed
+		velocity.x = vel_2d.x
+		velocity.y = vel_2d.y
+
+func dash_logic(vel_2d) -> void:
+	print("Input read")
+	movement_input = Input.get_vector("left", "right", "forward", "backward")
+	vel_2d = movement_input * vel_2d.length() * dash_multiplier
+	velocity.x = vel_2d.x
+	velocity.y = vel_2d.y
+	

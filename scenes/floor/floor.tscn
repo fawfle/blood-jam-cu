@@ -6,8 +6,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n0mj7"]
 shader = ExtResource("1_w0xbj")
-shader_parameter/blood_color = Vector3(1, 0, 0)
-shader_parameter/blood = ExtResource("2_1w6he")
+shader_parameter/blood_map = ExtResource("2_1w6he")
 
 [sub_resource type="Gradient" id="Gradient_bfk6g"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
