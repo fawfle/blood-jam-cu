@@ -1,24 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://c0xl0mbw34dfe"]
+[gd_scene load_steps=9 format=3 uid="uid://c0xl0mbw34dfe"]
 
 [ext_resource type="Script" uid="uid://bf7y8ggmj0n0g" path="res://scenes/player/player.gd" id="1_8afob"]
-[ext_resource type="Texture2D" uid="uid://cwd0l46eux6pu" path="res://sprites/player-mid-idle.png" id="2_gmlin"]
 [ext_resource type="Texture2D" uid="uid://e4036vux8r5p" path="res://sprites/player-small-idle.png" id="3_lvxji"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p47bc"]
-atlas = ExtResource("2_gmlin")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_75vfm"]
-atlas = ExtResource("2_gmlin")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0owmy"]
-atlas = ExtResource("2_gmlin")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qek5x"]
-atlas = ExtResource("2_gmlin")
-region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5gtgg"]
 atlas = ExtResource("3_lvxji")
@@ -40,23 +23,6 @@ region = Rect2(192, 0, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_p47bc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_75vfm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0owmy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qek5x")
-}],
-"loop": true,
-"name": &"idle_mid",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_5gtgg")
 }, {
 "duration": 1.0,
@@ -69,7 +35,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_fm80t")
 }],
 "loop": true,
-"name": &"idle_small",
+"name": &"idle",
 "speed": 10.0
 }]
 
@@ -79,11 +45,10 @@ radius = 9.0
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_8afob")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="SmallSprite" type="AnimatedSprite2D" parent="."]
 z_index = 5
 sprite_frames = SubResource("SpriteFrames_gx1jg")
-animation = &"idle_mid"
-frame_progress = 0.90648526
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_x7p2l")
