@@ -177,5 +177,6 @@ script = ExtResource("1_q7lov")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_jx7ia")
 animation = &"idle"
+frame_progress = 0.2015209
 
 [connection signal="area_entered" from="CollisionShape2D" to="." method="_on_collision_shape_2d_area_entered"]
