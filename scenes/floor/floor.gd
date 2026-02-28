@@ -11,7 +11,44 @@ func _ready() -> void:
 	blood_texture.set_image(blood_image)
 	print(blood_texture)
 	
+	#for i in range(50):
+	#	for j in range(50):
+	#		paint_pixel(i, j)
+	
+	paint_circle(Vector2i(80, 80), 15)
+	
 	# (material as ShaderMaterial).set_shader_parameter("blood", blood_texture)
 
-func _process(delta: float) -> void:
-	pass
+func paint_circle(circle_pos: Vector2i, radius: int) -> int:
+	var painted_pixels = 0;
+	var start_x: int = circle_pos.x - radius
+	var end_x: int = circle_pos.x + radius
+	var start_y: int = circle_pos.y - radius
+	var end_y: int = circle_pos.y + radius
+	
+	for x in range(start_x, end_x):
+		for y in range(start_y, end_y):
+			# check if it's in circle
+			var pos: Vector2i = Vector2i(x, y)
+			var distance = circle_pos.distance_to(pos)
+			var ignore_chance = 1 - pow((distance / radius), 5)
+			
+			if distance < radius and randf() < ignore_chance:
+				# random chance to not paint based on distance
+				var painted: bool = paint_pixel(x, y);
+				if painted: painted_pixels += 1;
+	
+	return painted_pixels;
+
+func is_in_circle(circle_pos: Vector2i, radius: int, pos: Vector2i) -> bool:
+	print(circle_pos.distance_to(pos))
+	return circle_pos.distance_to(pos) < radius
+	
+
+func paint_pixel(x: int, y: int) -> bool:
+	var current_color = blood_image.get_pixel(x, y)
+	if current_color == Color(1, 1, 1, 1): return false
+	
+	blood_image.set_pixel(x, y, Color(1, 0, 0, 1))
+	blood_texture.set_image(blood_image)
+	return true

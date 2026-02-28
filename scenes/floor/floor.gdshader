@@ -1,11 +1,12 @@
 shader_type canvas_item;
 
-uniform vec3 blood_color = vec3(1.0, 0.0, 0.0);
-uniform sampler2D blood;
+// uniform vec3 blood_color = vec3(1.0, 0.0, 0.0);
+uniform sampler2D blood_map;
 
 void fragment() {
 	vec3 color = texture(TEXTURE, UV).rgb;
-	float covered = texture(blood, UV).a;
+	vec3 blood_color = texture(blood_map, UV).rgb;
+	float covered = texture(blood_map, UV).a;
 	color = mix(color, blood_color, covered);
 	COLOR = vec4(color, 1.0);
 }
