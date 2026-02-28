@@ -1,37 +1,43 @@
 extends CharacterBody2D
 
-@export var speed := 200.0
-@export var dash_multiplier := 10.0
+@export var move_acceleration: float = 400.0
+@export var stop_acceleration: float = 800.0
+@export var max_speed: float = 500.0
+
+
+@export var min_dash_speed: float = 200
+## amount of previous speed to keep when dashing
+@export var dash_multiplier: float = 0.2
+
+## damping applied on bounce
+@export var bounce_multiplier: float = 0.8
+
+var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
-	#velocity = Vector3(movement_input.x,0,movement_input.y) * base_speed
-	move_logic(delta)
+	movement_input = Input.get_vector("left", "right", "forward", "backward")
+	if movement_input != Vector2.ZERO: last_movement_input = movement_input
+	
+	var target_velocity: Vector2 = movement_input * max_speed
+	var acceleration: float = move_acceleration if movement_input != Vector2.ZERO else stop_acceleration
+	velocity = velocity.move_toward(target_velocity, acceleration * delta)
+	
+	if Input.is_action_just_pressed("dash"):
+		dash()
+	
+	var previous_velocity: Vector2 = velocity
+	move_and_slide()
+	
+	var collision := get_last_slide_collision()
+	if collision != null: bounce(previous_velocity, collision)
+
+func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
+	velocity = -previous_velocity.reflect(collision.get_normal()) * bounce_multiplier
+	print(velocity)
 	move_and_slide()
 
-func move_logic(delta) -> void:
-	movement_input = Input.get_vector("left", "right", "forward", "backward")
-	var vel_2d = Vector2(velocity.x, velocity.y)
-	if movement_input != Vector2.ZERO:
-		vel_2d += movement_input * speed * delta
-		vel_2d = vel_2d.limit_length(speed)
-		velocity.x = vel_2d.x
-		velocity.y = vel_2d.y
-	else:
-		vel_2d = vel_2d.move_toward(Vector2.ZERO, speed * 4.0 * delta)
-		velocity.x = vel_2d.x
-		velocity.y = vel_2d.y
-	if Input.is_action_just_pressed("dash"):
-		dash_logic(vel_2d)
-	if is_on_wall():
-		vel_2d = vel_2d.bounce() * speed
-		velocity.x = vel_2d.x
-		velocity.y = vel_2d.y
-
-func dash_logic(vel_2d) -> void:
-	print("Input read")
-	movement_input = Input.get_vector("left", "right", "forward", "backward")
-	vel_2d = movement_input * vel_2d.length() * dash_multiplier
-	velocity.x = vel_2d.x
-	velocity.y = vel_2d.y
-	
+func dash() -> void:
+	# use the last movement input for if player isn't holding a direction
+	var dash_speed: float = max(velocity.length(), min_dash_speed)
+	velocity = last_movement_input * dash_speed + (velocity * dash_multiplier)
