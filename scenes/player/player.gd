@@ -13,6 +13,8 @@ class_name Player extends CharacterBody2D
 
 @export var blood_scale: float = 10.0
 
+@export var slowdown_per_pixel: float = 1000
+
 var size: float = 1
 
 var last_movement_input: Vector2 = Vector2.RIGHT
@@ -25,7 +27,10 @@ func _physics_process(delta: float) -> void:
 	update_size()
 	
 	handle_move(delta)
-	var painted: int = Global.ground.paint_circle(global_position, size)
+	var painted: int = Global.ground.paint_circle(global_position, round(size))
+	if painted != 0: print(painted)
+	velocity.move_toward(Vector2.ZERO, painted * slowdown_per_pixel)
+	# TODO: slow down based on painted pixels
 
 func update_size():
 	size = Global.blood / blood_scale

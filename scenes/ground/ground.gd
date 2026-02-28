@@ -53,7 +53,8 @@ func paint_pixel(x: int, y: int) -> bool:
 	if not is_in_image(x, y): return false
 	
 	var current_color = blood_image.get_pixel(x, y)
-	if current_color == Color(1, 1, 1, 1): return false
+	if current_color.a != 0:
+		return false
 	
 	blood_image.set_pixel(x, y, blood_color)
 	blood_texture.set_image(blood_image)
