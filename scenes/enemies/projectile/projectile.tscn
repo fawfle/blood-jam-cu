@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://csauc27gbupua"]
+
+[ext_resource type="Script" uid="uid://of5kwug4dbnn" path="res://scenes/enemies/projectile/projectile.gd" id="1_osyni"]
+
+[node name="Projectile" type="Area2D" groups=["projectiles"]]
+script = ExtResource("1_osyni")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

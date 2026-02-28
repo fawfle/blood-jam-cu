@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://urujg6q1wbmg"]
+
+[ext_resource type="Script" uid="uid://do2blknw12tmg" path="res://scenes/enemies/shield/shield.gd" id="1_uk3dt"]
+
+[node name="Shield" type="Area2D"]
+script = ExtResource("1_uk3dt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgk8w0b5v056n"]
+
+[ext_resource type="Script" uid="uid://blrx41i2e6bbv" path="res://scenes/enemies/fodder/fodder.gd" id="1_mbmad"]
+
+[node name="Fodder" type="CharacterBody2D"]
+script = ExtResource("1_mbmad")
+metadata/_custom_type_script = "uid://shvkl6fgbo11"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

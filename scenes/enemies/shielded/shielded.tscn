@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://didc638p6ooq1"]
+
+[ext_resource type="Script" uid="uid://mlqo32logd2t" path="res://scenes/enemies/shielded/shielded.gd" id="1_kh67j"]
+
+[node name="Shielded" type="CharacterBody2D"]
+script = ExtResource("1_kh67j")
+metadata/_custom_type_script = "uid://shvkl6fgbo11"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
