@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody2D
 
-@onready var animated_sprite: AnimatedSprite2D = $SmallSprite
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 @export var move_acceleration: float = 400.0
@@ -18,32 +18,20 @@ class_name Player extends CharacterBody2D
 
 @export var blood_scale: float = 10.0
 
-@export var paint_cost: float = 0.01
+@export var paint_cost: float = 0.001
 
-@export var slowdown_per_pixel: float = 0.1
+@export var slowdown_per_pixel: float = 0.05
 
 var size: float = 1
 
 var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
 
-enum Size {
-	SMALL,
-	MEDIUM,
-	LARGE
-}
-
-var SPRITE_SIZES: Dictionary[Size, float] = {
-	Size.SMALL: 13,
-	Size.MEDIUM: 20,
-	Size.LARGE: 15
-}
-
 func _init() -> void:
 	Global.player = self
 
 func _ready() -> void:
-	animated_sprite.play()
+	animated_sprite.play("idle")
 
 func _physics_process(delta: float) -> void:
 	update_size()
@@ -51,12 +39,23 @@ func _physics_process(delta: float) -> void:
 	handle_move(delta)
 	paint_trail()
 	
-	# TODO: slow down based on painted pixels
+	update_animation()
+
+func update_animation():
+	if movement_input.x != 0:
+		animated_sprite.play("move")
+	elif movement_input.y != 0:
+		if movement_input.y < 0: animated_sprite.play("move_vertical")
+		else: animated_sprite.play_backwards("move_vertical")
+	else:
+		animated_sprite.play("idle")
+	
+	if movement_input.x != 0:
+		animated_sprite.flip_h = movement_input.x > 0
 
 func update_size():
 	size = max(0, Global.blood) / blood_scale
-	animated_sprite.scale = Vector2.ONE * size * 0.16
-	animated_sprite.play("idle")
+	animated_sprite.scale = Vector2.ONE * size * 0.1
 	(collision_shape.shape as CircleShape2D).radius = size
 	
 
