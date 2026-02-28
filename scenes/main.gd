@@ -30,9 +30,6 @@ func update_walls(room_size: Vector2i):
 	right_wall.update_size(Vector2(WALL_WIDTH, room_size.y))
 	top_wall.update_size(Vector2(room_size.x, WALL_WIDTH))
 	bottom_wall.update_size(Vector2(room_size.x, WALL_WIDTH))
-	# i'm going crazy
-	left_wall.collision_shape.position = Vector2.LEFT
-	top_wall.collision_shape.position = Vector2.UP
 	
 	print(left_wall.global_position)
 	print(right_wall.global_position)
