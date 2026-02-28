@@ -3,6 +3,8 @@ class_name Ground extends Sprite2D
 var blood_image: Image;
 @export var blood_texture: ImageTexture
 
+@export var blood_color: Color = Color(1, 0, 0, 1)
+
 var room_size: Vector2i = Vector2i(288, 162)
 
 func _init() -> void:
@@ -33,7 +35,7 @@ func paint_circle(circle_pos: Vector2i, radius: int) -> int:
 			# check if it's in circle
 			var pos: Vector2i = Vector2i(x, y)
 			var distance = circle_pos.distance_to(pos)
-			var ignore_chance = 1 - pow((distance / radius), 5)
+			var ignore_chance = 1 - pow((distance / radius), 3)
 			
 			if distance < radius and randf() < ignore_chance:
 				# random chance to not paint based on distance
@@ -53,7 +55,7 @@ func paint_pixel(x: int, y: int) -> bool:
 	var current_color = blood_image.get_pixel(x, y)
 	if current_color == Color(1, 1, 1, 1): return false
 	
-	blood_image.set_pixel(x, y, Color(1, 0, 0, 1))
+	blood_image.set_pixel(x, y, blood_color)
 	blood_texture.set_image(blood_image)
 	return true
 

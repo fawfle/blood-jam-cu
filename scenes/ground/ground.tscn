@@ -16,8 +16,9 @@ gradient = SubResource("Gradient_bfk6g")
 width = 288
 height = 162
 
-[node name="Floor" type="Sprite2D"]
+[node name="Ground" type="Sprite2D"]
 material = SubResource("ShaderMaterial_n0mj7")
 texture = SubResource("GradientTexture2D_w0xbj")
 script = ExtResource("2_n0mj7")
 blood_texture = ExtResource("2_1w6he")
+blood_color = Color(0.7905676, 3.7541986e-06, 3.85046e-07, 1)

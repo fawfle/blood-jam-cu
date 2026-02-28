@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
@@ -17,6 +17,9 @@ var size: float = 1
 
 var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
+
+func _init() -> void:
+	Global.player = self
 
 func _physics_process(delta: float) -> void:
 	update_size()
