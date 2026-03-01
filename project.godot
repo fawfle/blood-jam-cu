@@ -31,6 +31,7 @@ window/stretch/scale_mode="integer"
 [global_group]
 
 player=""
+shield=""
 
 [input]
 
@@ -70,6 +71,7 @@ dash={
 2d_physics/layer_1="player"
 2d_physics/layer_2="wall"
 2d_physics/layer_3="enemy"
+2d_physics/layer_4="shield"
 
 [rendering]
 

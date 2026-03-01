@@ -17,8 +17,11 @@ class_name Player extends CharacterBody2D
 @export var bounce_multiplier: float = 0.7
 ## min speed required to bounce
 @export var min_speed_to_bounce: float = 80
+@export var bounce_cost: float = 1.0
 
 @export var blood_scale: float = 10.0
+
+@export var bleed_per_second: float = 5
 
 @export var dash_cost: float = 5.0
 @export var paint_cost: float = 0.0025
@@ -30,6 +33,8 @@ var size: float = 1
 var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
 
+const MAX_SIZE: float = 40
+
 func _init() -> void:
 	Global.player = self
 
@@ -37,6 +42,8 @@ func _ready() -> void:
 	animated_sprite.play("idle")
 
 func _physics_process(delta: float) -> void:
+	Global.blood -= bleed_per_second * delta
+	
 	update_size()
 	
 	handle_move(delta)
@@ -58,6 +65,7 @@ func update_animation():
 
 func update_size():
 	size = max(0, Global.blood) / blood_scale
+	size = min(size, MAX_SIZE)
 	animated_sprite.scale = Vector2.ONE * size * 0.11
 	(collision_shape.shape as CircleShape2D).radius = size
 
@@ -92,6 +100,7 @@ func handle_move(delta):
 func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
 	if previous_velocity.length() < min_speed_to_bounce: return
 	velocity = -previous_velocity.reflect(collision.get_normal()) * bounce_multiplier
+	Global.blood -= bounce_cost
 	bounce_sound.play()
 	move_and_slide()
 

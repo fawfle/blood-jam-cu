@@ -1,24 +1,46 @@
 extends Enemy
 
 # minimum distance away from player shooter enemy needs to be
-@export var distance_min: int 
-@export var Projectile: PackedScene
+@export var distance_target: int = 120
+var projectile_scene: PackedScene = preload("res://scenes/enemies/projectile/projectile.tscn")
+
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+const DISTANCE_TOLERANCE: float = 2.0
 
 func shoot() -> void:
-	var shot_projectile = Projectile.instantiate()
-	shot_projectile.direction = position.direction_to(player.position)
-	shot_projectile.position = position
-	owner.add_child(shot_projectile)
+	var projectile: Area2D = projectile_scene.instantiate()
+	projectile.direction = position.direction_to(player.global_position)
+	projectile.global_position = global_position
+	projectile.look_at(player.global_position)
+	
+	if owner: owner.add_child(projectile)
+	else: get_tree().add_child(projectile)
 
 func find_direction() -> void:
-	var enemy_position: Vector2 = position
-	var player_position: Vector2 = player.position
-	var distance: float = enemy_position.distance_to(player_position)
+	var player_position: Vector2 = player.global_position
+	var distance: float = global_position.distance_to(player_position)
 	# if player too close, go away from player otherwise go towards 
-	if distance < distance_min:
-		direction = -enemy_position.direction_to(player_position)
+	if abs(distance - distance_target) < DISTANCE_TOLERANCE:
+		direction = Vector2.ZERO
+	elif distance < distance_target:
+		direction = -global_position.direction_to(player_position)
 	else:
-		direction = enemy_position.direction_to(player_position)
+		direction = global_position.direction_to(player_position)
+
+func choose_animation() -> void:
+	if velocity == Vector2.ZERO:
+		animated_sprite.play("idle")
+	elif velocity.x > 0 && velocity.x > velocity.y:
+		animated_sprite.flip_h = true
+		animated_sprite.play("run_side")
+	elif velocity.x < 0 && velocity.x > velocity.y:
+		animated_sprite.flip_h = false
+		animated_sprite.play("run_side")
+	elif velocity.y > 0 && velocity.y > velocity.x:
+		animated_sprite.play("run_down")
+	elif velocity.y < 0 && velocity.y > velocity.x:
+		animated_sprite.play("run_up")
 
 func _on_timer_timeout() -> void:
 	shoot()

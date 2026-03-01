@@ -1,8 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://urujg6q1wbmg"]
+[gd_scene load_steps=5 format=3 uid="uid://urujg6q1wbmg"]
 
 [ext_resource type="Script" uid="uid://do2blknw12tmg" path="res://scenes/enemies/shield/shield.gd" id="1_uk3dt"]
 
-[node name="Shield" type="Area2D"]
+[sub_resource type="Gradient" id="Gradient_46l8f"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fgeeo"]
+gradient = SubResource("Gradient_46l8f")
+width = 2
+height = 8
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46l8f"]
+radius = 1.0
+height = 8.0
+
+[node name="ShieldPivot" type="Node2D" groups=["shield"]]
 script = ExtResource("1_uk3dt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.6039216, 0.62352943, 0.60784316, 1)
+position = Vector2(8, 0)
+texture = SubResource("GradientTexture2D_fgeeo")
+
+[node name="Shield" type="StaticBody2D" parent="."]
+position = Vector2(8, 0)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
+shape = SubResource("CapsuleShape2D_46l8f")
