@@ -40,5 +40,9 @@ func handle_command(command: String):
 	
 	if input_command.begins_with("b"):
 		Global.blood += int(input_num)
+	if input_command.begins_with("br"):
+		Global.blood = int(input_num)
 	if input_command.begins_with("r"):
 		Global.main.resize_room()
+	if input_command.begins_with("s"):
+		Global.main.enemy_spawn_time = 0.2

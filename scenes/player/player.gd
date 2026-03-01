@@ -86,7 +86,6 @@ func handle_move(delta):
 	var collision := get_last_slide_collision()
 	if collision != null:
 		# when hitting wall, splatter
-		print(previous_velocity)
 		paint_trail(global_position + (size / 2 * previous_velocity.normalized()), size + previous_velocity.length() / 50)
 		bounce(previous_velocity, collision)
 

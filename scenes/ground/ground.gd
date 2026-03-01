@@ -59,6 +59,9 @@ func get_fill_ratio() -> float:
 func paint_circle(circle_pos: Vector2i, radius: int) -> int:
 	return paint_circle_helper(circle_pos, radius, paint_pixel)
 
+func paint_circle_color(circle_pos: Vector2i, radius: int, color, repaint: bool) -> int:
+	return paint_circle_helper(circle_pos, radius, func(x, y): return paint_pixel_color(x, y, color, repaint))
+
 func clear_circle(circle_pos: Vector2i, radius: int) -> int:
 	return paint_circle_helper(circle_pos, radius, clear_pixel)
 
@@ -76,7 +79,7 @@ func paint_circle_helper(circle_pos: Vector2i, radius: int, paint_callable: Call
 			# check if it's in circle
 			var pos: Vector2i = Vector2i(x, y)
 			var distance = circle_pos.distance_to(pos)
-			var ignore_chance = 1 - pow((distance / radius), 3)
+			var ignore_chance = 1 - pow((distance / radius), 2)
 			
 			if distance < radius and randf() < ignore_chance:
 				# random chance to not paint based on distance
@@ -91,25 +94,42 @@ func is_in_circle(circle_pos: Vector2i, radius: int, pos: Vector2i) -> bool:
 	return circle_pos.distance_to(pos) < radius
 	
 
-func paint_pixel(x: int, y: int) -> bool:
+func paint_pixel(x: int, y: int, repaint: bool = false) -> bool:
 	if not is_in_image(x, y): return false
 	
 	var current_color = blood_image.get_pixel(x, y)
-	if current_color.a != 0:
+	var painted: bool = current_color.a != 0
+	if not repaint and painted:
 		return false
 	
 	blood_image.set_pixel(x, y, lerp(blood_color, blood_color_alt, randf()))
-	filled_pixels += 1
+	if not painted: filled_pixels += 1
 	updated_image = true
 	return true
 
-func clear_pixel(x: int, y: int) -> bool:
+func paint_pixel_color(x: int, y: int, color: Color, repaint: bool = false) -> bool:
+	if not is_in_image(x, y): return false
+	
+	var current_color = blood_image.get_pixel(x, y)
+	var painted: bool = current_color.a != 0
+	if not repaint and painted:
+		return false
+	
+	blood_image.set_pixel(x, y, color)
+	if not painted: filled_pixels += 1
+	updated_image = true
+	return true
+
+
+func clear_pixel(x: int, y: int, repaint: bool = false) -> bool:
 	if not is_in_image(x, y): return false
 	var current_color = blood_image.get_pixel(x, y)
-	if current_color.a == 0:
+	var painted: bool = current_color.a != 0
+	if not repaint and not painted:
 		return false
 	
 	blood_image.set_pixel(x, y, Color(0, 0, 0, 0))
+	if painted: filled_pixels -= 1
 	updated_image = true
 	return true
 
