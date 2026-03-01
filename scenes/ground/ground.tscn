@@ -16,6 +16,7 @@ texture = SubResource("GradientTexture2D_mmnfs")
 script = ExtResource("2_n0mj7")
 blood_texture = ExtResource("2_1w6he")
 blood_color = Color(0.7905676, 3.7541986e-06, 3.85046e-07, 1)
+blood_color_alt = Color(0.74509805, 0, 0, 1)
 
 [node name="Blood" type="Sprite2D" parent="."]
 texture = ExtResource("2_1w6he")
