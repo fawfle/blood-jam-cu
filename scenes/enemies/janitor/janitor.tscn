@@ -65,16 +65,19 @@ animations = [{
 "speed": 1.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_x2w2m"]
-radius = 20.024984
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46a05"]
+radius = 5.0
+height = 20.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xveeo"]
-size = Vector2(18, 20)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mjokb"]
+radius = 6.0
+height = 18.0
 
 [node name="Janitor" type="CharacterBody2D"]
 script = ExtResource("1_46a05")
+speed = 1
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c8x81")
 animation = &"movement"
 frame_progress = 0.10923075
@@ -82,8 +85,9 @@ frame_progress = 0.10923075
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_x2w2m")
+position = Vector2(3, 0)
+shape = SubResource("CapsuleShape2D_46a05")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 0)
-shape = SubResource("RectangleShape2D_xveeo")
+position = Vector2(3, 0)
+shape = SubResource("CapsuleShape2D_mjokb")
