@@ -81,11 +81,11 @@ height = 34.0
 script = ExtResource("1_wsa0b")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(16, 0)
 sprite_frames = SubResource("SpriteFrames_6fst6")
-animation = &"fire_start"
+animation = &"fire_last"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-17, -1)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_pwxdy")
 

@@ -14,10 +14,10 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if flamer.animated_sprite.flip_h:
 		animated_sprite.flip_h = true
-		position = flamer.position + Vector2(8,-2)
+		position = flamer.position + Vector2(-8,-2)
 	else:
 		animated_sprite.flip_h = false
-		position = flamer.position - Vector2(8,2)
+		position = flamer.position - Vector2(24,2)
 	if burning_player: 
 		Global.blood -= damage 
 		Global.ground.paint_circle_color(Global.player.position, randi_range(6,6), BURNT_BLOOD_COLOR, true)
