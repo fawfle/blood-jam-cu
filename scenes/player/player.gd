@@ -2,6 +2,8 @@ class_name Player extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var movement_sound: AudioStreamPlayer2D = $MovementSound
+@onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
@@ -51,7 +53,6 @@ func update_animation():
 		else: animated_sprite.play("move_vertical", -play_speed)
 	else:
 		animated_sprite.play("idle")
-	
 	if movement_input.x != 0:
 		animated_sprite.flip_h = movement_input.x > 0
 
@@ -92,7 +93,7 @@ func handle_move(delta):
 func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
 	if previous_velocity.length() < min_speed_to_bounce: return
 	velocity = -previous_velocity.reflect(collision.get_normal()) * bounce_multiplier
-	
+	bounce_sound.play()
 	move_and_slide()
 
 func dash() -> void:

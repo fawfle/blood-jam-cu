@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0xl0mbw34dfe"]
+[gd_scene load_steps=21 format=3 uid="uid://c0xl0mbw34dfe"]
 
 [ext_resource type="Script" uid="uid://bf7y8ggmj0n0g" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cwd0l46eux6pu" path="res://sprites/player-mid-idle.png" id="2_gmlin"]
 [ext_resource type="Texture2D" uid="uid://dw1vjmhdny6vf" path="res://sprites/player-mid-move.png" id="3_gmlin"]
 [ext_resource type="Texture2D" uid="uid://cylxsnfdiuaon" path="res://sprites/player-mid-movedown.png" id="4_lvxji"]
+[ext_resource type="AudioStream" uid="uid://ulvm8v4vyinh" path="res://audio/sounds/freesound_community-guts-dragging-76277.mp3" id="5_75vfm"]
+[ext_resource type="AudioStream" uid="uid://dhmnm8j26mbs" path="res://audio/sounds/u_xjrmmgxfru-hit-flesh-02-266309.mp3" id="6_75vfm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dovo2"]
 atlas = ExtResource("2_gmlin")
@@ -121,3 +123,10 @@ frame_progress = 0.71286356
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_x7p2l")
+
+[node name="MovementSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_75vfm")
+
+[node name="BounceSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_75vfm")
+max_polyphony = 20
