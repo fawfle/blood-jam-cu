@@ -18,6 +18,10 @@ signal enemy_eaten(enemy: Enemy)
 @warning_ignore("unused_signal")
 signal room_resized(size: Vector2i)
 
+## called when out of blood
+@warning_ignore("unused_signal")
+signal out_of_blood()
+
 const spawn_padding: float = 5
 
 var room_size_ratio: float:
