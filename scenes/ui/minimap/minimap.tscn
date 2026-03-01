@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bwjimsxwu86dn"]
+
+[ext_resource type="Script" uid="uid://1bmm6xqhe752" path="res://scenes/ui/minimap/minimap.gd" id="1_0k5yr"]
+
+[sub_resource type="Gradient" id="Gradient_q2jyl"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4bivy"]
+gradient = SubResource("Gradient_q2jyl")
+width = 35
+height = 19
+
+[sub_resource type="Gradient" id="Gradient_4bivy"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qqvxh"]
+gradient = SubResource("Gradient_4bivy")
+width = 1
+height = 1
+
+[node name="Minimap" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0k5yr")
+
+[node name="MapBackground" type="TextureRect" parent="."]
+modulate = Color(0.52156866, 0.52156866, 0.52156866, 0.39215687)
+layout_mode = 0
+offset_left = -17.0
+offset_top = -9.0
+offset_right = 18.0
+offset_bottom = 10.0
+texture = SubResource("GradientTexture2D_4bivy")
+
+[node name="PlayerIndicator" type="TextureRect" parent="."]
+modulate = Color(0.6745098, 0, 0, 1)
+layout_mode = 0
+texture = SubResource("GradientTexture2D_qqvxh")

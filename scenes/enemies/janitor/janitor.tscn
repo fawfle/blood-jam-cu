@@ -1,0 +1,93 @@
+[gd_scene load_steps=13 format=3 uid="uid://8wb27ah701u8"]
+
+[ext_resource type="Script" uid="uid://ij5t3j6gpkmd" path="res://scenes/enemies/janitor/janitor.gd" id="1_46a05"]
+[ext_resource type="Texture2D" uid="uid://7mdokacvksnh" path="res://sprites/enemies/janitor/janitor.png" id="1_kcmjj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8x81"]
+atlas = ExtResource("1_kcmjj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2w2m"]
+atlas = ExtResource("1_kcmjj")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xveeo"]
+atlas = ExtResource("1_kcmjj")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46a05"]
+atlas = ExtResource("1_kcmjj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjokb"]
+atlas = ExtResource("1_kcmjj")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjabb"]
+atlas = ExtResource("1_kcmjj")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n4eg"]
+atlas = ExtResource("1_kcmjj")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c8x81"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8x81")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2w2m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xveeo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46a05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjokb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjabb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6n4eg")
+}],
+"loop": true,
+"name": &"movement",
+"speed": 1.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46a05"]
+radius = 5.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mjokb"]
+radius = 6.0
+height = 18.0
+
+[node name="Janitor" type="CharacterBody2D"]
+script = ExtResource("1_46a05")
+speed = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_c8x81")
+animation = &"movement"
+frame_progress = 0.10923075
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(3, 0)
+shape = SubResource("CapsuleShape2D_46a05")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
+shape = SubResource("CapsuleShape2D_mjokb")

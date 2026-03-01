@@ -1,10 +1,15 @@
-[gd_scene load_steps=27 format=3 uid="uid://didc638p6ooq1"]
+[gd_scene load_steps=30 format=3 uid="uid://didc638p6ooq1"]
 
 [ext_resource type="Script" uid="uid://mlqo32logd2t" path="res://scenes/enemies/shielded/shielded.gd" id="1_kh67j"]
 [ext_resource type="Texture2D" uid="uid://c1in0k4ad5e2m" path="res://sprites/enemies/hazmat/hazmat-idle.png" id="2_1nc7n"]
 [ext_resource type="Texture2D" uid="uid://b4wupwtcae27k" path="res://sprites/enemies/hazmat/hazmat-rundown.png" id="3_xlrjj"]
 [ext_resource type="Texture2D" uid="uid://bgkr35c2pqohn" path="res://sprites/enemies/hazmat/hazmat-runside.png" id="4_kho0g"]
 [ext_resource type="Texture2D" uid="uid://b88mhioley0py" path="res://sprites/enemies/hazmat/hazmat-runup.png" id="5_nyubd"]
+[ext_resource type="PackedScene" uid="uid://urujg6q1wbmg" path="res://scenes/enemies/shield/shield.tscn" id="6_xlrjj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1nc7n"]
+radius = 2.0
+height = 18.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b2syh"]
 atlas = ExtResource("2_1nc7n")
@@ -169,11 +174,21 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xlrjj"]
+radius = 2.0
+height = 18.0
+
 [node name="Shielded" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
 script = ExtResource("1_kh67j")
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
-[node name="CollisionShape2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_1nc7n")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
@@ -182,5 +197,10 @@ autostart = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_v3hqh")
 animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_xlrjj")
+
+[node name="ShieldPivot" parent="." instance=ExtResource("6_xlrjj")]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -2,6 +2,8 @@ class_name Player extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var movement_sound: AudioStreamPlayer2D = $MovementSound
+@onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
@@ -12,13 +14,17 @@ class_name Player extends CharacterBody2D
 @export var dash_multiplier: float = 0.2
 
 ## damping applied on bounce
-@export var bounce_multiplier: float = 0.8
+@export var bounce_multiplier: float = 0.7
 ## min speed required to bounce
 @export var min_speed_to_bounce: float = 80
+@export var bounce_cost: float = 1.0
 
 @export var blood_scale: float = 10.0
 
-@export var paint_cost: float = 0.001
+@export var bleed_per_second: float = 5
+
+@export var dash_cost: float = 5.0
+@export var paint_cost: float = 0.0025
 
 @export var slowdown_per_pixel: float = 0.05
 
@@ -27,6 +33,8 @@ var size: float = 1
 var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
 
+const MAX_SIZE: float = 40
+
 func _init() -> void:
 	Global.player = self
 
@@ -34,33 +42,36 @@ func _ready() -> void:
 	animated_sprite.play("idle")
 
 func _physics_process(delta: float) -> void:
+	Global.blood -= bleed_per_second * delta
+	
 	update_size()
 	
 	handle_move(delta)
-	paint_trail()
+	paint_trail(global_position, size)
 	
 	update_animation()
 
 func update_animation():
+	var play_speed: float = velocity.length() / 100.0 + 0.1
 	if movement_input.x != 0:
-		animated_sprite.play("move")
+		animated_sprite.play("move", play_speed)
 	elif movement_input.y != 0:
-		if movement_input.y < 0: animated_sprite.play("move_vertical")
-		else: animated_sprite.play_backwards("move_vertical")
+		if movement_input.y < 0: animated_sprite.play("move_vertical", play_speed)
+		else: animated_sprite.play("move_vertical", -play_speed)
 	else:
 		animated_sprite.play("idle")
-	
 	if movement_input.x != 0:
 		animated_sprite.flip_h = movement_input.x > 0
 
 func update_size():
 	size = max(0, Global.blood) / blood_scale
-	animated_sprite.scale = Vector2.ONE * size * 0.1
+	size = min(size, MAX_SIZE)
+	animated_sprite.scale = Vector2.ONE * size * 0.11
 	(collision_shape.shape as CircleShape2D).radius = size
-	
 
-func paint_trail():
-	var painted: int = Global.ground.paint_circle(global_position, round(size))
+func paint_trail(pos: Vector2, trail_size: float):
+	if Global.ground == null: return
+	var painted: int = Global.ground.paint_circle(pos, round(trail_size))
 	# var prev_vel = velocity
 	velocity = velocity.move_toward(Vector2.ZERO, painted * slowdown_per_pixel)
 	Global.blood -= painted * paint_cost
@@ -82,15 +93,19 @@ func handle_move(delta):
 	
 	var collision := get_last_slide_collision()
 	if collision != null:
-		paint_trail()
+		# when hitting wall, splatter
+		paint_trail(global_position + (size / 2 * previous_velocity.normalized()), size + previous_velocity.length() / 50)
 		bounce(previous_velocity, collision)
 
 func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
 	if previous_velocity.length() < min_speed_to_bounce: return
 	velocity = -previous_velocity.reflect(collision.get_normal()) * bounce_multiplier
+	Global.blood -= bounce_cost
+	bounce_sound.play()
 	move_and_slide()
 
 func dash() -> void:
 	# use the last movement input for if player isn't holding a direction
 	var dash_speed: float = max(velocity.length(), min_dash_speed)
 	velocity = last_movement_input * dash_speed + (velocity * dash_multiplier)
+	Global.blood -= dash_cost
