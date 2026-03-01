@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1r2xkgvn61wr"]
+
+[ext_resource type="Script" uid="uid://n8v6sms1tk5e" path="res://scenes/game_over.gd" id="1_xeevv"]
+
+[node name="Game Over" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xeevv")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 288.0
+offset_bottom = 160.0
+color = Color(0.19215687, 0.19215687, 0.19215687, 0.5058824)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 107.0
+offset_top = 15.0
+offset_right = 177.0
+offset_bottom = 55.0
+text = "Score:"
+
+[node name="Play Again" type="Button" parent="."]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 93.0
+offset_right = 126.0
+offset_bottom = 124.0
+text = "Play Again"
+
+[node name="Exit Game" type="Button" parent="."]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 93.0
+offset_right = 245.0
+offset_bottom = 124.0
+text = "Exit Game"
+
+[connection signal="pressed" from="Play Again" to="." method="_on_play_again_pressed"]
+[connection signal="pressed" from="Exit Game" to="." method="_on_exit_game_pressed"]

@@ -26,6 +26,7 @@ var enemy_spawn_time: float = 3
 var enemy_spawn_timer: float = 0.0
 
 var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
+var game_over: PackedScene = preload("res://scenes/game_over.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
 var shooter_scene: PackedScene = preload("res://scenes/enemies/shooter/shooter.tscn")
 var shielded_scene: PackedScene = preload("res://scenes/enemies/shielded/shielded.tscn")
@@ -66,8 +67,9 @@ func _ready() -> void:
 	bottom_wall = create_wall()
 	update_walls(Global.room_size)
 	
-	Global.room_resized.emit(Global.room_size)
+	Global.room_resized.emit(Global.start_room_size)
 	Global.out_of_blood.connect(_on_death)
+	Global.blood = 100
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -136,4 +138,4 @@ func get_enemy_spawn_weight_total() -> float:
 	return total_weight
 
 func _on_death() -> void:
-	get_tree().change_scene_to_packed(main_menu)
+	get_tree().change_scene_to_packed(game_over)

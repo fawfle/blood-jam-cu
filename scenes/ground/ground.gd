@@ -14,6 +14,7 @@ func _init() -> void:
 	Global.ground = self
 
 func _ready() -> void:	
+	Global.room_size = Global.start_room_size
 	blood_image = create_image(Global.room_size)
 	blood_texture.set_image(blood_image)
 	
