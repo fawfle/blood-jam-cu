@@ -44,6 +44,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	Global.blood -= bleed_per_second * delta
+	if Global.blood <= 0:
+		Global.out_of_blood.emit()
 	
 	update_size()
 	

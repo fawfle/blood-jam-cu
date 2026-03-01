@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cg8xtskymm6cr"]
+
+[ext_resource type="Script" uid="uid://cptnjal7cy2ij" path="res://scenes/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="PackedScene" uid="uid://c8evxvjut3sps" path="res://scenes/main.tscn" id="2_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://cpy4lcsmn1cxx" path="res://sprites/main_menu.png" id="3_bqqt6"]
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_l6cm7")
+main_game = ExtResource("2_ekxnf")
+
+[node name="MainMenu" type="Sprite2D" parent="."]
+position = Vector2(144, 81)
+texture = ExtResource("3_bqqt6")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 184.0
+offset_top = 40.0
+offset_right = 274.0
+offset_bottom = 70.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
