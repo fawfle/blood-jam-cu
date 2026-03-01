@@ -4,6 +4,7 @@ var blood_image: Image;
 @export var blood_texture: ImageTexture
 
 @export var blood_color: Color = Color(1, 0, 0, 1)
+@export var blood_color_alt: Color = Color(1, 0, 0, 1)
 
 # var room_size: Vector2i = Vector2i(288, 162)
 
@@ -29,7 +30,7 @@ func _ready() -> void:
 
 var filled_pixels: int = 0
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if updated_image:
 		blood_texture.update(blood_image)
 		updated_image = false
@@ -53,9 +54,15 @@ func resize_room(new_size: Vector2i):
 	# blood_texture.draw_rect(blood_texture, Rect2(1, 1, 1, 1), false)
 
 func get_fill_ratio() -> float:
-	return filled_pixels / (float)(Global.room_size.x * Global.room_size.y)
+	return (float)(filled_pixels) / (float)(Global.room_size.x * Global.room_size.y)
 
 func paint_circle(circle_pos: Vector2i, radius: int) -> int:
+	return paint_circle_helper(circle_pos, radius, paint_pixel)
+
+func clear_circle(circle_pos: Vector2i, radius: int) -> int:
+	return paint_circle_helper(circle_pos, radius, clear_pixel)
+
+func paint_circle_helper(circle_pos: Vector2i, radius: int, paint_callable: Callable) -> int:
 	radius += 2
 	circle_pos += Global.room_size / 2
 	var painted_pixels = 0;
@@ -73,10 +80,11 @@ func paint_circle(circle_pos: Vector2i, radius: int) -> int:
 			
 			if distance < radius and randf() < ignore_chance:
 				# random chance to not paint based on distance
-				var painted: bool = paint_pixel(x, y);
+				var painted: bool = paint_callable.call(x, y);
 				if painted: painted_pixels += 1;
 	
 	return painted_pixels;
+	
 
 func is_in_circle(circle_pos: Vector2i, radius: int, pos: Vector2i) -> bool:
 	print(circle_pos.distance_to(pos))
@@ -90,7 +98,18 @@ func paint_pixel(x: int, y: int) -> bool:
 	if current_color.a != 0:
 		return false
 	
-	blood_image.set_pixel(x, y, blood_color)
+	blood_image.set_pixel(x, y, lerp(blood_color, blood_color_alt, randf()))
+	filled_pixels += 1
+	updated_image = true
+	return true
+
+func clear_pixel(x: int, y: int) -> bool:
+	if not is_in_image(x, y): return false
+	var current_color = blood_image.get_pixel(x, y)
+	if current_color.a == 0:
+		return false
+	
+	blood_image.set_pixel(x, y, Color(0, 0, 0, 0))
 	updated_image = true
 	return true
 

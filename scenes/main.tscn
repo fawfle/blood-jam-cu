@@ -12,5 +12,7 @@ script = ExtResource("1_jyhfs")
 
 [node name="Player" parent="." instance=ExtResource("1_o5qli")]
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player" node_paths=PackedStringArray("target")]
+position_smoothing_speed = 10.0
 script = ExtResource("2_jyhfs")
+target = NodePath("..")

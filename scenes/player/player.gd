@@ -12,14 +12,14 @@ class_name Player extends CharacterBody2D
 @export var dash_multiplier: float = 0.2
 
 ## damping applied on bounce
-@export var bounce_multiplier: float = 0.6
+@export var bounce_multiplier: float = 0.7
 ## min speed required to bounce
 @export var min_speed_to_bounce: float = 80
 
 @export var blood_scale: float = 10.0
 
-@export var dash_cost: float = 10.0
-@export var paint_cost: float = 0.001
+@export var dash_cost: float = 5.0
+@export var paint_cost: float = 0.0025
 
 @export var slowdown_per_pixel: float = 0.05
 
@@ -38,16 +38,17 @@ func _physics_process(delta: float) -> void:
 	update_size()
 	
 	handle_move(delta)
-	paint_trail()
+	paint_trail(global_position, size)
 	
 	update_animation()
 
 func update_animation():
+	var play_speed: float = velocity.length() / 100.0 + 0.1
 	if movement_input.x != 0:
-		animated_sprite.play("move")
+		animated_sprite.play("move", play_speed)
 	elif movement_input.y != 0:
-		if movement_input.y < 0: animated_sprite.play("move_vertical")
-		else: animated_sprite.play_backwards("move_vertical")
+		if movement_input.y < 0: animated_sprite.play("move_vertical", play_speed)
+		else: animated_sprite.play("move_vertical", -play_speed)
 	else:
 		animated_sprite.play("idle")
 	
@@ -59,9 +60,9 @@ func update_size():
 	animated_sprite.scale = Vector2.ONE * size * 0.11
 	(collision_shape.shape as CircleShape2D).radius = size
 
-func paint_trail():
+func paint_trail(pos: Vector2, trail_size: float):
 	if Global.ground == null: return
-	var painted: int = Global.ground.paint_circle(global_position, round(size))
+	var painted: int = Global.ground.paint_circle(pos, round(trail_size))
 	# var prev_vel = velocity
 	velocity = velocity.move_toward(Vector2.ZERO, painted * slowdown_per_pixel)
 	Global.blood -= painted * paint_cost
@@ -83,12 +84,15 @@ func handle_move(delta):
 	
 	var collision := get_last_slide_collision()
 	if collision != null:
-		paint_trail()
+		# when hitting wall, splatter
+		print(previous_velocity)
+		paint_trail(global_position + (size / 2 * previous_velocity.normalized()), size + previous_velocity.length() / 50)
 		bounce(previous_velocity, collision)
 
 func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
 	if previous_velocity.length() < min_speed_to_bounce: return
 	velocity = -previous_velocity.reflect(collision.get_normal()) * bounce_multiplier
+	
 	move_and_slide()
 
 func dash() -> void:

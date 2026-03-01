@@ -1,18 +1,20 @@
 extends Enemy
 
+@onready var animated_sprite = $AnimatedSprite2D
+
 func choose_animation() -> void:
 	if velocity == Vector2.ZERO:
-		$AnimatedSprite2D.play("idle")
+		animated_sprite.play("idle")
 	elif velocity.x > 0 && velocity.x > velocity.y:
-		$AnimatedSprite2D.flip_h = true
-		$AnimatedSprite2D.play("run_side")
+		animated_sprite.flip_h = true
+		animated_sprite.play("run_side")
 	elif velocity.x < 0 && velocity.x > velocity.y:
-		$AnimatedSprite2D.flip_h = false
-		$AnimatedSprite2D.play("run_side")
+		animated_sprite.flip_h = false
+		animated_sprite.play("run_side")
 	elif velocity.y > 0 && velocity.y > velocity.x:
-		$AnimatedSprite2D.play("run_down")
+		animated_sprite.play("run_down")
 	elif velocity.y < 0 && velocity.y > velocity.x:
-		$AnimatedSprite2D.play("run_up")
+		animated_sprite.play("run_up")
 
 func find_direction() -> void:
 	var enemy_position: Vector2 = position

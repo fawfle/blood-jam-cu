@@ -7,7 +7,16 @@ var right_wall: Wall
 var top_wall: Wall
 var bottom_wall: Wall
 
-@export var fill_ratio_target = 0.2
+@export var fill_ratio_target = 0.6
+
+@export var room_scaling = 1.2
+
+var wave: int = 1
+var enemy_spawn_time: float = 4
+var enemy_spawn_timer: float = 0.0
+
+var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
+var shooter_scene: PackedScene = preload("res://scenes/enemies/shooter/shooter.tscn")
 
 const WALL_WIDTH: float = 1
 
@@ -21,16 +30,36 @@ func _ready() -> void:
 	top_wall = create_wall()
 	bottom_wall = create_wall()
 	update_walls(Global.room_size)
+	
+	Global.room_resized.emit(Global.room_size)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	handle_fill()
+	
+	handle_spawning(delta)
+
+func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
 	# print(fill_ratio)
 	if fill_ratio > fill_ratio_target:
 		resize_room()
 
+func handle_spawning(delta: float):
+	enemy_spawn_timer += delta
+	if enemy_spawn_timer > enemy_spawn_time:
+		spawn_enemy()
+		enemy_spawn_timer = 0
+
+func spawn_enemy():
+	var random_pos = Global.random_position_in_room()
+	var enemy: Enemy = fodder_scene.instantiate()
+	add_child(enemy)
+	enemy.global_position = random_pos
+
 func resize_room():
-	Global.room_size *= 2
+	wave += 1
+	Global.room_size *= room_scaling
 	update_walls(Global.room_size)
 	Global.room_resized.emit(Global.room_size)
 
@@ -43,9 +72,6 @@ func update_walls(room_size: Vector2i):
 	right_wall.update_size(Vector2(WALL_WIDTH, room_size.y))
 	top_wall.update_size(Vector2(room_size.x, WALL_WIDTH))
 	bottom_wall.update_size(Vector2(room_size.x, WALL_WIDTH))
-	
-	print(left_wall.global_position)
-	print(right_wall.global_position)
 
 func create_wall() -> Wall:
 	var wall: Wall = wall_scene.instantiate()

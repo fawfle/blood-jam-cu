@@ -6,8 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://bgkr35c2pqohn" path="res://sprites/enemies/hazmat/hazmat-runside.png" id="4_th1yn"]
 [ext_resource type="Texture2D" uid="uid://b88mhioley0py" path="res://sprites/enemies/hazmat/hazmat-runup.png" id="5_gsa0l"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bvhgk"]
-radius = 17.029387
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bvhgk"]
+radius = 4.0
+height = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b2syh"]
 atlas = ExtResource("2_bvhgk")
@@ -177,14 +178,17 @@ radius = 4.0
 height = 20.0
 
 [node name="Fodder" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
 script = ExtResource("1_mbmad")
 speed = 50
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_bvhgk")
+shape = SubResource("CapsuleShape2D_bvhgk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_psqbr")
