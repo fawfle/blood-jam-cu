@@ -1,6 +1,7 @@
 extends Enemy
 
 @export var clean_radius := 20
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _process(_delta: float) -> void:
 	clean_blood()
@@ -8,15 +9,15 @@ func _process(_delta: float) -> void:
 
 func choose_animation() -> void:
 	if velocity == Vector2.ZERO:
-		$AnimatedSprite2D.play("idle")
+		animated_sprite.play("idle")
 	elif velocity.x > 0 && velocity.x > velocity.y:
-		$AnimatedSprite2D.flip_h = true
-		if $AnimatedSprite2D.animation != "movement":
-			$AnimatedSprite2D.play("movement")
+		animated_sprite.flip_h = true
+		if animated_sprite.animation != "movement":
+			animated_sprite.play("movement")
 	elif velocity.x < 0 && velocity.x > velocity.y:
-		$AnimatedSprite2D.flip_h = false
-		if $AnimatedSprite2D.animation != "movement":
-			$AnimatedSprite2D.play("movement")
+		animated_sprite.flip_h = false
+		if animated_sprite.animation != "movement":
+			animated_sprite.play("movement")
 
 func find_direction() -> void:
 	var enemy_position: Vector2 = position
