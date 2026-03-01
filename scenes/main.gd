@@ -5,7 +5,8 @@ enum EnemyType {
 	SHOOTER,
 	SHIELDED,
 	JANITOR,
-	DUCK
+	DUCK,
+	FLAMER
 }
 
 const wall_scene := preload("res://scenes/wall/wall.tscn")
@@ -29,6 +30,7 @@ var shooter_scene: PackedScene = preload("res://scenes/enemies/shooter/shooter.t
 var shielded_scene: PackedScene = preload("res://scenes/enemies/shielded/shielded.tscn")
 var janitor_scene: PackedScene = preload("res://scenes/enemies/janitor/janitor.tscn")
 var duck_scene: PackedScene = preload("res://scenes/enemies/duck/duck.tscn")
+var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn")
 
 const WALL_WIDTH: float = 1
 
@@ -38,7 +40,8 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 	EnemyType.SHOOTER: shooter_scene,
 	EnemyType.SHIELDED: shielded_scene,
 	EnemyType.JANITOR: janitor_scene,
-	EnemyType.DUCK: duck_scene
+	EnemyType.DUCK: duck_scene,
+	EnemyType.FLAMER: flamer_scene
 }
 
 ## map types to spawn rates
@@ -47,7 +50,8 @@ var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.SHOOTER: 100,
 	EnemyType.SHIELDED: 100,
 	EnemyType.JANITOR: 100,
-	EnemyType.DUCK: 100
+	EnemyType.DUCK: 100,
+	EnemyType.FLAMER: 100
 }
 
 func _init() -> void:

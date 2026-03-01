@@ -64,6 +64,7 @@ height = 14.0
 script = ExtResource("1_rrwfh")
 agro_distance = 40.0
 speed = 40
+blood = 10
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
 [node name="Area2D" type="Area2D" parent="."]
