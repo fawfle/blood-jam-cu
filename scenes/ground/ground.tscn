@@ -1,24 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbxpkx7jsbcf2"]
+[gd_scene load_steps=5 format=3 uid="uid://dbxpkx7jsbcf2"]
 
-[ext_resource type="Shader" uid="uid://cdvael5587lkm" path="res://scenes/ground/floor.gdshader" id="1_w0xbj"]
 [ext_resource type="Texture2D" uid="uid://3qrpovhyppo5" path="res://scenes/ground/blood_map.tres" id="2_1w6he"]
 [ext_resource type="Script" uid="uid://l21rcv4eunto" path="res://scenes/ground/ground.gd" id="2_n0mj7"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n0mj7"]
-shader = ExtResource("1_w0xbj")
-shader_parameter/blood_map = ExtResource("2_1w6he")
-
-[sub_resource type="Gradient" id="Gradient_bfk6g"]
+[sub_resource type="Gradient" id="Gradient_t8de3"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_w0xbj"]
-gradient = SubResource("Gradient_bfk6g")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mmnfs"]
+gradient = SubResource("Gradient_t8de3")
 width = 288
 height = 162
 
 [node name="Ground" type="Sprite2D"]
-material = SubResource("ShaderMaterial_n0mj7")
-texture = SubResource("GradientTexture2D_w0xbj")
+texture = SubResource("GradientTexture2D_mmnfs")
 script = ExtResource("2_n0mj7")
 blood_texture = ExtResource("2_1w6he")
 blood_color = Color(0.7905676, 3.7541986e-06, 3.85046e-07, 1)
+
+[node name="Blood" type="Sprite2D" parent="."]
+texture = ExtResource("2_1w6he")
