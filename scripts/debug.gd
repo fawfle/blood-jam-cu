@@ -40,3 +40,5 @@ func handle_command(command: String):
 	
 	if input_command.begins_with("b"):
 		Global.blood += int(input_num)
+	if input_command.begins_with("r"):
+		Global.main.resize_room()

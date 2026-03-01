@@ -12,12 +12,13 @@ class_name Player extends CharacterBody2D
 @export var dash_multiplier: float = 0.2
 
 ## damping applied on bounce
-@export var bounce_multiplier: float = 0.8
+@export var bounce_multiplier: float = 0.6
 ## min speed required to bounce
 @export var min_speed_to_bounce: float = 80
 
 @export var blood_scale: float = 10.0
 
+@export var dash_cost: float = 10.0
 @export var paint_cost: float = 0.001
 
 @export var slowdown_per_pixel: float = 0.05
@@ -55,11 +56,11 @@ func update_animation():
 
 func update_size():
 	size = max(0, Global.blood) / blood_scale
-	animated_sprite.scale = Vector2.ONE * size * 0.1
+	animated_sprite.scale = Vector2.ONE * size * 0.11
 	(collision_shape.shape as CircleShape2D).radius = size
-	
 
 func paint_trail():
+	if Global.ground == null: return
 	var painted: int = Global.ground.paint_circle(global_position, round(size))
 	# var prev_vel = velocity
 	velocity = velocity.move_toward(Vector2.ZERO, painted * slowdown_per_pixel)
@@ -94,3 +95,4 @@ func dash() -> void:
 	# use the last movement input for if player isn't holding a direction
 	var dash_speed: float = max(velocity.length(), min_dash_speed)
 	velocity = last_movement_input * dash_speed + (velocity * dash_multiplier)
+	Global.blood -= dash_cost
