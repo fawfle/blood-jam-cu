@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dbxpkx7jsbcf2" path="res://scenes/ground/ground.tscn" id="1_wnato"]
 [ext_resource type="PackedScene" uid="uid://c0xl0mbw34dfe" path="res://scenes/player/player.tscn" id="2_tmai7"]
 [ext_resource type="PackedScene" path="res://scenes/test/wall_test.tscn" id="3_ybwf0"]
-[ext_resource type="PackedScene" uid="uid://cfkm3747747pj" path="res://scenes/enemies/shooter/shooter.tscn" id="4_tmai7"]
+[ext_resource type="PackedScene" uid="uid://dgk8w0b5v056n" path="res://scenes/enemies/fodder/fodder.tscn" id="4_tmai7"]
 
 [node name="Main" type="Node2D"]
 
@@ -17,4 +17,5 @@ position = Vector2(0, 1)
 [node name="Wall_test" parent="." instance=ExtResource("3_ybwf0")]
 position = Vector2(0, 70)
 
-[node name="Shooter" parent="." instance=ExtResource("4_tmai7")]
+[node name="Fodder" parent="." instance=ExtResource("4_tmai7")]
+blood = null

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dgfgdxi56y6d1"]
+
+[node name="BloodSplatter" type="CPUParticles2D"]
+emission_shape = 2
+emission_sphere_radius = 1.0
+gravity = Vector2(0, 0)
+color = Color(0.64705884, 0, 0, 1)

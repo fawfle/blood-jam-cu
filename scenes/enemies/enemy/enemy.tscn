@@ -149,7 +149,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run_side",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -174,8 +174,10 @@ script = ExtResource("1_q7lov")
 
 [node name="CollisionShape2D" type="Area2D" parent="."]
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_jx7ia")
-animation = &"run_up"
+animation = &"idle"
+frame_progress = 0.2015209
 
 [connection signal="area_entered" from="CollisionShape2D" to="." method="_on_collision_shape_2d_area_entered"]
+[connection signal="body_entered" from="CollisionShape2D" to="." method="_on_collision_shape_2d_body_entered"]

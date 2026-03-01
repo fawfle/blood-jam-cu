@@ -10,11 +10,16 @@ var direction: Vector2 = Vector2.ZERO
 func find_direction() -> void:
 	pass
 
+func choose_animation() -> void:
+	pass
+
 func _physics_process(_delta: float) -> void:
 	find_direction()
+	choose_animation()
 	velocity = direction * speed
 	move_and_slide()
-	
+
 func _on_collision_shape_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
+		Global.enemy_eaten.emit(self)
 		queue_free()
