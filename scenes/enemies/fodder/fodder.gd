@@ -24,7 +24,7 @@ func find_direction() -> void:
 	if global_position.distance_to(player.position) > max_escape_distance:
 		move_in_direction_until(0.4)
 		return
-	
+
 	var enemy_position: Vector2 = position
 	var player_position: Vector2 = player.position
 	direction = -enemy_position.direction_to(player_position)

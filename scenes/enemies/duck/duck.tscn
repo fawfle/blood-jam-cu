@@ -1,0 +1,83 @@
+[gd_scene load_steps=12 format=3 uid="uid://l5vkvby2ib5n"]
+
+[ext_resource type="Script" uid="uid://cu6sg41ffn6lj" path="res://scenes/enemies/duck/duck.gd" id="1_rrwfh"]
+[ext_resource type="Texture2D" uid="uid://c3ar3n77ua6yw" path="res://sprites/duck/duck-idle.png" id="2_rrwfh"]
+[ext_resource type="Texture2D" uid="uid://caof0vs4u4cio" path="res://sprites/duck/duck-run.png" id="3_j6bwj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8rfea"]
+radius = 8.0
+height = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0nxn"]
+atlas = ExtResource("2_rrwfh")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmw47"]
+atlas = ExtResource("3_j6bwj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrqud"]
+atlas = ExtResource("3_j6bwj")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxdoj"]
+atlas = ExtResource("3_j6bwj")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rfea"]
+atlas = ExtResource("3_j6bwj")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v2tag"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0nxn")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmw47")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vrqud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxdoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8rfea")
+}],
+"loop": true,
+"name": &"run_side",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rqw3e"]
+radius = 7.0
+height = 14.0
+
+[node name="Duck" type="CharacterBody2D"]
+script = ExtResource("1_rrwfh")
+agro_distance = 40.0
+speed = 40
+metadata/_custom_type_script = "uid://shvkl6fgbo11"
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_8rfea")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_v2tag")
+animation = &"run_side"
+frame = 3
+frame_progress = 0.78920597
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_rqw3e")
