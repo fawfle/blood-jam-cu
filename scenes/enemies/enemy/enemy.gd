@@ -18,7 +18,7 @@ func _physics_process(_delta: float) -> void:
 	choose_animation()
 	velocity = direction * speed
 	move_and_slide()
-	
+
 func _on_collision_shape_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		Global.enemy_eaten.emit(self)

@@ -180,3 +180,4 @@ animation = &"idle"
 frame_progress = 0.2015209
 
 [connection signal="area_entered" from="CollisionShape2D" to="." method="_on_collision_shape_2d_area_entered"]
+[connection signal="body_entered" from="CollisionShape2D" to="." method="_on_collision_shape_2d_body_entered"]

@@ -192,3 +192,5 @@ animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_uagvk")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
