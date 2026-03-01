@@ -20,7 +20,7 @@ var bottom_wall: Wall
 
 ## number of times rooms resized
 var resize_number: int = 1
-var enemy_spawn_time: float = 4
+var enemy_spawn_time: float = 3
 var enemy_spawn_timer: float = 0.0
 
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
