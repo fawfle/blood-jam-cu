@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://p2o26vfkde8i"]
+[gd_scene load_steps=4 format=3 uid="uid://p2o26vfkde8i"]
 
 [ext_resource type="PackedScene" uid="uid://dbxpkx7jsbcf2" path="res://scenes/ground/ground.tscn" id="1_wnato"]
 [ext_resource type="PackedScene" uid="uid://c0xl0mbw34dfe" path="res://scenes/player/player.tscn" id="2_tmai7"]
-[ext_resource type="PackedScene" path="res://scenes/test/wall_test.tscn" id="3_ybwf0"]
-[ext_resource type="PackedScene" uid="uid://dgk8w0b5v056n" path="res://scenes/enemies/fodder/fodder.tscn" id="4_tmai7"]
+[ext_resource type="PackedScene" uid="uid://urujg6q1wbmg" path="res://scenes/enemies/shield/shield.tscn" id="4_ybwf0"]
 
 [node name="Main" type="Node2D"]
 
@@ -14,8 +13,17 @@ position = Vector2(0, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_tmai7")]
 
-[node name="Wall_test" parent="." instance=ExtResource("3_ybwf0")]
+[node name="Wall_test" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 position = Vector2(0, 70)
+script = null
 
-[node name="Fodder" parent="." instance=ExtResource("4_tmai7")]
-blood = null
+[node name="Shield" parent="." instance=ExtResource("4_ybwf0")]
