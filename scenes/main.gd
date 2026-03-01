@@ -43,6 +43,7 @@ var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
 	EnemyType.SHOOTER: 100,
 	EnemyType.SHIELDED: 100,
+	EnemyType.JANITOR: 100,
 }
 
 func _init() -> void:

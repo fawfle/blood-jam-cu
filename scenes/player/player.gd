@@ -4,6 +4,7 @@ class_name Player extends CharacterBody2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var movement_sound: AudioStreamPlayer2D = $MovementSound
 @onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
+@onready var dash_sound: AudioStreamPlayer2D = $DashSound
 
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
@@ -55,11 +56,14 @@ func update_animation():
 	var play_speed: float = velocity.length() / 100.0 + 0.1
 	if movement_input.x != 0:
 		animated_sprite.play("move", play_speed)
+		play_movement_sound()
 	elif movement_input.y != 0:
 		if movement_input.y < 0: animated_sprite.play("move_vertical", play_speed)
 		else: animated_sprite.play("move_vertical", -play_speed)
+		play_movement_sound()
 	else:
 		animated_sprite.play("idle")
+		movement_sound.stop()
 	if movement_input.x != 0:
 		animated_sprite.flip_h = movement_input.x > 0
 
@@ -109,3 +113,8 @@ func dash() -> void:
 	var dash_speed: float = max(velocity.length(), min_dash_speed)
 	velocity = last_movement_input * dash_speed + (velocity * dash_multiplier)
 	Global.blood -= dash_cost
+	dash_sound.play()
+	
+func play_movement_sound() -> void:
+	if movement_sound.playing == false:
+		movement_sound.play(15)
