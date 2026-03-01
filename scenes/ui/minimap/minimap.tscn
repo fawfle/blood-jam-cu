@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwjimsxwu86dn"]
+[gd_scene load_steps=7 format=3 uid="uid://bwjimsxwu86dn"]
 
 [ext_resource type="Script" uid="uid://1bmm6xqhe752" path="res://scenes/ui/minimap/minimap.gd" id="1_0k5yr"]
+[ext_resource type="PackedScene" uid="uid://dmh6moe1i6vd7" path="res://scenes/ui/minimap/EnemyIndicator.tscn" id="2_rfb21"]
 
 [sub_resource type="Gradient" id="Gradient_q2jyl"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -22,6 +23,7 @@ height = 1
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_0k5yr")
+enemy_indicator = ExtResource("2_rfb21")
 
 [node name="MapBackground" type="TextureRect" parent="."]
 modulate = Color(0.52156866, 0.52156866, 0.52156866, 0.39215687)

@@ -32,6 +32,7 @@ window/stretch/scale_mode="integer"
 
 player=""
 shield=""
+enemies=""
 
 [input]
 

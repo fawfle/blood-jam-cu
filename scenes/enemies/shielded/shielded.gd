@@ -41,8 +41,6 @@ func find_direction() -> void:
 		direction = -enemy_position.direction_to(player_position)
 	elif distance > distance_target:
 		direction = enemy_position.direction_to(player_position)
-	else:
-		direction = Vector2.ZERO
 
 func change_distance():
 	distance_target = randf_range(distance_target_min, distance_target_max)

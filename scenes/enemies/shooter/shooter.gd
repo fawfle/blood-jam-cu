@@ -7,15 +7,17 @@ var projectile_scene: PackedScene = preload("res://scenes/enemies/projectile/pro
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 const DISTANCE_TOLERANCE: float = 2.0
+var is_shooting = false
 
 func shoot() -> void:
+	is_shooting = true
 	var projectile: Area2D = projectile_scene.instantiate()
 	projectile.direction = position.direction_to(player.global_position)
 	projectile.global_position = global_position
 	projectile.look_at(player.global_position)
-	
 	if owner: owner.add_child(projectile)
 	else: get_tree().add_child(projectile)
+	is_shooting = false
 
 func find_direction() -> void:
 	var player_position: Vector2 = player.global_position
@@ -29,20 +31,14 @@ func find_direction() -> void:
 		direction = global_position.direction_to(player_position)
 	else:
 		direction = Vector2.ZERO
+	if is_shooting: velocity = Vector2.ZERO
 
 func choose_animation() -> void:
-	if velocity == Vector2.ZERO:
-		animated_sprite.play("idle")
-	elif velocity.x > 0 && velocity.x > velocity.y:
-		animated_sprite.flip_h = true
-		animated_sprite.play("run_side")
-	elif velocity.x < 0 && velocity.x > velocity.y:
-		animated_sprite.flip_h = false
-		animated_sprite.play("run_side")
-	elif velocity.y > 0 && velocity.y > velocity.x:
+	if velocity.y > 0 && velocity.y > velocity.x:
 		animated_sprite.play("run_down")
 	elif velocity.y < 0 && velocity.y > velocity.x:
 		animated_sprite.play("run_up")
 
 func _on_timer_timeout() -> void:
+	animated_sprite.play("shoot")
 	shoot()

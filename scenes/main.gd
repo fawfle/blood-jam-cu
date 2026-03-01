@@ -20,7 +20,7 @@ var bottom_wall: Wall
 
 ## number of times rooms resized
 var resize_number: int = 1
-var enemy_spawn_time: float = 4
+var enemy_spawn_time: float = 3
 var enemy_spawn_timer: float = 0.0
 
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
@@ -43,6 +43,7 @@ var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
 	EnemyType.SHOOTER: 100,
 	EnemyType.SHIELDED: 100,
+	EnemyType.JANITOR: 100,
 }
 
 func _init() -> void:
