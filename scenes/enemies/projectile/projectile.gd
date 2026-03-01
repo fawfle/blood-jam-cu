@@ -10,6 +10,5 @@ func _physics_process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		Global.blood -= damage
-	
+		Global.blood -= damage	
 	queue_free()

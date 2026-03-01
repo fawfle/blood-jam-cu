@@ -25,8 +25,10 @@ func find_direction() -> void:
 		direction = Vector2.ZERO
 	elif distance < distance_target:
 		direction = -global_position.direction_to(player_position)
-	else:
+	elif distance > distance_target:
 		direction = global_position.direction_to(player_position)
+	else:
+		direction = Vector2.ZERO
 
 func choose_animation() -> void:
 	if velocity == Vector2.ZERO:
