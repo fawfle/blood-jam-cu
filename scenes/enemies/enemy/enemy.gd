@@ -22,6 +22,7 @@ const BLOOD_COLOR = Color(0.631, 0.0, 0.0, 1.0)
 var dying: bool = false
 
 func _ready() -> void:
+	add_to_group("enemies")
 	area.body_entered.connect(_on_body_entered)
 	_on_ready()
 
@@ -87,6 +88,7 @@ func move_in_direction_until(duration: float):
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
+		remove_from_group("enemies")
 		die()
 
 func die():

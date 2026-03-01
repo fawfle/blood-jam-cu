@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmh6moe1i6vd7"]
+
+[sub_resource type="Gradient" id="Gradient_5y6n6"]
+offsets = PackedFloat32Array(0, 0.049382716, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.7808642, 0.7808642, 0.7808642, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nnnfn"]
+gradient = SubResource("Gradient_5y6n6")
+width = 1
+height = 1
+fill_from = Vector2(1, 1)
+
+[node name="EnemyIndicator" type="TextureRect"]
+modulate = Color(0, 0, 0.5019608, 1)
+texture = SubResource("GradientTexture2D_nnnfn")
