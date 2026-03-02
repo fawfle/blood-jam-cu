@@ -1,12 +1,63 @@
-[gd_scene load_steps=22 format=3 uid="uid://c0xl0mbw34dfe"]
+[gd_scene load_steps=37 format=3 uid="uid://c0xl0mbw34dfe"]
 
 [ext_resource type="Script" uid="uid://bf7y8ggmj0n0g" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cwd0l46eux6pu" path="res://sprites/player-mid-idle.png" id="2_gmlin"]
+[ext_resource type="Texture2D" uid="uid://dl6aq85nyodop" path="res://sprites/player-mid-idlemore.png" id="2_qek5x"]
 [ext_resource type="Texture2D" uid="uid://dw1vjmhdny6vf" path="res://sprites/player-mid-move.png" id="3_gmlin"]
+[ext_resource type="Texture2D" uid="uid://c05q0dc2r602j" path="res://sprites/player-mid-movemore.png" id="3_h17s1"]
+[ext_resource type="Texture2D" uid="uid://c804m0u5itbot" path="res://sprites/player-mid-movedownmore.png" id="4_je7p5"]
 [ext_resource type="Texture2D" uid="uid://cylxsnfdiuaon" path="res://sprites/player-mid-movedown.png" id="4_lvxji"]
 [ext_resource type="AudioStream" uid="uid://ulvm8v4vyinh" path="res://audio/sounds/freesound_community-guts-dragging-76277.mp3" id="5_75vfm"]
 [ext_resource type="AudioStream" uid="uid://dhmnm8j26mbs" path="res://audio/sounds/u_xjrmmgxfru-hit-flesh-02-266309.mp3" id="6_75vfm"]
 [ext_resource type="AudioStream" uid="uid://da76gx4di45mn" path="res://audio/sounds/floraphonic-slime-splat-1-219248.mp3" id="7_0owmy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugbui"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcs02"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_myrg7"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvlxm"]
+atlas = ExtResource("2_qek5x")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uf5tr"]
+atlas = ExtResource("3_h17s1")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgqa7"]
+atlas = ExtResource("3_h17s1")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ydkj"]
+atlas = ExtResource("3_h17s1")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3j4b4"]
+atlas = ExtResource("3_h17s1")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yj68g"]
+atlas = ExtResource("4_je7p5")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioxgp"]
+atlas = ExtResource("4_je7p5")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnsyf"]
+atlas = ExtResource("4_je7p5")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_007i1"]
+atlas = ExtResource("4_je7p5")
+region = Rect2(384, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dovo2"]
 atlas = ExtResource("2_gmlin")
@@ -58,6 +109,57 @@ region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gx1jg"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugbui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fcs02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_myrg7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvlxm")
+}],
+"loop": true,
+"name": &"big_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uf5tr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgqa7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ydkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3j4b4")
+}],
+"loop": true,
+"name": &"big_move",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yj68g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ioxgp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cnsyf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_007i1")
+}],
+"loop": true,
+"name": &"big_move_vertical",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dovo2")
@@ -120,8 +222,9 @@ script = ExtResource("1_8afob")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 5
 sprite_frames = SubResource("SpriteFrames_gx1jg")
-animation = &"move_vertical"
-frame_progress = 0.71286356
+animation = &"big_move_vertical"
+frame = 2
+frame_progress = 0.56771004
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_x7p2l")
