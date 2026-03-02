@@ -27,7 +27,9 @@ var enemy_spawn_timer: float = 0.0
 
 var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
 
-var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
+@onready var teleport_sound: AudioStreamPlayer2D = $TeleportSound
+
 var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
 var shooter_scene: PackedScene = preload("res://scenes/enemies/shooter/shooter.tscn")
@@ -35,6 +37,8 @@ var shielded_scene: PackedScene = preload("res://scenes/enemies/shielded/shielde
 var janitor_scene: PackedScene = preload("res://scenes/enemies/janitor/janitor.tscn")
 var duck_scene: PackedScene = preload("res://scenes/enemies/duck/duck.tscn")
 var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn")
+
+var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
 
 const WALL_WIDTH: float = 1
 
@@ -95,6 +99,12 @@ func spawn_enemy():
 	var random_pos = Global.random_position_in_room_away_from_player()
 	
 	var enemy: Enemy =  get_random_enemy().instantiate()
+	var teleport: EnemyTeleport = enemy_teleport_scene.instantiate()
+	add_child(teleport)
+	teleport.owner = self
+	teleport.global_position = random_pos
+	await teleport.animation_finished
+	teleport_sound.play()
 	add_child(enemy)
 	enemy.owner = self
 	enemy.global_position = random_pos
@@ -145,11 +155,7 @@ func _on_death() -> void:
 	add_child(game_over)
 
 func _enemy_death(_enemy: Enemy) -> void:
-	var sound_instance : AudioStreamPlayer2D = death_sound.instantiate()
-	add_child(sound_instance)
-	sound_instance.play()
-	await sound_instance.finished
-	sound_instance.queue_free()
+	death_sound.play(0.2)
 	Global.score+=10
 
 

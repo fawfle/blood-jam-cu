@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://c0xl0mbw34dfe"]
+[gd_scene load_steps=40 format=3 uid="uid://c0xl0mbw34dfe"]
 
 [ext_resource type="Script" uid="uid://bf7y8ggmj0n0g" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cwd0l46eux6pu" path="res://sprites/player-mid-idle.png" id="2_gmlin"]
@@ -223,6 +223,20 @@ gradient = SubResource("Gradient_0owmy")
 width = 2
 height = 2
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h17s1"]
+lifetime_randomness = 0.8
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(4, 1, 0)
+angular_velocity_min = -181.75
+angular_velocity_max = 209.71
+gravity = Vector3(0, 980, 0)
+radial_accel_min = 1.94
+radial_accel_max = 9.71
+scale_min = 0.5
+color = Color(0.85490197, 0, 0, 1)
+anim_speed_max = 10.56
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 10
 script = ExtResource("1_8afob")
@@ -245,21 +259,14 @@ max_polyphony = 20
 [node name="DashSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_0owmy")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(0, 8)
-rotation = 1.8901916
-amount = 10
+[node name="TrailParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 9)
+amount = 100
+amount_ratio = 0.2
 texture = SubResource("GradientTexture2D_qek5x")
 lifetime = 1.25
 preprocess = 4.32
 randomness = 1.0
-lifetime_randomness = 0.8
-angular_velocity_min = -181.75
-angular_velocity_max = 209.71
-radial_accel_min = 1.94
-radial_accel_max = 9.71
-scale_amount_min = 0.5
-color = Color(0.8564796, 0.000118810756, 6.5072774e-05, 1)
-hue_variation_min = -0.14
-hue_variation_max = 0.34
-anim_speed_max = 10.56
+fixed_fps = 0
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_h17s1")

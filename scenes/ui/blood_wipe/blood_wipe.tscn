@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dd6fuftf1ofye"]
+[gd_scene load_steps=2 format=3 uid="uid://dd6fuftf1ofye"]
 
-[sub_resource type="Gradient" id="Gradient_6xm5y"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_s0oht"]
-gradient = SubResource("Gradient_6xm5y")
-fill_to = Vector2(0, 1)
+[ext_resource type="Texture2D" uid="uid://boow80baferyj" path="res://sprites/screens/swipe-change.png" id="1_s0oht"]
 
 [node name="BloodCanvasLayer" type="CanvasLayer"]
 layer = 8
@@ -17,4 +13,4 @@ anchor_bottom = 1.0
 offset_bottom = 162.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("GradientTexture2D_s0oht")
+texture = ExtResource("1_s0oht")

@@ -5,7 +5,9 @@ class_name Player extends CharacterBody2D
 @onready var movement_sound: AudioStreamPlayer2D = $MovementSound
 @onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 @onready var dash_sound: AudioStreamPlayer2D = $DashSound
-@onready var particles: CPUParticles2D = $CPUParticles2D
+
+@onready var trail_particles: GPUParticles2D = $TrailParticles
+var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_particles.tscn")
 
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
@@ -34,6 +36,8 @@ var size: float = 1
 
 var dead: bool = false
 
+var can_dash: bool = true
+
 var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
 
@@ -48,8 +52,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if dead: return
-
-	particles.gravity = -velocity.normalized()
 	
 	Global.blood -= bleed_per_second * delta
 	
@@ -78,13 +80,18 @@ func update_animation():
 		movement_sound.stop()
 	if movement_input.x != 0:
 		animated_sprite.flip_h = movement_input.x > 0
+	
+	# update particles
+	trail_particles.process_material.gravity = Vector3(-velocity.normalized().x, -velocity.normalized().y, 0)
 
 func update_size():
 	size = max(0, Global.blood) / blood_scale
 	size = min(size, MAX_SIZE)
 	animated_sprite.scale = Vector2.ONE * size * 0.055
 	(collision_shape.shape as CircleShape2D).radius = size
-	particles.position.y = size
+	trail_particles.position.y = size
+	trail_particles.process_material.emission_box_extents.x = max(1, size - 6)
+	trail_particles.amount_ratio = lerp(0.20, 1.0, size / MAX_SIZE)
 
 func paint_trail(pos: Vector2, trail_size: float):
 	if Global.ground == null: return
@@ -128,6 +135,9 @@ func dash() -> void:
 	velocity = last_movement_input * dash_speed + (velocity * dash_multiplier)
 	Global.blood -= dash_cost
 	dash_sound.play()
+	
+	var dash_particles: GPUParticles2D = dash_particles_scene.instantiate()
+	add_child(dash_particles)
 	
 func play_movement_sound() -> void:
 	if movement_sound.playing == false:
