@@ -26,7 +26,7 @@ var difficulty: float = 0
 ## number of times rooms resized
 var resize_number: int = 0
 ## time it takes to spawn an enemy
-var enemy_spawn_time: float = 0.1
+var enemy_spawn_time: float = 2.0
 ## amount to vary spawn times by
 var enemy_spawn_time_variation: float = 0.1
 ## at max difficulty, the amount of time it takes to spawn enemy
@@ -88,6 +88,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	handle_fill()
+	if Global.player.dead: return
 	handle_spawning(delta)
 	
 	handle_difficulty()

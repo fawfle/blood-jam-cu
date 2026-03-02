@@ -17,4 +17,5 @@ blood_color_alt = Color(0.7058824, 0, 0, 1)
 
 [node name="Blood" type="Sprite2D" parent="."]
 z_index = -1
+z_as_relative = false
 texture = ExtResource("2_1w6he")
