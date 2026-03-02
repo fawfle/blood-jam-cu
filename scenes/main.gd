@@ -26,7 +26,7 @@ var difficulty: float = 0
 ## number of times rooms resized
 var resize_number: int = 0
 ## time it takes to spawn an enemy
-var enemy_spawn_time: float = 2
+var enemy_spawn_time: float = 0.1
 ## amount to vary spawn times by
 var enemy_spawn_time_variation: float = 0.1
 ## at max difficulty, the amount of time it takes to spawn enemy
@@ -152,26 +152,10 @@ func resize_room():
 const WALL_ANIMATION_TIME = 0.5
 
 func update_walls(room_size: Vector2i, duration: float = 0):
-	#left_wall.global_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
-	#right_wall.global_position = Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0)
-	#top_wall.global_position = Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2)
-	#bottom_wall.global_position = Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2)
 	left_wall.update_to_room_size(room_size, duration)
 	right_wall.update_to_room_size(room_size, duration)
 	top_wall.update_to_room_size(room_size, duration)
 	bottom_wall.update_to_room_size(room_size, duration)
-
-#func update_walls_animated(room_size: Vector2i):
-#	var tween: Tween = create_tween()
-#	tween.set_parallel(true)
-#	tween.tween_property(left_wall, "global_position", Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0), WALL_ANIMATION_TIME)
-#	tween.tween_property(right_wall, "global_position", Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0), WALL_ANIMATION_TIME)
-#	tween.tween_property(top_wall, "global_position", Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2), WALL_ANIMATION_TIME)
-#	tween.tween_property(bottom_wall, "global_position", Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2), WALL_ANIMATION_TIME)
-#	left_wall.update_size(Vector2(WALL_WIDTH, room_size.y), WALL_ANIMATION_TIME)
-#	right_wall.update_size(Vector2(WALL_WIDTH, room_size.y), WALL_ANIMATION_TIME)
-#	top_wall.update_size(Vector2(room_size.x, WALL_WIDTH), WALL_ANIMATION_TIME)
-#	bottom_wall.update_size(Vector2(room_size.x, WALL_WIDTH), WALL_ANIMATION_TIME)
 
 func create_wall(pos: Wall.WallPosition) -> Wall:
 	var wall: Wall = wall_scene.instantiate()

@@ -48,6 +48,7 @@ func _init() -> void:
 
 func _ready() -> void:
 	animated_sprite.play("big_idle")
+	trail_particles.emitting = true
 	Global.out_of_blood.connect(_on_out_of_blood)
 	update_size()
 

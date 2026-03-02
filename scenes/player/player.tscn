@@ -238,6 +238,7 @@ color = Color(0.85490197, 0, 0, 1)
 anim_speed_max = 10.56
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 5
 collision_mask = 10
 script = ExtResource("1_8afob")
 
@@ -261,6 +262,7 @@ stream = ExtResource("7_0owmy")
 
 [node name="TrailParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 9)
+emitting = false
 amount = 100
 amount_ratio = 0.2
 texture = SubResource("GradientTexture2D_qek5x")
