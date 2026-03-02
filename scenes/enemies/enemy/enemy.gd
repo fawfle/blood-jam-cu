@@ -3,7 +3,7 @@ class_name Enemy
 extends CharacterBody2D
 
 @export var speed: int = 20
-@export var blood: int = 20
+@export var blood: int = 10
 var player = Global.player
 var direction: Vector2 = Vector2.ZERO
 
@@ -35,6 +35,10 @@ func _init() -> void:
 func _on_ready():
 	pass
 
+## called 
+func _on_physics_process(_delta: float):
+	pass
+
 func find_direction() -> void:
 	pass
 
@@ -59,6 +63,8 @@ func _physics_process(delta: float) -> void:
 	var collision := get_last_slide_collision()
 	if collision:
 		start_panicking()
+	
+	_on_physics_process(delta)
 
 func _panic_process(delta: float) -> void:
 	_panic_timer -= delta
@@ -103,7 +109,7 @@ func die():
 	if not dying:
 		set_shields(true)
 		return
-	Global.blood += blood
+	## blood and stuff gets handled here
 	Global.enemy_eaten.emit(self)
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), BLOOD_COLOR, true)

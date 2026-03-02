@@ -1,27 +1,50 @@
 extends Enemy
 
-@onready var animated_sprite = $AnimatedSprite2D
-@export var shot_distance: int
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@export var shot_distance: int = 80
+
+@export var rotation_speed: float = 0.5
+
 var flame_scene: PackedScene = preload("res://scenes/enemies/flame/Flame.tscn")
 var is_flaming = false
-var cur_flame
+var flame: Flame
 
-func flame() -> void:
+@onready var flame_pivot: Node2D = $FlamePivot
+
+func start_flaming() -> void:
 	if is_flaming: return
 	is_flaming = true
-	cur_flame = flame_scene.instantiate()
-	cur_flame.flamer = self
-	if owner: owner.add_child(cur_flame)
-	else: get_tree().add_child(cur_flame)
+	flame = flame_scene.instantiate()
+	
+	flame_pivot.add_child(flame)
+	flame.owner = flame_pivot
+	
+	flame.position = Vector2(24, 0)
+	flame_pivot.look_at(Global.player.global_position)
+
+func stop_flaming() -> void:
+	if not is_flaming: return
+	is_flaming = false
+	flame.queue_free()
+	flame = null
+
+func _on_physics_process(delta: float):
+	if flame == null: return
+	
+	var angle_to_player: float = flame_pivot.get_angle_to(Global.player.global_position)
+	var rotate_angle: float = max(abs(angle_to_player), rotation_speed) * sign(angle_to_player)
+	
+	flame_pivot.rotate(rotate_angle * delta)
+	flame.animated_sprite.flip_h = abs(flame_pivot.rotation_degrees) > PI / 2
 
 func choose_animation() -> void:
-	if is_flaming && velocity.x > 0:
-		animated_sprite.flip_h = true
-		animated_sprite.play("run_side")
-	elif is_flaming && velocity.x < 0:
-		animated_sprite.flip_h = false
-		animated_sprite.play("run_side")
-	elif velocity == Vector2.ZERO:
+	#if is_flaming && velocity.x > 0:
+	#	animated_sprite.flip_h = true
+	#	animated_sprite.play("run_side")
+	#elif is_flaming && velocity.x < 0:
+	#	animated_sprite.flip_h = false
+	#	animated_sprite.play("run_side")
+	if velocity == Vector2.ZERO:
 		animated_sprite.play("idle")
 	elif velocity.x > 0 && velocity.x > velocity.y:
 		animated_sprite.flip_h = true
@@ -37,8 +60,10 @@ func choose_animation() -> void:
 func find_direction() -> void:
 	if position.distance_to(player.position) > shot_distance:
 		direction = position.direction_to(player.position)
+		stop_flaming()
 	else:
-		flame()
+		start_flaming()
+		direction = Vector2.from_angle(get_angle_to((flame.global_position)))
 		
 func die():
 	dying = true
@@ -52,5 +77,5 @@ func die():
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), BLOOD_COLOR, true)
 	#set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
-	if cur_flame: cur_flame.queue_free()
+	if flame: flame.queue_free()
 	queue_free()

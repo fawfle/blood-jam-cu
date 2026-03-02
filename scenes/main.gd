@@ -24,14 +24,14 @@ var bottom_wall: Wall
 var difficulty: float = 0
 
 ## number of times rooms resized
-var resize_number: int = 1
+var resize_number: int = 0
 ## time it takes to spawn an enemy
-var enemy_spawn_time: float = 3
+var enemy_spawn_time: float = 2
 ## amount to vary spawn times by
 var enemy_spawn_time_variation: float = 0.1
 ## at max difficulty, the amount of time it takes to spawn enemy
 var max_enemy_spawn_time: float = enemy_spawn_time
-var min_enemy_spawn_time: float = 0.5
+var min_enemy_spawn_time: float = 0.7
 var enemy_spawn_timer: float = 0.0
 
 var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
@@ -65,11 +65,11 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 ## map types to spawn rates
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
-	EnemyType.SHOOTER: 200,
-	EnemyType.SHIELDED: 300,
-	EnemyType.JANITOR: 400,
+	EnemyType.SHOOTER: 300,
+	EnemyType.SHIELDED: 50,
+	EnemyType.JANITOR: 200,
 	EnemyType.DUCK: 5,
-	EnemyType.FLAMER: 0
+	EnemyType.FLAMER: 50
 }
 
 func _init() -> void:
@@ -98,7 +98,12 @@ func _process(delta: float) -> void:
 func handle_difficulty():
 	difficulty = resize_number * 50
 	
-	enemy_spawn_time = approach_from(min_enemy_spawn_time, max_enemy_spawn_time, 0.01, difficulty)
+	enemy_spawn_time = approach_from(max_enemy_spawn_time, min_enemy_spawn_time, 0.01, difficulty)
+
+## amount to scale player blood by. Decreases as more enemies spawn to keep things balanced
+func get_blood_scale() -> float:
+	print(min(1, (enemy_spawn_time / max_enemy_spawn_time / 0.9)))
+	return min(1, (enemy_spawn_time / max_enemy_spawn_time / 0.9))
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
@@ -142,6 +147,8 @@ func get_random_enemy() -> PackedScene:
 func resize_room():
 	resize_number += 1
 	Global.room_size *= room_scaling
+	# force room size to be even
+	Global.room_size = Vector2(floor(Global.room_size.x / 2) * 2, floor(Global.room_size.y / 2) * 2)
 	update_walls(Global.room_size)
 	Global.room_resized.emit(Global.room_size)
 	score_tracker.expansion_num+=1
@@ -172,10 +179,12 @@ func _on_death() -> void:
 	var game_over := game_over_scene.instantiate()
 	add_child(game_over)
 
-func _enemy_death(_enemy: Enemy) -> void:
+func _enemy_death(enemy: Enemy) -> void:
 	death_sound.play(0.2)
 	score_tracker.enemies_killed+=1
 	Global.score+=10
+	# add blood here so we can scale it
+	Global.blood += enemy.blood * get_blood_scale()
 
 
 func _on_score_timer_timeout() -> void:

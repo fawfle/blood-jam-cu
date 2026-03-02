@@ -1,10 +1,12 @@
-extends Enemy
+class_name Shooter extends Enemy
 
 # minimum distance away from player shooter enemy needs to be
 @export var distance_target: int = 120
 var projectile_scene: PackedScene = preload("res://scenes/enemies/projectile/projectile.tscn")
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var shoot_timer: Timer = $ShootTimer
+@onready var initial_shoot_timer: Timer = $InitialShootTimer
 
 const DISTANCE_TOLERANCE: float = 2.0
 var is_shooting = false
@@ -42,3 +44,9 @@ func choose_animation() -> void:
 func _on_timer_timeout() -> void:
 	animated_sprite.play("shoot")
 	shoot()
+
+
+func _on_initial_shoot_timer_timeout() -> void:
+	animated_sprite.play("shoot")
+	shoot()
+	shoot_timer.start()
