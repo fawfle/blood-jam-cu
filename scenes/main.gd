@@ -20,6 +20,9 @@ var bottom_wall: Wall
 
 @export var room_scaling = 1.2
 
+## "magic number to determine how hard the game is
+var difficulty: float = 0
+
 ## number of times rooms resized
 var resize_number: int = 1
 var enemy_spawn_time: float = 3
@@ -55,11 +58,11 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 ## map types to spawn rates
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
-	EnemyType.SHOOTER: 100,
-	EnemyType.SHIELDED: 100,
-	EnemyType.JANITOR: 100,
-	EnemyType.DUCK: 100,
-	EnemyType.FLAMER: 100
+	EnemyType.SHOOTER: 200,
+	EnemyType.SHIELDED: 300,
+	EnemyType.JANITOR: 400,
+	EnemyType.DUCK: 5,
+	EnemyType.FLAMER: 0
 }
 
 func _init() -> void:
@@ -82,6 +85,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	handle_fill()
 	handle_spawning(delta)
+	
+	handle_difficulty()
+
+func handle_difficulty():
+	difficulty = resize_number * 50
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
