@@ -30,3 +30,9 @@ offset_top = 15.0
 offset_right = -24.0
 offset_bottom = 15.0
 grow_horizontal = 0
+
+[node name="ScoreTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]

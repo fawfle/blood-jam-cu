@@ -103,6 +103,7 @@ func handle_move(delta):
 	velocity = velocity.move_toward(target_velocity, acceleration * delta)
 	
 	if Input.is_action_just_pressed("dash"):
+		Global.score+=1
 		dash()
 	
 	var previous_velocity: Vector2 = velocity

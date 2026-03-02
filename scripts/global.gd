@@ -8,6 +8,7 @@ var start_room_size: Vector2i = room_size
 var player: Player
 var ground: Ground
 var main: Main
+var score: int
 
 ## signal enemy sends when getting eaten
 @warning_ignore("unused_signal")
