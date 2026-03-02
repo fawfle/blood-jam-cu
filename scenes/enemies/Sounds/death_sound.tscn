@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5x588dnwe0fn"]
+
+[ext_resource type="AudioStream" uid="uid://dj4th1ovjm1ya" path="res://audio/sounds/freesound_community-breakingneck-106924.mp3" id="1_ebied"]
+
+[node name="DeathSound" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_ebied")

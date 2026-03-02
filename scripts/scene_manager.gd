@@ -8,13 +8,13 @@ var transitioning: bool = false
 var blood_wipe_scene: PackedScene = preload("res://scenes/ui/blood_wipe/blood_wipe.tscn")
 var blood_wipe: CanvasLayer
 
-var transition_duration: float  = 1
+var transition_duration: float  = 0.5
 
 ## offset to complete wipe in/start wipe out
-var wipe_in_start: float = -400
-var wipe_in_target: float = 400
+var wipe_in_start: float = -300
+var wipe_in_target: float = -85
 ## offset to complete wipe out
-var wipe_out_target: float = 800
+var wipe_out_target: float = -85 + 300
 
 func _ready() -> void:
 	blood_wipe = blood_wipe_scene.instantiate()
@@ -28,7 +28,13 @@ func load_scene(scene: PackedScene):
 	
 	transitioning = true
 	await wipe_in()
+	
+	await get_tree().create_timer(0.25).timeout
 	get_tree().change_scene_to_packed(scene)
+	
+	if scene == game_scene:
+		Global.reset_game()
+	
 	await wipe_out()
 	
 	transitioning = false

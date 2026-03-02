@@ -20,19 +20,35 @@ var bottom_wall: Wall
 
 @export var room_scaling = 1.2
 
+## "magic number to determine how hard the game is
+var difficulty: float = 0
+
 ## number of times rooms resized
 var resize_number: int = 1
+## time it takes to spawn an enemy
 var enemy_spawn_time: float = 3
+## amount to vary spawn times by
+var enemy_spawn_time_variation: float = 0.1
+## at max difficulty, the amount of time it takes to spawn enemy
+var max_enemy_spawn_time: float = enemy_spawn_time
+var min_enemy_spawn_time: float = 0.5
 var enemy_spawn_timer: float = 0.0
 
 var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
 
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
+@onready var teleport_sound: AudioStreamPlayer2D = $TeleportSound
+@onready var score_tracker: Node = $ScoreTracker
+
+var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
 var shooter_scene: PackedScene = preload("res://scenes/enemies/shooter/shooter.tscn")
 var shielded_scene: PackedScene = preload("res://scenes/enemies/shielded/shielded.tscn")
 var janitor_scene: PackedScene = preload("res://scenes/enemies/janitor/janitor.tscn")
 var duck_scene: PackedScene = preload("res://scenes/enemies/duck/duck.tscn")
 var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn")
+
+var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
 
 const WALL_WIDTH: float = 1
 
@@ -49,11 +65,11 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 ## map types to spawn rates
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
-	EnemyType.SHOOTER: 100,
-	EnemyType.SHIELDED: 100,
-	EnemyType.JANITOR: 100,
-	EnemyType.DUCK: 100,
-	EnemyType.FLAMER: 100
+	EnemyType.SHOOTER: 200,
+	EnemyType.SHIELDED: 300,
+	EnemyType.JANITOR: 400,
+	EnemyType.DUCK: 5,
+	EnemyType.FLAMER: 0
 }
 
 func _init() -> void:
@@ -69,30 +85,48 @@ func _ready() -> void:
 	
 	Global.room_resized.emit(Global.start_room_size)
 	Global.out_of_blood.connect(_on_death)
+	Global.enemy_eaten.connect(_enemy_death)
 	Global.blood = 100
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	handle_fill()
-	
 	handle_spawning(delta)
+	
+	handle_difficulty()
+
+func handle_difficulty():
+	difficulty = resize_number * 50
+	
+	enemy_spawn_time = approach_from(min_enemy_spawn_time, max_enemy_spawn_time, 0.01, difficulty)
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
 	# print(fill_ratio)
+	if fill_ratio == null: return
+<<<<<<< HEAD
+=======
+	
+>>>>>>> b99062b3a9aa37805c79e3839911104fea88f9cb
 	if fill_ratio > fill_ratio_target:
 		resize_room()
 
 func handle_spawning(delta: float):
-	enemy_spawn_timer += delta
-	if enemy_spawn_timer > enemy_spawn_time:
+	enemy_spawn_timer -= delta
+	if enemy_spawn_timer <= 0:
 		spawn_enemy()
-		enemy_spawn_timer = 0
+		enemy_spawn_timer = enemy_spawn_time + randf() * enemy_spawn_time_variation
 
 func spawn_enemy():
 	var random_pos = Global.random_position_in_room_away_from_player()
 	
 	var enemy: Enemy =  get_random_enemy().instantiate()
+	var teleport: EnemyTeleport = enemy_teleport_scene.instantiate()
+	add_child(teleport)
+	teleport.owner = self
+	teleport.global_position = random_pos
+	await teleport.animation_finished
+	teleport_sound.play()
 	add_child(enemy)
 	enemy.owner = self
 	enemy.global_position = random_pos
@@ -114,6 +148,7 @@ func resize_room():
 	Global.room_size *= room_scaling
 	update_walls(Global.room_size)
 	Global.room_resized.emit(Global.room_size)
+	score_tracker.expansion_num+=1
 
 func update_walls(room_size: Vector2i):
 	left_wall.global_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
@@ -140,3 +175,25 @@ func get_enemy_spawn_weight_total() -> float:
 func _on_death() -> void:
 	var game_over := game_over_scene.instantiate()
 	add_child(game_over)
+
+func _enemy_death(_enemy: Enemy) -> void:
+	death_sound.play(0.2)
+<<<<<<< HEAD
+	score_tracker.enemies_killed+=1
+=======
+	Global.score+=10
+
+
+func _on_score_timer_timeout() -> void:
+	Global.score+=1
+
+const E = 2.71828
+
+func approach(max_val: float, k: float, x: float) -> float:
+	var ret: float = 1.0 / (1 + pow(E, -k * x)) - 0.5
+	ret *= 2 * max_val
+	return ret
+
+func approach_from(start: float, end: float, k: float, x: float) -> float:
+	return start + approach(end - start, k, x)
+>>>>>>> b99062b3a9aa37805c79e3839911104fea88f9cb

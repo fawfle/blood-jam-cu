@@ -8,6 +8,10 @@ var start_room_size: Vector2i = room_size
 var player: Player
 var ground: Ground
 var main: Main
+var score: int
+
+## time game has spent running
+var game_time: float = 0
 
 ## signal enemy sends when getting eaten
 @warning_ignore("unused_signal")
@@ -22,6 +26,10 @@ signal room_resized(size: Vector2i)
 signal out_of_blood()
 
 const spawn_padding: float = 5
+
+## update gametime
+func _physics_process(delta: float) -> void:
+	game_time += delta
 
 var room_size_ratio: float:
 	get: return room_size.length() / start_room_size.length()
@@ -50,3 +58,7 @@ func random_position_in_room_away_from_player() -> Vector2:
 			break
 	
 	return random_pos
+
+func reset_game():
+	room_size = start_room_size
+	game_time = 0

@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://cd02r1j4q0gq7"]
+
+[ext_resource type="Texture2D" uid="uid://bsqpn3pg02l02" path="res://sprites/screens/enemy-teleport.png" id="1_fuh3u"]
+[ext_resource type="Script" uid="uid://ddr1pmlcs61gu" path="res://scenes/enemies/teleport/enemy_teleport.gd" id="2_5yjwk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yjwk"]
+atlas = ExtResource("1_fuh3u")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aro5f"]
+atlas = ExtResource("1_fuh3u")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ielh"]
+atlas = ExtResource("1_fuh3u")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eh8f0"]
+atlas = ExtResource("1_fuh3u")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0jbkn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yjwk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aro5f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ielh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eh8f0")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="EnemyTeleport" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_0jbkn")
+frame = 3
+frame_progress = 1.0
+script = ExtResource("2_5yjwk")
