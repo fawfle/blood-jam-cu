@@ -50,7 +50,7 @@ script = ExtResource("8_tipki")
 [node name="Timer" type="Timer" parent="ScoreTracker"]
 autostart = true
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_85g3d")
 autoplay = true
 

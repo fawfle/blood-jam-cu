@@ -31,10 +31,7 @@ func set_wall_position(pos: Wall.WallPosition):
 		WallPosition.BOTTOM:
 			background.position = Vector2(0, BACKGROUND_SIZE / 2)
 
-func update_to_room_size(room_size, duration: float = 0):
-	var tween = create_tween()
-	tween.set_parallel(true)
-	
+func update_to_room_size(room_size, duration: float = 0):	
 	var size: Vector2 = Vector2(room_size.x, WALL_WIDTH)
 	if wall_position == WallPosition.LEFT or wall_position == WallPosition.RIGHT:
 		size = Vector2(WALL_WIDTH, room_size.y)
@@ -64,8 +61,14 @@ func update_to_room_size(room_size, duration: float = 0):
 	
 	background.region_rect = Rect2(Vector2.ZERO, background_rect_size)
 	
-	tween.tween_property(sprite, "region_rect", target_region_rect, duration)
-	tween.tween_property(self, "position", target_position, duration)
+	if duration != 0:
+		var tween = create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(sprite, "region_rect", target_region_rect, duration)
+		tween.tween_property(self, "position", target_position, duration)
+	else:
+		sprite.region_rect = target_region_rect
+		position = target_position
 
 func is_vertical_wall():
 	return wall_position == WallPosition.LEFT or wall_position == WallPosition.RIGHT

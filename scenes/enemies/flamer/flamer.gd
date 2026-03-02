@@ -45,7 +45,6 @@ func choose_animation() -> void:
 	#	animated_sprite.flip_h = false
 	#	animated_sprite.play("run_side")
 	var orientation = rad_to_deg(velocity.angle())
-	print(orientation)
 	if velocity == Vector2.ZERO:
 		animated_sprite.play("idle")
 	elif orientation < -15 && orientation > -60:
