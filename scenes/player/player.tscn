@@ -252,6 +252,7 @@ position = Vector2(0, 8)
 rotation = 1.8901916
 amount = 10
 texture = SubResource("GradientTexture2D_qek5x")
+lifetime = 1.25
 preprocess = 4.32
 randomness = 1.0
 lifetime_randomness = 0.8
