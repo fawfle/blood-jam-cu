@@ -104,10 +104,6 @@ func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
 	# print(fill_ratio)
 	if fill_ratio == null: return
-<<<<<<< HEAD
-=======
-	
->>>>>>> b99062b3a9aa37805c79e3839911104fea88f9cb
 	if fill_ratio > fill_ratio_target:
 		resize_room()
 
@@ -178,9 +174,7 @@ func _on_death() -> void:
 
 func _enemy_death(_enemy: Enemy) -> void:
 	death_sound.play(0.2)
-<<<<<<< HEAD
 	score_tracker.enemies_killed+=1
-=======
 	Global.score+=10
 
 
@@ -196,4 +190,3 @@ func approach(max_val: float, k: float, x: float) -> float:
 
 func approach_from(start: float, end: float, k: float, x: float) -> float:
 	return start + approach(end - start, k, x)
->>>>>>> b99062b3a9aa37805c79e3839911104fea88f9cb
