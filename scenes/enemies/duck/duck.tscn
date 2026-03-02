@@ -61,6 +61,8 @@ radius = 7.0
 height = 14.0
 
 [node name="Duck" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
 script = ExtResource("1_rrwfh")
 agro_distance = 40.0
 speed = 40

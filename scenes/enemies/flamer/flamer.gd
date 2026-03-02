@@ -52,5 +52,5 @@ func die():
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), BLOOD_COLOR, true)
 	#set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
-	cur_flame.queue_free()
+	if cur_flame: cur_flame.queue_free()
 	queue_free()

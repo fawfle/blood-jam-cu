@@ -25,8 +25,8 @@ var resize_number: int = 1
 var enemy_spawn_time: float = 3
 var enemy_spawn_timer: float = 0.0
 
-var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
-var game_over: PackedScene = preload("res://scenes/game_over.tscn")
+var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
+
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
 var shooter_scene: PackedScene = preload("res://scenes/enemies/shooter/shooter.tscn")
 var shielded_scene: PackedScene = preload("res://scenes/enemies/shielded/shielded.tscn")
@@ -138,4 +138,5 @@ func get_enemy_spawn_weight_total() -> float:
 	return total_weight
 
 func _on_death() -> void:
-	get_tree().change_scene_to_packed(game_over)
+	var game_over := game_over_scene.instantiate()
+	add_child(game_over)

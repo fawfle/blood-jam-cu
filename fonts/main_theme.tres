@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dbjabgliedfsc"]
+
+[ext_resource type="FontFile" uid="uid://qo71mx2v8dp" path="res://fonts/edit-undo.brk.ttf" id="1_7fxfc"]
+
+[resource]
+default_font = ExtResource("1_7fxfc")
+default_font_size = 28

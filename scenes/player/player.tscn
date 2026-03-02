@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://c0xl0mbw34dfe"]
+[gd_scene load_steps=39 format=3 uid="uid://c0xl0mbw34dfe"]
 
 [ext_resource type="Script" uid="uid://bf7y8ggmj0n0g" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cwd0l46eux6pu" path="res://sprites/player-mid-idle.png" id="2_gmlin"]
@@ -230,9 +230,7 @@ script = ExtResource("1_8afob")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 5
 sprite_frames = SubResource("SpriteFrames_gx1jg")
-animation = &"big_move_vertical"
-frame = 2
-frame_progress = 0.56771004
+animation = &"move_vertical"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_x7p2l")
@@ -252,6 +250,7 @@ position = Vector2(0, 8)
 rotation = 1.8901916
 amount = 10
 texture = SubResource("GradientTexture2D_qek5x")
+lifetime = 1.25
 preprocess = 4.32
 randomness = 1.0
 lifetime_randomness = 0.8
