@@ -72,3 +72,6 @@ func update_to_room_size(room_size, duration: float = 0):
 
 func is_vertical_wall():
 	return wall_position == WallPosition.LEFT or wall_position == WallPosition.RIGHT
+
+func get_sprite() -> Sprite2D:
+	return background

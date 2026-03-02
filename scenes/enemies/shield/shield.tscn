@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://urujg6q1wbmg"]
+[gd_scene load_steps=5 format=3 uid="uid://urujg6q1wbmg"]
 
 [ext_resource type="Script" uid="uid://do2blknw12tmg" path="res://scenes/enemies/shield/shield.gd" id="1_uk3dt"]
 [ext_resource type="Texture2D" uid="uid://c4ifpdwaom7ya" path="res://sprites/enemies/shield/shield.png" id="2_fgeeo"]
+[ext_resource type="Script" uid="uid://bpl3ytxrfsjal" path="res://scripts/bloody_collider.gd" id="3_xu62e"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46l8f"]
 radius = 1.0
@@ -11,7 +12,7 @@ height = 8.0
 script = ExtResource("1_uk3dt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.6039216, 0.62352943, 0.60784316, 1)
+clip_children = 2
 position = Vector2(8, 0)
 texture = ExtResource("2_fgeeo")
 
@@ -20,5 +21,7 @@ position = Vector2(8, 0)
 collision_layer = 8
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield" node_paths=PackedStringArray("sprite")]
 shape = SubResource("CapsuleShape2D_46l8f")
+script = ExtResource("3_xu62e")
+sprite = NodePath("../../Sprite2D")

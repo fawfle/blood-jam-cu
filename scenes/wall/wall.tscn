@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4kr20orbr8su"]
+[gd_scene load_steps=7 format=3 uid="uid://c4kr20orbr8su"]
 
 [ext_resource type="Texture2D" uid="uid://du8xrfgd3v4ln" path="res://sprites/Wall.png" id="1_t8knd"]
 [ext_resource type="Script" uid="uid://4sjpyyphs6j0" path="res://scenes/wall/wall.gd" id="1_toau8"]
+[ext_resource type="Script" uid="uid://bpl3ytxrfsjal" path="res://scripts/bloody_collider.gd" id="3_1d3bp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7ofw"]
 size = Vector2(2, 10)
@@ -26,10 +27,13 @@ region_enabled = true
 region_rect = Rect2(0, 0, 2, 10)
 region_filter_clip_enabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." node_paths=PackedStringArray("sprite")]
 shape = SubResource("RectangleShape2D_e7ofw")
+script = ExtResource("3_1d3bp")
+sprite = NodePath("../Background")
 
 [node name="Background" type="Sprite2D" parent="."]
+clip_children = 2
 z_index = 1
 position = Vector2(-0.5, 0)
 texture = SubResource("GradientTexture2D_1d3bp")

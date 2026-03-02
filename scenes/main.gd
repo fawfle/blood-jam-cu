@@ -66,7 +66,7 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
 	EnemyType.SHOOTER: 300,
-	EnemyType.SHIELDED: 50,
+	EnemyType.SHIELDED: 75,
 	EnemyType.JANITOR: 200,
 	EnemyType.DUCK: 20,
 	EnemyType.FLAMER: 100
@@ -102,7 +102,7 @@ func handle_difficulty():
 
 ## amount to scale player blood by. Decreases as more enemies spawn to keep things balanced
 func get_blood_scale() -> float:
-	return min(1, (enemy_spawn_time / max_enemy_spawn_time * 1.4))
+	return clamp(enemy_spawn_time / max_enemy_spawn_time * 1.4, 0.2, 1)
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()

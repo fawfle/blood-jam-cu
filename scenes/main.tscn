@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8evxvjut3sps"]
+[gd_scene load_steps=11 format=3 uid="uid://c8evxvjut3sps"]
 
 [ext_resource type="PackedScene" uid="uid://dbxpkx7jsbcf2" path="res://scenes/ground/ground.tscn" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://cbgkr8obs2pqr" path="res://scenes/main.gd" id="1_jyhfs"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://c7ovx7hm4j8i" path="res://audio/sounds/34170__glaneur-de-sons__electric_wire_03.wav" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://dfrtf3hh6fskd" path="res://scenes/score_tracker.gd" id="8_tipki"]
 [ext_resource type="Texture2D" uid="uid://bfvc3p1yetv5r" path="res://sprites/movement_indicator.png" id="9_85g3d"]
+[ext_resource type="Texture2D" uid="uid://cyn6aufsx4aj6" path="res://sprites/dash_indicator.png" id="10_choun"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_jyhfs")
@@ -58,5 +59,7 @@ position = Vector2(-85, -5)
 texture = ExtResource("9_85g3d")
 
 [node name="Dash" type="Sprite2D" parent="Indicators"]
+position = Vector2(89, -7)
+texture = ExtResource("10_choun")
 
 [connection signal="timeout" from="ScoreTracker/Timer" to="ScoreTracker" method="_on_timer_timeout"]

@@ -16,7 +16,8 @@ var move_in_direction_timer: float = 0
 var move_in_direction_duration: float = 0.4
 
 @onready var area: Area2D = $Area2D 
-var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
+# var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
+var death_particles_scene: PackedScene = preload("res://scenes/particles/enemy_death_particles.tscn")
 
 var blood_color = Color(0.631, 0.0, 0.0, 1.0)
 
@@ -27,9 +28,9 @@ func _ready() -> void:
 	area.body_entered.connect(_on_body_entered)
 	_on_ready()
 	
-func _init() -> void:
-	var sound_instance = death_sound.instantiate()
-	add_child(sound_instance)
+#func _init() -> void:
+	#var sound_instance = death_sound.instantiate()
+	#add_child(sound_instance)
 
 ## called on ready but doesn't override
 func _on_ready():
@@ -114,6 +115,10 @@ func die():
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), blood_color, true)
 	#set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
+	
+	var death_particles: GPUParticles2D = death_particles_scene.instantiate()
+	Global.player.add_child(death_particles)
+	death_particles.global_position = global_position
 	
 	queue_free()
 

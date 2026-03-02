@@ -120,7 +120,7 @@ func handle_move(delta):
 	
 	var collision := get_last_slide_collision()
 	if collision != null:
-		# when hitting wall, splatter
+		# when hitting wall, splatter self
 		paint_trail(global_position + (size / 2 * previous_velocity.normalized()), size + previous_velocity.length() / 50)
 		bounce(previous_velocity, collision)
 
@@ -130,6 +130,17 @@ func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
 	Global.blood -= bounce_cost
 	bounce_sound.play()
 	move_and_slide()
+	try_to_bloody_collider(previous_velocity, collision)
+
+func try_to_bloody_collider(previous_velocity: Vector2, collision: KinematicCollision2D):
+	if collision.get_collider_shape() is SpriteCollisionShape:
+		var shape: SpriteCollisionShape = collision.get_collider_shape() as SpriteCollisionShape
+		
+		var blood_sprite = Sprite2D.new()
+		shape.sprite.add_child(blood_sprite)
+		var radius: float = size + previous_velocity.length() / 50
+		blood_sprite.texture = TextureHelper.create_circle_texture(radius, Global.ground.blood_color, Global.ground.blood_color_alt)
+		blood_sprite.global_position = collision.get_position()
 
 func dash() -> void:
 	# use the last movement input for if player isn't holding a direction
