@@ -1,7 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://bugsxjyb6yvqk"]
+[gd_scene load_steps=36 format=3 uid="uid://bugsxjyb6yvqk"]
 
 [ext_resource type="Script" uid="uid://bfw7vbam8lo10" path="res://scenes/enemies/flamer/flamer.gd" id="1_bxhk4"]
 [ext_resource type="Texture2D" uid="uid://bhw5lmi15g76l" path="res://sprites/enemies/flame/flame-idle.png" id="2_63g67"]
+[ext_resource type="Texture2D" uid="uid://dp5xyj65iid8o" path="res://sprites/enemies/flame/flame-run45down.png" id="3_1lcxs"]
+[ext_resource type="Texture2D" uid="uid://c2oel7y3sgx2t" path="res://sprites/enemies/flame/flame-run45up.png" id="3_glp1x"]
 [ext_resource type="Texture2D" uid="uid://dbocerbcoka0q" path="res://sprites/enemies/flame/flame-rundown.png" id="3_ivu12"]
 [ext_resource type="Texture2D" uid="uid://kvrxv1duj3jo" path="res://sprites/enemies/flame/flame-run.png" id="4_glp1x"]
 [ext_resource type="Texture2D" uid="uid://toe8yyqx4iu" path="res://sprites/enemies/flame/flame-runup.png" id="5_1lcxs"]
@@ -13,6 +15,38 @@ height = 20.0
 [sub_resource type="AtlasTexture" id="AtlasTexture_4eu0n"]
 atlas = ExtResource("2_63g67")
 region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fp4fd"]
+atlas = ExtResource("3_1lcxs")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cy3g"]
+atlas = ExtResource("3_1lcxs")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrvtm"]
+atlas = ExtResource("3_1lcxs")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_et5kl"]
+atlas = ExtResource("3_1lcxs")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lcxs"]
+atlas = ExtResource("3_glp1x")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkmd8"]
+atlas = ExtResource("3_glp1x")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gvip"]
+atlas = ExtResource("3_glp1x")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7alol"]
+atlas = ExtResource("3_glp1x")
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bws4h"]
 atlas = ExtResource("3_ivu12")
@@ -86,6 +120,40 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fp4fd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1cy3g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrvtm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_et5kl")
+}],
+"loop": true,
+"name": &"run_45_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lcxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkmd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gvip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7alol")
+}],
+"loop": true,
+"name": &"run_45_up",
 "speed": 5.0
 }, {
 "frames": [{
@@ -175,7 +243,7 @@ autostart = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4gvip")
-animation = &"run_up"
+animation = &"run_45_down"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_7alol")
