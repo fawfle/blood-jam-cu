@@ -160,9 +160,7 @@ height = 18.0
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_bxhk4")
-shot_distance = 50
 speed = 23
-blood = 24
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -181,3 +179,6 @@ animation = &"run_up"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_7alol")
+
+[node name="FlamePivot" type="Node2D" parent="."]
+position = Vector2(0, -2)

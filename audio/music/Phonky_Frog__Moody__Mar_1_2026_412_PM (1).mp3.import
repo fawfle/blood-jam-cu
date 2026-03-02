@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d220whxfe35qm"
+path="res://.godot/imported/Phonky_Frog__Moody__Mar_1_2026_412_PM (1).mp3-96345333431430a6ce3996cb7f8e1c16.mp3str"
+
+[deps]
+
+source_file="res://audio/music/Phonky_Frog__Moody__Mar_1_2026_412_PM (1).mp3"
+dest_files=["res://.godot/imported/Phonky_Frog__Moody__Mar_1_2026_412_PM (1).mp3-96345333431430a6ce3996cb7f8e1c16.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
