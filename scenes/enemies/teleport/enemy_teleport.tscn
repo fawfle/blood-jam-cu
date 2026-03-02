@@ -42,5 +42,5 @@ animations = [{
 [node name="EnemyTeleport" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_0jbkn")
 frame = 3
-frame_progress = 0.76686877
+frame_progress = 1.0
 script = ExtResource("2_5yjwk")
