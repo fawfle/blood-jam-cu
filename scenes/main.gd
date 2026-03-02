@@ -32,6 +32,7 @@ var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
 
 @onready var death_sound: AudioStreamPlayer2D = $DeathSound
 @onready var teleport_sound: AudioStreamPlayer2D = $TeleportSound
+@onready var score_tracker: Node = $ScoreTracker
 
 var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
@@ -94,6 +95,7 @@ func handle_difficulty():
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
 	# print(fill_ratio)
+	if fill_ratio == null: return
 	if fill_ratio > fill_ratio_target:
 		resize_room()
 
@@ -134,6 +136,7 @@ func resize_room():
 	Global.room_size *= room_scaling
 	update_walls(Global.room_size)
 	Global.room_resized.emit(Global.room_size)
+	score_tracker.expansion_num+=1
 
 func update_walls(room_size: Vector2i):
 	left_wall.global_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
@@ -163,3 +166,4 @@ func _on_death() -> void:
 
 func _enemy_death(_enemy: Enemy) -> void:
 	death_sound.play(0.2)
+	score_tracker.enemies_killed+=1
