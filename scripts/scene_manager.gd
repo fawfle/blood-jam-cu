@@ -30,10 +30,11 @@ func load_scene(scene: PackedScene):
 	await wipe_in()
 	
 	await get_tree().create_timer(0.25).timeout
-	get_tree().change_scene_to_packed(scene)
 	
 	if scene == game_scene:
 		Global.reset_game()
+	
+	get_tree().change_scene_to_packed(scene)
 	
 	await wipe_out()
 	

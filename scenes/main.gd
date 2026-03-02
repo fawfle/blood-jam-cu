@@ -67,9 +67,9 @@ var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
 	EnemyType.SHOOTER: 300,
 	EnemyType.SHIELDED: 50,
-	EnemyType.JANITOR: 200,
-	EnemyType.DUCK: 5,
-	EnemyType.FLAMER: 50
+	EnemyType.JANITOR: 40200,
+	EnemyType.DUCK: 20,
+	EnemyType.FLAMER: 100
 }
 
 func _init() -> void:
@@ -86,10 +86,9 @@ func _ready() -> void:
 	Global.room_resized.emit(Global.start_room_size)
 	Global.out_of_blood.connect(_on_death)
 	Global.enemy_eaten.connect(_enemy_death)
-	Global.blood = 100
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	handle_fill()
 	handle_spawning(delta)
 	
@@ -102,8 +101,7 @@ func handle_difficulty():
 
 ## amount to scale player blood by. Decreases as more enemies spawn to keep things balanced
 func get_blood_scale() -> float:
-	print(min(1, (enemy_spawn_time / max_enemy_spawn_time / 0.9)))
-	return min(1, (enemy_spawn_time / max_enemy_spawn_time / 0.9))
+	return min(1, (enemy_spawn_time / max_enemy_spawn_time * 1.4))
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
@@ -181,8 +179,7 @@ func _on_death() -> void:
 
 func _enemy_death(enemy: Enemy) -> void:
 	death_sound.play(0.2)
-	score_tracker.enemies_killed+=1
-	Global.score+=10
+	score_tracker.enemies_killed += 1
 	# add blood here so we can scale it
 	Global.blood += enemy.blood * get_blood_scale()
 

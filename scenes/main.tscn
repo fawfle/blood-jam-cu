@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bwjimsxwu86dn" path="res://scenes/ui/minimap/minimap.tscn" id="5_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://dj4th1ovjm1ya" path="res://audio/sounds/freesound_community-breakingneck-106924.mp3" id="6_tefeu"]
 [ext_resource type="AudioStream" uid="uid://c7ovx7hm4j8i" path="res://audio/sounds/34170__glaneur-de-sons__electric_wire_03.wav" id="7_o6xl0"]
-[ext_resource type="Script" uid="uid://dfrtf3hh6fskd" path="res://scenes/score_tracker.gd" id="8_tipki"]
+[ext_resource type="Script" path="res://scenes/score_tracker.gd" id="8_tipki"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_jyhfs")

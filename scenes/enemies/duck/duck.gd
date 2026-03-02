@@ -3,6 +3,10 @@ extends Enemy
 @onready var animated_sprite = $AnimatedSprite2D
 @export var agro_distance: float
 
+
+func _on_ready() -> void:
+	blood_color = Color(0.78, 0.387, 0.0, 1.0)
+
 func choose_animation() -> void:
 	if velocity == Vector2.ZERO:
 		animated_sprite.play("idle")

@@ -18,7 +18,7 @@ var move_in_direction_duration: float = 0.4
 @onready var area: Area2D = $Area2D 
 var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
 
-const BLOOD_COLOR = Color(0.631, 0.0, 0.0, 1.0)
+var blood_color = Color(0.631, 0.0, 0.0, 1.0)
 
 var dying: bool = false
 
@@ -112,7 +112,7 @@ func die():
 	## blood and stuff gets handled here
 	Global.enemy_eaten.emit(self)
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
-	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), BLOOD_COLOR, true)
+	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), blood_color, true)
 	#set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
 	
 	queue_free()

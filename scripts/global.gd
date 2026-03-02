@@ -1,6 +1,7 @@
 extends Node
 
 var blood: float = 100
+var start_blood: float = blood
 
 var room_size: Vector2i = Vector2i(288 - 10, 162 - 10)
 var start_room_size: Vector2i = room_size
@@ -60,5 +61,6 @@ func random_position_in_room_away_from_player() -> Vector2:
 	return random_pos
 
 func reset_game():
+	blood = start_blood
 	room_size = start_room_size
 	game_time = 0
