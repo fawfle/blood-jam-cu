@@ -215,6 +215,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_x7p2l"]
 radius = 9.0
 
+[sub_resource type="Gradient" id="Gradient_0owmy"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qek5x"]
+gradient = SubResource("Gradient_0owmy")
+width = 2
+height = 2
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 10
 script = ExtResource("1_8afob")
@@ -238,3 +246,21 @@ max_polyphony = 20
 
 [node name="DashSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_0owmy")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, 8)
+rotation = 1.8901916
+amount = 10
+texture = SubResource("GradientTexture2D_qek5x")
+preprocess = 4.32
+randomness = 1.0
+lifetime_randomness = 0.8
+angular_velocity_min = -181.75
+angular_velocity_max = 209.71
+radial_accel_min = 1.94
+radial_accel_max = 9.71
+scale_amount_min = 0.5
+color = Color(0.8564796, 0.000118810756, 6.5072774e-05, 1)
+hue_variation_min = -0.14
+hue_variation_max = 0.34
+anim_speed_max = 10.56
