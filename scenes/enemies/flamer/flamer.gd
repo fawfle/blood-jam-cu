@@ -44,8 +44,21 @@ func choose_animation() -> void:
 	#elif is_flaming && velocity.x < 0:
 	#	animated_sprite.flip_h = false
 	#	animated_sprite.play("run_side")
+	var orientation = rad_to_deg(velocity.angle())
 	if velocity == Vector2.ZERO:
 		animated_sprite.play("idle")
+	elif orientation < -15 && orientation > -60:
+		animated_sprite.flip_h = true
+		animated_sprite.play("run_45_up")
+	elif orientation < -105 && orientation > -150:
+		animated_sprite.flip_h = false
+		animated_sprite.play("run_45_up")
+	elif orientation > 105 && orientation < 150:
+		animated_sprite.flip_h = false
+		animated_sprite.play("run_45_down")
+	elif orientation > 15 && orientation < 60:
+		animated_sprite.flip_h = true
+		animated_sprite.play("run_45_down")
 	elif velocity.x > 0 && velocity.x > velocity.y:
 		animated_sprite.flip_h = true
 		animated_sprite.play("run_side")

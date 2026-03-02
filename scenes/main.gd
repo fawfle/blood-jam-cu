@@ -50,8 +50,6 @@ var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn
 
 var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
 
-const WALL_WIDTH: float = 1
-
 ## pretend its constant lol. Map enemy type enums to scenes
 var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 	EnemyType.FODDER: fodder_scene,
@@ -77,10 +75,10 @@ func _init() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	left_wall = create_wall()
-	right_wall = create_wall()
-	top_wall = create_wall()
-	bottom_wall = create_wall()
+	left_wall = create_wall(Wall.WallPosition.LEFT)
+	right_wall = create_wall(Wall.WallPosition.RIGHT)
+	top_wall = create_wall(Wall.WallPosition.TOP)
+	bottom_wall = create_wall(Wall.WallPosition.BOTTOM)
 	update_walls(Global.room_size)
 	
 	Global.room_resized.emit(Global.start_room_size)
@@ -147,23 +145,38 @@ func resize_room():
 	Global.room_size *= room_scaling
 	# force room size to be even
 	Global.room_size = Vector2(floor(Global.room_size.x / 2) * 2, floor(Global.room_size.y / 2) * 2)
-	update_walls(Global.room_size)
+	update_walls(Global.room_size, 0.5)
 	Global.room_resized.emit(Global.room_size)
 	score_tracker.expansion_num+=1
 
-func update_walls(room_size: Vector2i):
-	left_wall.global_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
-	right_wall.global_position = Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0)
-	top_wall.global_position = Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2)
-	bottom_wall.global_position = Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2)
-	left_wall.update_size(Vector2(WALL_WIDTH, room_size.y))
-	right_wall.update_size(Vector2(WALL_WIDTH, room_size.y))
-	top_wall.update_size(Vector2(room_size.x, WALL_WIDTH))
-	bottom_wall.update_size(Vector2(room_size.x, WALL_WIDTH))
+const WALL_ANIMATION_TIME = 0.5
 
-func create_wall() -> Wall:
+func update_walls(room_size: Vector2i, duration: float = 0):
+	#left_wall.global_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
+	#right_wall.global_position = Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0)
+	#top_wall.global_position = Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2)
+	#bottom_wall.global_position = Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2)
+	left_wall.update_to_room_size(room_size, duration)
+	right_wall.update_to_room_size(room_size, duration)
+	top_wall.update_to_room_size(room_size, duration)
+	bottom_wall.update_to_room_size(room_size, duration)
+
+#func update_walls_animated(room_size: Vector2i):
+#	var tween: Tween = create_tween()
+#	tween.set_parallel(true)
+#	tween.tween_property(left_wall, "global_position", Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0), WALL_ANIMATION_TIME)
+#	tween.tween_property(right_wall, "global_position", Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0), WALL_ANIMATION_TIME)
+#	tween.tween_property(top_wall, "global_position", Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2), WALL_ANIMATION_TIME)
+#	tween.tween_property(bottom_wall, "global_position", Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2), WALL_ANIMATION_TIME)
+#	left_wall.update_size(Vector2(WALL_WIDTH, room_size.y), WALL_ANIMATION_TIME)
+#	right_wall.update_size(Vector2(WALL_WIDTH, room_size.y), WALL_ANIMATION_TIME)
+#	top_wall.update_size(Vector2(room_size.x, WALL_WIDTH), WALL_ANIMATION_TIME)
+#	bottom_wall.update_size(Vector2(room_size.x, WALL_WIDTH), WALL_ANIMATION_TIME)
+
+func create_wall(pos: Wall.WallPosition) -> Wall:
 	var wall: Wall = wall_scene.instantiate()
 	add_child(wall)
+	wall.set_wall_position(pos)
 	return wall
 
 func get_enemy_spawn_weight_total() -> float:

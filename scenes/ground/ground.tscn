@@ -8,7 +8,7 @@
 texture_repeat = 2
 texture = ExtResource("1_xmv3o")
 region_enabled = true
-region_rect = Rect2(0, 0, 180, 162)
+region_rect = Rect2(0, 0, 288, 162)
 script = ExtResource("2_n0mj7")
 blood_texture = ExtResource("2_1w6he")
 blood_color = Color(0.74509805, 0, 0, 1)
