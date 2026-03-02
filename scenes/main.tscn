@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://c7ovx7hm4j8i" path="res://audio/sounds/34170__glaneur-de-sons__electric_wire_03.wav" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://dfrtf3hh6fskd" path="res://scenes/score_tracker.gd" id="8_tipki"]
 [ext_resource type="AudioStream" uid="uid://d220whxfe35qm" path="res://audio/music/Phonky_Frog__Moody__Mar_1_2026_412_PM (1).mp3" id="9_85g3d"]
+[ext_resource type="Texture2D" uid="uid://bfvc3p1yetv5r" path="res://sprites/movement_indicator.png" id="9_85g3d"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_jyhfs")
@@ -53,5 +54,12 @@ autostart = true
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_85g3d")
 autoplay = true
+[node name="Indicators" type="Node2D" parent="."]
+
+[node name="Movement" type="Sprite2D" parent="Indicators"]
+position = Vector2(-61, -2)
+texture = ExtResource("9_85g3d")
+
+[node name="Dash" type="Sprite2D" parent="Indicators"]
 
 [connection signal="timeout" from="ScoreTracker/Timer" to="ScoreTracker" method="_on_timer_timeout"]
