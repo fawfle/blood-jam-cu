@@ -44,7 +44,6 @@ func _init() -> void:
 
 func _ready() -> void:
 	animated_sprite.play("big_idle")
-	
 	Global.out_of_blood.connect(_on_out_of_blood)
 
 func _physics_process(delta: float) -> void:
@@ -85,6 +84,7 @@ func update_size():
 	size = min(size, MAX_SIZE)
 	animated_sprite.scale = Vector2.ONE * size * 0.055
 	(collision_shape.shape as CircleShape2D).radius = size
+	particles.position.y = size
 
 func paint_trail(pos: Vector2, trail_size: float):
 	if Global.ground == null: return
