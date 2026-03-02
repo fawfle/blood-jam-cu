@@ -48,6 +48,8 @@ var janitor_scene: PackedScene = preload("res://scenes/enemies/janitor/janitor.t
 var duck_scene: PackedScene = preload("res://scenes/enemies/duck/duck.tscn")
 var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn")
 
+var table_scene: PackedScene = preload("res://scenes/obstacles/table.tscn")
+
 var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
 
 ## pretend its constant lol. Map enemy type enums to scenes
@@ -105,7 +107,7 @@ func get_blood_scale() -> float:
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
 	# print(fill_ratio)
-	if fill_ratio == null: return
+	if fill_ratio == null or fill_ratio_target == null: return
 	if fill_ratio > fill_ratio_target:
 		resize_room()
 
@@ -143,12 +145,34 @@ func get_random_enemy() -> PackedScene:
 
 func resize_room():
 	resize_number += 1
+	var previous_room_size: Vector2i = Global.room_size
 	Global.room_size *= room_scaling
 	# force room size to be even
 	Global.room_size = Vector2(floor(Global.room_size.x / 2) * 2, floor(Global.room_size.y / 2) * 2)
 	update_walls(Global.room_size, 0.5)
 	Global.room_resized.emit(Global.room_size)
-	score_tracker.expansion_num+=1
+	score_tracker.expansion_num += 1
+	
+	spawn_obstacles(previous_room_size, Global.room_size)
+
+func spawn_obstacles(previous_room_size: Vector2i, room_size: Vector2i):
+	var spawn_range: Vector2 = previous_room_size - room_size
+	
+	## spawn on left/right. if false, spawn on top/bottom
+	var spawn_horizontal: bool = randf() > 0.5
+	var spawn_position: Vector2
+	
+	if spawn_horizontal:
+		spawn_position.x = (previous_room_size.x + spawn_range.x * randf()) * (-1 if randf() > 0.5 else 1)
+		spawn_position.y = room_size.y / 2.0 * randf_range(-1, 1)
+	else:
+		spawn_position.x = room_size.x / 2.0 * randf_range(-1, 1)
+		spawn_position.y = (previous_room_size.y + spawn_range.y * randf()) * (-1 if randf() > 0.5 else 1)
+		
+	var table: StaticBody2D = table_scene.instantiate()
+	add_child(table)
+	table.global_position = spawn_position
+	table.rotation = randf() * PI * 2
 
 const WALL_ANIMATION_TIME = 0.5
 

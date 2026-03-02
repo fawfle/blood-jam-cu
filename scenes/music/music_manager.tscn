@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcixxyuxrpvjg"]
+
+[ext_resource type="AudioStream" uid="uid://d220whxfe35qm" path="res://audio/music/Phonky_Frog__Moody__Mar_1_2026_412_PM (1).mp3" id="1_inljn"]
+
+[node name="MusicManager" type="Node"]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_inljn")
+autoplay = true
