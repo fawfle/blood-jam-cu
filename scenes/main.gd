@@ -27,6 +27,8 @@ var enemy_spawn_timer: float = 0.0
 
 var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
 
+var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
+var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
 var shooter_scene: PackedScene = preload("res://scenes/enemies/shooter/shooter.tscn")
 var shielded_scene: PackedScene = preload("res://scenes/enemies/shielded/shielded.tscn")
@@ -69,6 +71,7 @@ func _ready() -> void:
 	
 	Global.room_resized.emit(Global.start_room_size)
 	Global.out_of_blood.connect(_on_death)
+	Global.enemy_eaten.connect(_enemy_death)
 	Global.blood = 100
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -140,3 +143,10 @@ func get_enemy_spawn_weight_total() -> float:
 func _on_death() -> void:
 	var game_over := game_over_scene.instantiate()
 	add_child(game_over)
+
+func _enemy_death(_enemy: Enemy) -> void:
+	var sound_instance : AudioStreamPlayer2D = death_sound.instantiate()
+	add_child(sound_instance)
+	sound_instance.play()
+	await sound_instance.finished
+	sound_instance.queue_free()
