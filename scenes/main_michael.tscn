@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://560wj2g468yr"]
+
+[ext_resource type="Script" uid="uid://cbgkr8obs2pqr" path="res://scenes/main.gd" id="1_cobm1"]
+[ext_resource type="PackedScene" uid="uid://dbxpkx7jsbcf2" path="res://scenes/ground/ground.tscn" id="2_rw1nd"]
+[ext_resource type="PackedScene" uid="uid://c0xl0mbw34dfe" path="res://scenes/player/player.tscn" id="3_m5h2l"]
+[ext_resource type="Script" uid="uid://6pckog4as786" path="res://scripts/camera.gd" id="4_t6no0"]
+[ext_resource type="PackedScene" uid="uid://bwjimsxwu86dn" path="res://scenes/ui/minimap/minimap.tscn" id="5_qdl05"]
+[ext_resource type="AudioStream" uid="uid://dj4th1ovjm1ya" path="res://audio/sounds/freesound_community-breakingneck-106924.mp3" id="6_hdmxr"]
+[ext_resource type="AudioStream" uid="uid://c7ovx7hm4j8i" path="res://audio/sounds/34170__glaneur-de-sons__electric_wire_03.wav" id="7_mmkqt"]
+[ext_resource type="Script" uid="uid://dfrtf3hh6fskd" path="res://scenes/score_tracker.gd" id="8_ec3hr"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_cobm1")
+
+[node name="Floor" parent="." instance=ExtResource("2_rw1nd")]
+
+[node name="Player" parent="." instance=ExtResource("3_m5h2l")]
+
+[node name="Camera2D" type="Camera2D" parent="Player" node_paths=PackedStringArray("target")]
+process_callback = 0
+position_smoothing_speed = 10.0
+script = ExtResource("4_t6no0")
+target = NodePath("..")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Minimap" parent="CanvasLayer" instance=ExtResource("5_qdl05")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -24.0
+offset_top = 15.0
+offset_right = -24.0
+offset_bottom = 15.0
+grow_horizontal = 0
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_hdmxr")
+max_polyphony = 10
+
+[node name="TeleportSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_mmkqt")
+volume_db = 0.2
+max_polyphony = 20
+
+[node name="ScoreTracker" type="Node" parent="."]
+script = ExtResource("8_ec3hr")
+
+[node name="Timer" type="Timer" parent="ScoreTracker"]
+autostart = true
+
+[connection signal="timeout" from="ScoreTracker/Timer" to="ScoreTracker" method="_on_timer_timeout"]
