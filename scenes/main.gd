@@ -126,7 +126,6 @@ func resize_room():
 	Global.room_size *= room_scaling
 	update_walls(Global.room_size)
 	Global.room_resized.emit(Global.room_size)
-	Global.score+=100
 
 func update_walls(room_size: Vector2i):
 	left_wall.global_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
@@ -156,8 +155,3 @@ func _on_death() -> void:
 
 func _enemy_death(_enemy: Enemy) -> void:
 	death_sound.play(0.2)
-	Global.score+=10
-
-
-func _on_score_timer_timeout() -> void:
-	Global.score+=1
