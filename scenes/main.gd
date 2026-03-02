@@ -36,6 +36,8 @@ var janitor_scene: PackedScene = preload("res://scenes/enemies/janitor/janitor.t
 var duck_scene: PackedScene = preload("res://scenes/enemies/duck/duck.tscn")
 var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn")
 
+var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
+
 const WALL_WIDTH: float = 1
 
 ## pretend its constant lol. Map enemy type enums to scenes
@@ -96,6 +98,11 @@ func spawn_enemy():
 	var random_pos = Global.random_position_in_room_away_from_player()
 	
 	var enemy: Enemy =  get_random_enemy().instantiate()
+	var teleport: EnemyTeleport = enemy_teleport_scene.instantiate()
+	add_child(teleport)
+	teleport.owner = self
+	teleport.global_position = random_pos
+	await teleport.animation_finished
 	add_child(enemy)
 	enemy.owner = self
 	enemy.global_position = random_pos
