@@ -75,7 +75,7 @@ func die():
 	Global.blood += blood
 	Global.enemy_eaten.emit(self)
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
-	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), BLOOD_COLOR, true)
+	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), blood_color, true)
 	#set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
 	if flame: flame.queue_free()
 	queue_free()

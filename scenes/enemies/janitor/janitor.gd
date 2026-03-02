@@ -1,7 +1,7 @@
 extends Enemy
 
-@export var clean_radius: int = 20
-@export var clean_distance :float = 20
+@export var clean_radius: int = 10
+@onready var clean_node: Node2D = $CleanNode
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _process(_delta: float) -> void:
@@ -27,6 +27,6 @@ func find_direction() -> void:
 
 func clean_blood() -> void:
 	if Global.ground == null: return
-	var clean_position = global_position + (Vector2.RIGHT if animated_sprite.flip_h == true else Vector2.LEFT) * clean_distance
+	var clean_position = global_position + clean_node.position * (Vector2(-1, 1) if animated_sprite.flip_h else Vector2(1, 1))
 	var painted: int = Global.ground.clear_circle(clean_position, clean_radius)
 	velocity = velocity.move_toward(Vector2.ZERO, painted)

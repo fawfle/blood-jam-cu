@@ -49,8 +49,11 @@ func resize_room(new_size: Vector2i):
 	blood_texture.set_image(new_image)
 	blood_image = new_image
 	
-	texture.width = new_size.x
-	texture.height = new_size.y
+	region_rect.size.x = new_size.x
+	region_rect.size.y = new_size.y
+	
+	
+	region_rect.position = -(new_size - Global.start_room_size) / 2.0
 	
 	# blood_texture.draw_rect(blood_texture, Rect2(1, 1, 1, 1), false)
 
