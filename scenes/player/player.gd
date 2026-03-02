@@ -32,6 +32,8 @@ class_name Player extends CharacterBody2D
 
 var size: float = 1
 
+var dead: bool = false
+
 var last_movement_input: Vector2 = Vector2.RIGHT
 var movement_input := Vector2.ZERO
 
@@ -41,13 +43,16 @@ func _init() -> void:
 	Global.player = self
 
 func _ready() -> void:
-	animated_sprite.play("idle")
+	animated_sprite.play("big_idle")
+	
+	Global.out_of_blood.connect(_on_out_of_blood)
 
 func _physics_process(delta: float) -> void:
+	if dead: return
+
 	particles.gravity = -velocity.normalized()
+	
 	Global.blood -= bleed_per_second * delta
-	if Global.blood <= 0:
-		Global.out_of_blood.emit()
 	
 	update_size()
 	
@@ -55,18 +60,22 @@ func _physics_process(delta: float) -> void:
 	paint_trail(global_position, size)
 	
 	update_animation()
+	
+	## call after updating blood 100%
+	if Global.blood <= 0:
+		Global.out_of_blood.emit()
 
 func update_animation():
 	var play_speed: float = velocity.length() / 100.0 + 0.1
 	if movement_input.x != 0:
-		animated_sprite.play("move", play_speed)
+		animated_sprite.play("big_move", play_speed)
 		play_movement_sound()
 	elif movement_input.y != 0:
-		if movement_input.y < 0: animated_sprite.play("move_vertical", play_speed)
-		else: animated_sprite.play("move_vertical", -play_speed)
+		if movement_input.y > 0: animated_sprite.play("big_move_vertical", play_speed)
+		else: animated_sprite.play("big_move_vertical", -play_speed)
 		play_movement_sound()
 	else:
-		animated_sprite.play("idle")
+		animated_sprite.play("big_idle")
 		movement_sound.stop()
 	if movement_input.x != 0:
 		animated_sprite.flip_h = movement_input.x > 0
@@ -74,7 +83,7 @@ func update_animation():
 func update_size():
 	size = max(0, Global.blood) / blood_scale
 	size = min(size, MAX_SIZE)
-	animated_sprite.scale = Vector2.ONE * size * 0.11
+	animated_sprite.scale = Vector2.ONE * size * 0.055
 	(collision_shape.shape as CircleShape2D).radius = size
 
 func paint_trail(pos: Vector2, trail_size: float):
@@ -122,3 +131,7 @@ func dash() -> void:
 func play_movement_sound() -> void:
 	if movement_sound.playing == false:
 		movement_sound.play(15)
+
+func _on_out_of_blood():
+	dead = true
+	set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
