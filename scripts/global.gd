@@ -58,3 +58,7 @@ func random_position_in_room_away_from_player() -> Vector2:
 			break
 	
 	return random_pos
+
+func reset_game():
+	room_size = start_room_size
+	game_time = 0

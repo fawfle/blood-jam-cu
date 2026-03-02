@@ -9,7 +9,7 @@ var tween_time: float = 0.5
 func _ready() -> void:
 	Global.room_resized.connect(_on_room_resized)
 
-func _process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	position = Vector2i(position)
 
 func _on_room_resized(size: Vector2i):
