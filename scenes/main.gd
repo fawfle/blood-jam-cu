@@ -25,7 +25,13 @@ var difficulty: float = 0
 
 ## number of times rooms resized
 var resize_number: int = 1
+## time it takes to spawn an enemy
 var enemy_spawn_time: float = 3
+## amount to vary spawn times by
+var enemy_spawn_time_variation: float = 0.1
+## at max difficulty, the amount of time it takes to spawn enemy
+var max_enemy_spawn_time: float = enemy_spawn_time
+var min_enemy_spawn_time: float = 0.5
 var enemy_spawn_timer: float = 0.0
 
 var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
@@ -90,18 +96,22 @@ func _process(delta: float) -> void:
 
 func handle_difficulty():
 	difficulty = resize_number * 50
+	
+	enemy_spawn_time = approach_from(min_enemy_spawn_time, max_enemy_spawn_time, 0.01, difficulty)
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
 	# print(fill_ratio)
+	if fill_ratio == null: return
+	
 	if fill_ratio > fill_ratio_target:
 		resize_room()
 
 func handle_spawning(delta: float):
-	enemy_spawn_timer += delta
-	if enemy_spawn_timer > enemy_spawn_time:
+	enemy_spawn_timer -= delta
+	if enemy_spawn_timer <= 0:
 		spawn_enemy()
-		enemy_spawn_timer = 0
+		enemy_spawn_timer = enemy_spawn_time + randf() * enemy_spawn_time_variation
 
 func spawn_enemy():
 	var random_pos = Global.random_position_in_room_away_from_player()
@@ -163,3 +173,18 @@ func _on_death() -> void:
 
 func _enemy_death(_enemy: Enemy) -> void:
 	death_sound.play(0.2)
+	Global.score+=10
+
+
+func _on_score_timer_timeout() -> void:
+	Global.score+=1
+
+const E = 2.71828
+
+func approach(max_val: float, k: float, x: float) -> float:
+	var ret: float = 1.0 / (1 + pow(E, -k * x)) - 0.5
+	ret *= 2 * max_val
+	return ret
+
+func approach_from(start: float, end: float, k: float, x: float) -> float:
+	return start + approach(end - start, k, x)
