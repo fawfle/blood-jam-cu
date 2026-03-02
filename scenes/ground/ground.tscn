@@ -1,18 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbxpkx7jsbcf2"]
+[gd_scene load_steps=4 format=3 uid="uid://dbxpkx7jsbcf2"]
 
+[ext_resource type="Texture2D" uid="uid://dr8wmjp0eqxo1" path="res://sprites/screens/floor-texture.png" id="1_xmv3o"]
 [ext_resource type="Texture2D" uid="uid://3qrpovhyppo5" path="res://scenes/ground/blood_map.tres" id="2_1w6he"]
 [ext_resource type="Script" uid="uid://l21rcv4eunto" path="res://scenes/ground/ground.gd" id="2_n0mj7"]
 
-[sub_resource type="Gradient" id="Gradient_t8de3"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_mmnfs"]
-gradient = SubResource("Gradient_t8de3")
-width = 288
-height = 162
-
 [node name="Ground" type="Sprite2D"]
-texture = SubResource("GradientTexture2D_mmnfs")
+texture_repeat = 2
+texture = ExtResource("1_xmv3o")
+region_enabled = true
+region_rect = Rect2(0, 0, 180, 162)
 script = ExtResource("2_n0mj7")
 blood_texture = ExtResource("2_1w6he")
 blood_color = Color(0.74509805, 0, 0, 1)
