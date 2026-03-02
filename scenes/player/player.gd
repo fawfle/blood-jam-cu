@@ -5,6 +5,7 @@ class_name Player extends CharacterBody2D
 @onready var movement_sound: AudioStreamPlayer2D = $MovementSound
 @onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 @onready var dash_sound: AudioStreamPlayer2D = $DashSound
+@onready var particles: CPUParticles2D = $CPUParticles2D
 
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
@@ -43,6 +44,7 @@ func _ready() -> void:
 	animated_sprite.play("idle")
 
 func _physics_process(delta: float) -> void:
+	particles.gravity = -velocity.normalized()
 	Global.blood -= bleed_per_second * delta
 	if Global.blood <= 0:
 		Global.out_of_blood.emit()
