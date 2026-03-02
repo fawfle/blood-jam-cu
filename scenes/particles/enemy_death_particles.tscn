@@ -11,8 +11,8 @@ width = 2
 height = 2
 
 [sub_resource type="Curve" id="Curve_4tvtr"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.88602597, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_g2e0b"]
 curve = SubResource("Curve_4tvtr")
@@ -28,7 +28,8 @@ direction = Vector3(0, 1, 0)
 spread = 180.0
 initial_velocity_min = 10.0
 initial_velocity_max = 40.0
-gravity = Vector3(0, 98, 0)
+gravity = Vector3(0, 40, 0)
+scale_min = 0.5
 color = Color(0.6313726, 0, 0, 1)
 alpha_curve = SubResource("CurveTexture_g2e0b")
 
