@@ -46,3 +46,5 @@ func handle_command(command: String):
 		Global.main.resize_room()
 	if input_command.begins_with("s"):
 		Global.main.enemy_spawn_time = 0.2
+	if input_command.begins_with("k"):
+		Global.out_of_blood.emit()

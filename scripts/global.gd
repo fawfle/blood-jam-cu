@@ -13,7 +13,6 @@ var main: Main
 @warning_ignore("unused_signal")
 signal enemy_eaten(enemy: Enemy)
 
-
 ## when room gets resized
 @warning_ignore("unused_signal")
 signal room_resized(size: Vector2i)

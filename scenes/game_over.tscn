@@ -1,45 +1,82 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1r2xkgvn61wr"]
+[gd_scene load_steps=3 format=3 uid="uid://d1r2xkgvn61wr"]
 
 [ext_resource type="Script" uid="uid://n8v6sms1tk5e" path="res://scenes/game_over.gd" id="1_xeevv"]
+[ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="2_wqhvx"]
 
-[node name="Game Over" type="Control"]
+[node name="GameOver" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_xeevv")
+
+[node name="GameOverMenu" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_xeevv")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 288.0
-offset_bottom = 160.0
-color = Color(0.19215687, 0.19215687, 0.19215687, 0.5058824)
+[node name="ColorRect" type="ColorRect" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -79.0
+offset_right = 72.0
+offset_bottom = 79.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.055555068, 0.055555128, 0.055555113, 0.5058824)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_left = 107.0
-offset_top = 15.0
-offset_right = 177.0
-offset_bottom = 55.0
-text = "Score:"
+[node name="RichTextLabel" type="RichTextLabel" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_top = 10.0
+offset_right = 45.0
+offset_bottom = 57.0
+grow_horizontal = 2
+theme = ExtResource("2_wqhvx")
+text = "Score
+000"
+scroll_active = false
+shortcut_keys_enabled = false
+horizontal_alignment = 1
 
-[node name="Play Again" type="Button" parent="."]
+[node name="PlayAgain" type="Button" parent="GameOverMenu"]
 layout_mode = 0
-offset_left = 38.0
-offset_top = 93.0
-offset_right = 126.0
+offset_left = 74.0
+offset_top = 90.0
+offset_right = 214.0
 offset_bottom = 124.0
-text = "Play Again"
+focus_mode = 0
+theme = ExtResource("2_wqhvx")
+text = "RESTART"
+flat = true
+text_overrun_behavior = 1
 
-[node name="Exit Game" type="Button" parent="."]
-layout_mode = 0
-offset_left = 158.0
-offset_top = 93.0
-offset_right = 245.0
-offset_bottom = 124.0
-text = "Exit Game"
+[node name="ExitGame" type="Button" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -65.5
+offset_top = -42.0
+offset_right = 65.5
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+theme = ExtResource("2_wqhvx")
+text = "EXIT"
+flat = true
+text_overrun_behavior = 1
 
-[connection signal="pressed" from="Play Again" to="." method="_on_play_again_pressed"]
-[connection signal="pressed" from="Exit Game" to="." method="_on_exit_game_pressed"]
+[connection signal="pressed" from="GameOverMenu/PlayAgain" to="." method="_on_play_again_pressed"]
+[connection signal="pressed" from="GameOverMenu/ExitGame" to="." method="_on_exit_game_pressed"]

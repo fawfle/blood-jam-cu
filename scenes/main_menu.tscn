@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cptnjal7cy2ij" path="res://scenes/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://cpy4lcsmn1cxx" path="res://sprites/main_menu.png" id="3_bqqt6"]
+[ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="3_wu84c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ekxnf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ekxnf"]
 atlas = ExtResource("3_bqqt6")
@@ -41,10 +44,15 @@ sprite_frames = SubResource("SpriteFrames_8ln24")
 autoplay = "default"
 frame_progress = 0.42702556
 
-[node name="Button" type="Button" parent="."]
-offset_left = 184.0
+[node name="StartButton" type="Button" parent="."]
+offset_left = 94.0
 offset_top = 40.0
-offset_right = 274.0
+offset_right = 184.0
 offset_bottom = 70.0
+focus_mode = 0
+theme = ExtResource("3_wu84c")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ekxnf")
+text = "START"
+flat = true
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="StartButton" to="." method="_on_button_pressed"]
