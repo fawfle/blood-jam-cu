@@ -26,7 +26,7 @@ var difficulty: float = 0
 ## number of times rooms resized
 var resize_number: int = 0
 ## time it takes to spawn an enemy
-var enemy_spawn_time: float = 2
+var enemy_spawn_time: float = 2.0
 ## amount to vary spawn times by
 var enemy_spawn_time_variation: float = 0.1
 ## at max difficulty, the amount of time it takes to spawn enemy
@@ -38,7 +38,6 @@ var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
 
 @onready var death_sound: AudioStreamPlayer2D = $DeathSound
 @onready var teleport_sound: AudioStreamPlayer2D = $TeleportSound
-@onready var score_tracker: Node = $ScoreTracker
 
 var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
@@ -47,6 +46,8 @@ var shielded_scene: PackedScene = preload("res://scenes/enemies/shielded/shielde
 var janitor_scene: PackedScene = preload("res://scenes/enemies/janitor/janitor.tscn")
 var duck_scene: PackedScene = preload("res://scenes/enemies/duck/duck.tscn")
 var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn")
+
+var table_scene: PackedScene = preload("res://scenes/obstacles/table.tscn")
 
 var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
 
@@ -64,7 +65,7 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
 	EnemyType.SHOOTER: 300,
-	EnemyType.SHIELDED: 50,
+	EnemyType.SHIELDED: 75,
 	EnemyType.JANITOR: 200,
 	EnemyType.DUCK: 20,
 	EnemyType.FLAMER: 100
@@ -88,6 +89,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	handle_fill()
+	if Global.player.dead: return
 	handle_spawning(delta)
 	
 	handle_difficulty()
@@ -99,12 +101,14 @@ func handle_difficulty():
 
 ## amount to scale player blood by. Decreases as more enemies spawn to keep things balanced
 func get_blood_scale() -> float:
-	return min(1, (enemy_spawn_time / max_enemy_spawn_time * 1.4))
+	# print(lerpf(0.2, 1, enemy_spawn_time / max_enemy_spawn_time))
+	return lerpf(0.3, 1, enemy_spawn_time / max_enemy_spawn_time)
+	# return clamp(enemy_spawn_time / max_enemy_spawn_time * 1.4, 0.2, 1)
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
 	# print(fill_ratio)
-	if fill_ratio == null: return
+	if fill_ratio == null or fill_ratio_target == null: return
 	if fill_ratio > fill_ratio_target:
 		resize_room()
 
@@ -142,36 +146,43 @@ func get_random_enemy() -> PackedScene:
 
 func resize_room():
 	resize_number += 1
+	var previous_room_size: Vector2i = Global.room_size
 	Global.room_size *= room_scaling
 	# force room size to be even
 	Global.room_size = Vector2(floor(Global.room_size.x / 2) * 2, floor(Global.room_size.y / 2) * 2)
 	update_walls(Global.room_size, 0.5)
 	Global.room_resized.emit(Global.room_size)
-	score_tracker.expansion_num+=1
+	
+	spawn_obstacles(previous_room_size, Global.room_size)
+
+func spawn_obstacles(previous_room_size: Vector2i, room_size: Vector2i):
+	var spawn_range: Vector2 = (room_size - previous_room_size) / 2 + Vector2i(20, 20)
+	
+	## spawn on left/right. if false, spawn on top/bottom
+	var spawn_horizontal: bool = randf() > 0.5
+	var spawn_position: Vector2
+	
+	print(spawn_range)
+	
+	if spawn_horizontal:
+		spawn_position.x = (previous_room_size.x / 2.0 + spawn_range.x * randf()) * (-1 if randf() > 0.5 else 1)
+		spawn_position.y = room_size.y / 2.0 * randf_range(-1, 1)
+	else:
+		spawn_position.x = room_size.x / 2.0 * randf_range(-1, 1)
+		spawn_position.y = (previous_room_size.y / 2.0 + spawn_range.y * randf()) * (-1 if randf() > 0.5 else 1)
+		
+	var table: StaticBody2D = table_scene.instantiate()
+	add_child(table)
+	table.global_position = spawn_position
+	table.rotation = randf() * PI
 
 const WALL_ANIMATION_TIME = 0.5
 
 func update_walls(room_size: Vector2i, duration: float = 0):
-	#left_wall.global_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
-	#right_wall.global_position = Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0)
-	#top_wall.global_position = Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2)
-	#bottom_wall.global_position = Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2)
 	left_wall.update_to_room_size(room_size, duration)
 	right_wall.update_to_room_size(room_size, duration)
 	top_wall.update_to_room_size(room_size, duration)
 	bottom_wall.update_to_room_size(room_size, duration)
-
-#func update_walls_animated(room_size: Vector2i):
-#	var tween: Tween = create_tween()
-#	tween.set_parallel(true)
-#	tween.tween_property(left_wall, "global_position", Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0), WALL_ANIMATION_TIME)
-#	tween.tween_property(right_wall, "global_position", Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0), WALL_ANIMATION_TIME)
-#	tween.tween_property(top_wall, "global_position", Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2), WALL_ANIMATION_TIME)
-#	tween.tween_property(bottom_wall, "global_position", Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2), WALL_ANIMATION_TIME)
-#	left_wall.update_size(Vector2(WALL_WIDTH, room_size.y), WALL_ANIMATION_TIME)
-#	right_wall.update_size(Vector2(WALL_WIDTH, room_size.y), WALL_ANIMATION_TIME)
-#	top_wall.update_size(Vector2(room_size.x, WALL_WIDTH), WALL_ANIMATION_TIME)
-#	bottom_wall.update_size(Vector2(room_size.x, WALL_WIDTH), WALL_ANIMATION_TIME)
 
 func create_wall(pos: Wall.WallPosition) -> Wall:
 	var wall: Wall = wall_scene.instantiate()
@@ -192,13 +203,8 @@ func _on_death() -> void:
 
 func _enemy_death(enemy: Enemy) -> void:
 	death_sound.play(0.2)
-	score_tracker.enemies_killed += 1
 	# add blood here so we can scale it
 	Global.blood += enemy.blood * get_blood_scale()
-
-
-func _on_score_timer_timeout() -> void:
-	Global.score+=1
 
 const E = 2.71828
 

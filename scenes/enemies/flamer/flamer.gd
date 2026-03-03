@@ -1,7 +1,7 @@
 extends Enemy
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@export var shot_distance: int = 80
+@export var shot_distance: int = 100
 
 @export var rotation_speed: float = 0.5
 
@@ -14,6 +14,10 @@ var flame: Flame
 func start_flaming() -> void:
 	if is_flaming: return
 	is_flaming = true
+	
+	#await get_tree().create_timer(0.2).timeout
+	# if dying: return
+	
 	flame = flame_scene.instantiate()
 	
 	flame_pivot.add_child(flame)

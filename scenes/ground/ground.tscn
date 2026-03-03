@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://l21rcv4eunto" path="res://scenes/ground/ground.gd" id="2_n0mj7"]
 
 [node name="Ground" type="Sprite2D"]
+z_index = -10
 texture_repeat = 2
 texture = ExtResource("1_xmv3o")
 region_enabled = true
@@ -15,4 +16,6 @@ blood_color = Color(0.74509805, 0, 0, 1)
 blood_color_alt = Color(0.7058824, 0, 0, 1)
 
 [node name="Blood" type="Sprite2D" parent="."]
+z_index = -1
+z_as_relative = false
 texture = ExtResource("2_1w6he")

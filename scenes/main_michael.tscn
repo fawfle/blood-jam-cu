@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://560wj2g468yr"]
+[gd_scene load_steps=10 format=3 uid="uid://560wj2g468yr"]
 
 [ext_resource type="Script" uid="uid://cbgkr8obs2pqr" path="res://scenes/main.gd" id="1_cobm1"]
 [ext_resource type="PackedScene" uid="uid://dbxpkx7jsbcf2" path="res://scenes/ground/ground.tscn" id="2_rw1nd"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://dj4th1ovjm1ya" path="res://audio/sounds/freesound_community-breakingneck-106924.mp3" id="6_hdmxr"]
 [ext_resource type="AudioStream" uid="uid://c7ovx7hm4j8i" path="res://audio/sounds/34170__glaneur-de-sons__electric_wire_03.wav" id="7_mmkqt"]
 [ext_resource type="Script" uid="uid://dfrtf3hh6fskd" path="res://scenes/score_tracker.gd" id="8_ec3hr"]
+[ext_resource type="PackedScene" uid="uid://cfkm3747747pj" path="res://scenes/enemies/shooter/shooter.tscn" id="9_rw1nd"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_cobm1")
@@ -48,5 +49,8 @@ script = ExtResource("8_ec3hr")
 
 [node name="Timer" type="Timer" parent="ScoreTracker"]
 autostart = true
+
+[node name="Shooter" parent="." instance=ExtResource("9_rw1nd")]
+position = Vector2(128, 56)
 
 [connection signal="timeout" from="ScoreTracker/Timer" to="ScoreTracker" method="_on_timer_timeout"]

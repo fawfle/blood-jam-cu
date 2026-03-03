@@ -2,9 +2,11 @@ class_name Player extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var eat_collision_shape: CollisionShape2D = $EatArea/CollisionShape2D
 @onready var movement_sound: AudioStreamPlayer2D = $MovementSound
 @onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 @onready var dash_sound: AudioStreamPlayer2D = $DashSound
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
 
 @onready var trail_particles: GPUParticles2D = $TrailParticles
 var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_particles.tscn")
@@ -26,8 +28,10 @@ var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_partic
 @export var blood_scale: float = 10.0
 
 @export var bleed_per_second: float = 5
+@export var bleed_per_second_small: float = 3.0
+@export var small_threshold: float = 3.5
 
-@export var dash_cost: float = 5.0
+@export var dash_cost: float = 2.5
 @export var paint_cost: float = 0.0025
 
 @export var slowdown_per_pixel: float = 0.05
@@ -48,13 +52,20 @@ func _init() -> void:
 
 func _ready() -> void:
 	animated_sprite.play("big_idle")
+	trail_particles.emitting = true
 	Global.out_of_blood.connect(_on_out_of_blood)
 	update_size()
 
 func _physics_process(delta: float) -> void:
-	if dead or SceneManager.transitioning: return
+	if SceneManager.transitioning: return
 	
-	Global.blood -= bleed_per_second * delta
+	if dead:
+		velocity = velocity.move_toward(Vector2.ZERO, move_acceleration * delta)
+		move_and_slide()
+		return
+	
+	if size < small_threshold: Global.blood -= bleed_per_second_small * delta
+	else: Global.blood -= bleed_per_second * delta
 	
 	update_size()
 	
@@ -90,6 +101,7 @@ func update_size():
 	size = min(size, MAX_SIZE)
 	animated_sprite.scale = Vector2.ONE * size * 0.055
 	(collision_shape.shape as CircleShape2D).radius = size
+	(eat_collision_shape.shape as CircleShape2D).radius = max(2, size)
 	trail_particles.position.y = size
 	trail_particles.process_material.emission_box_extents.x = max(1, size - 6)
 	trail_particles.amount_ratio = lerp(0.20, 1.0, size / MAX_SIZE)
@@ -111,7 +123,7 @@ func handle_move(delta):
 	velocity = velocity.move_toward(target_velocity, acceleration * delta)
 	
 	if Input.is_action_just_pressed("dash"):
-		Global.score+=1
+		Global.score += 1
 		dash()
 	
 	var previous_velocity: Vector2 = velocity
@@ -119,7 +131,7 @@ func handle_move(delta):
 	
 	var collision := get_last_slide_collision()
 	if collision != null:
-		# when hitting wall, splatter
+		# when hitting wall, splatter self
 		paint_trail(global_position + (size / 2 * previous_velocity.normalized()), size + previous_velocity.length() / 50)
 		bounce(previous_velocity, collision)
 
@@ -129,6 +141,17 @@ func bounce(previous_velocity: Vector2, collision: KinematicCollision2D):
 	Global.blood -= bounce_cost
 	bounce_sound.play()
 	move_and_slide()
+	try_to_bloody_collider(previous_velocity, collision)
+
+func try_to_bloody_collider(previous_velocity: Vector2, collision: KinematicCollision2D):
+	if collision.get_collider_shape() is SpriteCollisionShape:
+		var shape: SpriteCollisionShape = collision.get_collider_shape() as SpriteCollisionShape
+		
+		var blood_sprite = Sprite2D.new()
+		shape.sprite.add_child(blood_sprite)
+		var radius: float = size + previous_velocity.length() / 50
+		blood_sprite.texture = TextureHelper.create_circle_texture(radius, Global.ground.blood_color, Global.ground.blood_color_alt)
+		blood_sprite.global_position = collision.get_position()
 
 func dash() -> void:
 	# use the last movement input for if player isn't holding a direction
@@ -146,4 +169,8 @@ func play_movement_sound() -> void:
 
 func _on_out_of_blood():
 	dead = true
-	set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+	# collision_shape.disabled = true
+	eat_collision_shape.disabled = true
+	trail_particles.emitting = false
+	death_sound.play(0.2)
+	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)

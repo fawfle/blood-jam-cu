@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqtv3mssg3g3b"]
+
+[ext_resource type="Texture2D" uid="uid://ssme4jtwc0wa" path="res://sprites/enemies/table.png" id="1_qbr7w"]
+[ext_resource type="Script" uid="uid://bgmrxlgmqfe00" path="res://scenes/obstacles/table.gd" id="1_whdjh"]
+[ext_resource type="Script" uid="uid://bpl3ytxrfsjal" path="res://scripts/bloody_collider.gd" id="3_2m5xi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qbr7w"]
+size = Vector2(16.936665, 34.444145)
+
+[node name="Table" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_whdjh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.7764339, 0.7764338, 0.7764338, 1)
+clip_children = 2
+texture = ExtResource("1_qbr7w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." node_paths=PackedStringArray("sprite")]
+position = Vector2(2.6697402, 0.48991776)
+rotation = 0.17453294
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_qbr7w")
+script = ExtResource("3_2m5xi")
+sprite = NodePath("../Sprite2D")

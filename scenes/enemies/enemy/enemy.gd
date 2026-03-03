@@ -2,7 +2,7 @@ class_name Enemy
 
 extends CharacterBody2D
 
-@export var speed: int = 20
+@export var speed: float = 20
 @export var blood: int = 10
 var player = Global.player
 var direction: Vector2 = Vector2.ZERO
@@ -16,7 +16,8 @@ var move_in_direction_timer: float = 0
 var move_in_direction_duration: float = 0.4
 
 @onready var area: Area2D = $Area2D 
-var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
+# var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
+var death_particles_scene: PackedScene = preload("res://scenes/particles/enemy_death_particles.tscn")
 
 var blood_color = Color(0.631, 0.0, 0.0, 1.0)
 
@@ -24,12 +25,12 @@ var dying: bool = false
 
 func _ready() -> void:
 	add_to_group("enemies")
-	area.body_entered.connect(_on_body_entered)
+	area.area_entered.connect(_on_area_entered)
 	_on_ready()
 	
-func _init() -> void:
-	var sound_instance = death_sound.instantiate()
-	add_child(sound_instance)
+#func _init() -> void:
+	#var sound_instance = death_sound.instantiate()
+	#add_child(sound_instance)
 
 ## called on ready but doesn't override
 func _on_ready():
@@ -49,6 +50,7 @@ func _physics_process(delta: float) -> void:
 	if dying: return
 	if panicking:
 		_panic_process(delta)
+		_on_physics_process(delta)
 		return
 	
 	if move_in_direction:
@@ -97,8 +99,8 @@ func move_in_direction_until(duration: float):
 	move_in_direction_timer = duration
 	direction = Vector2.from_angle(randf() * PI * 2)
 
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
+func _on_area_entered(entered_area: Node2D) -> void:
+	if entered_area.is_in_group("player"):
 		remove_from_group("enemies")
 		die()
 
@@ -114,6 +116,10 @@ func die():
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), blood_color, true)
 	#set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
+	
+	var death_particles: GPUParticles2D = death_particles_scene.instantiate()
+	Global.player.add_child(death_particles)
+	death_particles.global_position = global_position
 	
 	queue_free()
 

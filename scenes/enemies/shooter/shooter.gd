@@ -36,7 +36,34 @@ func find_direction() -> void:
 	if is_shooting: velocity = Vector2.ZERO
 
 func choose_animation() -> void:
-	if velocity.y > 0 && velocity.y > velocity.x:
+	var orientation = rad_to_deg(velocity.angle())
+	var player_direction = position.direction_to(player.global_position)
+	if velocity == Vector2.ZERO:
+		if player_direction.x > 0:
+			animated_sprite.flip_h = true
+			animated_sprite.play("shoot")
+		else:
+			animated_sprite.flip_h = false
+			animated_sprite.play("shoot")
+	elif orientation < -15 && orientation > -60:
+		animated_sprite.flip_h = true
+		animated_sprite.play("run_45_up")
+	elif orientation < -105 && orientation > -150:
+		animated_sprite.flip_h = false
+		animated_sprite.play("run_45_up")
+	elif orientation > 105 && orientation < 150:
+		animated_sprite.flip_h = false
+		animated_sprite.play("run_45_down")
+	elif orientation > 15 && orientation < 60:
+		animated_sprite.flip_h = true
+		animated_sprite.play("run_45_down")
+	elif velocity.x > 0 && velocity.x > velocity.y:
+		animated_sprite.flip_h = false
+		animated_sprite.play("run_side")
+	elif velocity.x < 0 && velocity.x > velocity.y:
+		animated_sprite.flip_h = true
+		animated_sprite.play("run_side")
+	elif velocity.y > 0 && velocity.y > velocity.x:
 		animated_sprite.play("run_down")
 	elif velocity.y < 0 && velocity.y > velocity.x:
 		animated_sprite.play("run_up")
