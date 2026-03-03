@@ -19,10 +19,11 @@ func _ready() -> void:
 	high_score = data.high_score
 	player_name = data.player_name
 
-func save_high_score(new_high_score: int):
-	if high_score >= new_high_score: return
+func save_high_score(new_high_score: int) -> bool:
+	if high_score >= new_high_score: return false
 	high_score = new_high_score
 	save_data()
+	return true
 
 func save_data():
 	var save_file = FileAccess.open("user://savegame.save", FileAccess.WRITE)

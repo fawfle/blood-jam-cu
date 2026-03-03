@@ -4,6 +4,8 @@ extends CanvasLayer
 
 func _ready() -> void:
 	score_label.text = "Score\n" + str(Global.score)
+	var updated: bool = Save.save_high_score(Global.score)
+	if updated: Supabase.submit_score(Save.uuid, Global.score, "player name")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("reset"):

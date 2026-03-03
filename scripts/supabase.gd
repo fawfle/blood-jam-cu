@@ -54,7 +54,14 @@ func _submit_score_async(json_body: String) -> void:
 	add_child(http_request)
 	
 	http_request.request_completed.connect(_handle_submit_score_request)
-	http_request.request(LEADERBOARD_REQUEST, [], HTTPClient.METHOD_POST, json_body)
+	
+	var headers = [
+		"Content-Type: application/json",
+		"Accept: application/json",
+        "Prefer: resolution=merge-duplicates"
+	]
+	
+	http_request.request(LEADERBOARD_REQUEST, headers, HTTPClient.METHOD_POST, json_body)
 
 func _handle_submit_score_request(_result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	if not response_code in [200, 201]:

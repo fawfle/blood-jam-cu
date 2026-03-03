@@ -65,7 +65,7 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
 	EnemyType.SHOOTER: 300,
-	EnemyType.SHIELDED: 9075,
+	EnemyType.SHIELDED: 75,
 	EnemyType.JANITOR: 200,
 	EnemyType.DUCK: 20,
 	EnemyType.FLAMER: 100
@@ -174,7 +174,7 @@ func spawn_obstacles(previous_room_size: Vector2i, room_size: Vector2i):
 	var table: StaticBody2D = table_scene.instantiate()
 	add_child(table)
 	table.global_position = spawn_position
-	table.rotation = randf() * PI * 2
+	table.rotation = randf() * PI
 
 const WALL_ANIMATION_TIME = 0.5
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://c0xl0mbw34dfe"]
+[gd_scene load_steps=41 format=3 uid="uid://c0xl0mbw34dfe"]
 
 [ext_resource type="Script" uid="uid://bf7y8ggmj0n0g" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cwd0l46eux6pu" path="res://sprites/player-mid-idle.png" id="2_gmlin"]
@@ -237,6 +237,9 @@ scale_min = 0.5
 color = Color(0.85490197, 0, 0, 1)
 anim_speed_max = 10.56
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_h17s1"]
+radius = 9.0
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 5
 collision_mask = 10
@@ -272,3 +275,9 @@ randomness = 1.0
 fixed_fps = 0
 draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_h17s1")
+
+[node name="EatArea" type="Area2D" parent="." groups=["player"]]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatArea"]
+shape = SubResource("CircleShape2D_h17s1")

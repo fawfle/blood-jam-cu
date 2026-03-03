@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var eat_collision_shape: CollisionShape2D = $EatArea/CollisionShape2D
 @onready var movement_sound: AudioStreamPlayer2D = $MovementSound
 @onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 @onready var dash_sound: AudioStreamPlayer2D = $DashSound
@@ -26,10 +27,10 @@ var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_partic
 @export var blood_scale: float = 10.0
 
 @export var bleed_per_second: float = 5
-@export var bleed_per_second_small: float = 3.5
+@export var bleed_per_second_small: float = 3.0
 @export var small_threshold: float = 3.5
 
-@export var dash_cost: float = 3.5
+@export var dash_cost: float = 2.5
 @export var paint_cost: float = 0.0025
 
 @export var slowdown_per_pixel: float = 0.05
@@ -62,7 +63,7 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 	
-	if size < small_threshold: Global.blood -= bleed_per_second_small
+	if size < small_threshold: Global.blood -= bleed_per_second_small * delta
 	else: Global.blood -= bleed_per_second * delta
 	
 	update_size()
@@ -99,6 +100,7 @@ func update_size():
 	size = min(size, MAX_SIZE)
 	animated_sprite.scale = Vector2.ONE * size * 0.055
 	(collision_shape.shape as CircleShape2D).radius = size
+	(eat_collision_shape.shape as CircleShape2D).radius = max(2, size)
 	trail_particles.position.y = size
 	trail_particles.process_material.emission_box_extents.x = max(1, size - 6)
 	trail_particles.amount_ratio = lerp(0.20, 1.0, size / MAX_SIZE)
