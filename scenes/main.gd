@@ -63,8 +63,8 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 
 ## map types to spawn rates
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
-	EnemyType.FODDER: 100,
-	EnemyType.SHOOTER: 300,
+	EnemyType.FODDER: 200,
+	EnemyType.SHOOTER: 200,
 	EnemyType.SHIELDED: 75,
 	EnemyType.JANITOR: 200,
 	EnemyType.DUCK: 20,
