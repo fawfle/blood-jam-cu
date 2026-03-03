@@ -266,6 +266,7 @@ stream = ExtResource("7_0owmy")
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_je7p5")
+volume_db = 24.0
 
 [node name="TrailParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 9)

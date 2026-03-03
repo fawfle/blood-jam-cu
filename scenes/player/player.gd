@@ -6,6 +6,7 @@ class_name Player extends CharacterBody2D
 @onready var movement_sound: AudioStreamPlayer2D = $MovementSound
 @onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 @onready var dash_sound: AudioStreamPlayer2D = $DashSound
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
 
 @onready var trail_particles: GPUParticles2D = $TrailParticles
 var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_particles.tscn")
@@ -171,4 +172,5 @@ func _on_out_of_blood():
 	# collision_shape.disabled = true
 	eat_collision_shape.disabled = true
 	trail_particles.emitting = false
+	death_sound.play(0.2)
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)

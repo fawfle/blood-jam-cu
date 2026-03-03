@@ -221,8 +221,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cj74j"]
-radius = 2.0
-height = 18.0
+radius = 6.0
+height = 22.0
 
 [node name="Shooter" type="CharacterBody2D"]
 collision_layer = 4
