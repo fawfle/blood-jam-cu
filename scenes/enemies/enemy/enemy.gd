@@ -2,7 +2,7 @@ class_name Enemy
 
 extends CharacterBody2D
 
-@export var speed: int = 20
+@export var speed: float = 20
 @export var blood: int = 10
 var player = Global.player
 var direction: Vector2 = Vector2.ZERO
@@ -25,7 +25,7 @@ var dying: bool = false
 
 func _ready() -> void:
 	add_to_group("enemies")
-	area.body_entered.connect(_on_body_entered)
+	area.area_entered.connect(_on_area_entered)
 	_on_ready()
 	
 #func _init() -> void:
@@ -50,6 +50,7 @@ func _physics_process(delta: float) -> void:
 	if dying: return
 	if panicking:
 		_panic_process(delta)
+		_on_physics_process(delta)
 		return
 	
 	if move_in_direction:
@@ -98,8 +99,8 @@ func move_in_direction_until(duration: float):
 	move_in_direction_timer = duration
 	direction = Vector2.from_angle(randf() * PI * 2)
 
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
+func _on_area_entered(entered_area: Node2D) -> void:
+	if entered_area.is_in_group("player"):
 		remove_from_group("enemies")
 		die()
 

@@ -168,6 +168,7 @@ func play_movement_sound() -> void:
 
 func _on_out_of_blood():
 	dead = true
-	collision_shape.disabled = true
+	# collision_shape.disabled = true
+	eat_collision_shape.disabled = true
 	trail_particles.emitting = false
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
