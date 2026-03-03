@@ -11,7 +11,7 @@ var distance_target
 
 var distIndex = 0;
 
-const DISTANCE_TOLERANCE: float = 0.1
+const DISTANCE_TOLERANCE: float = 5
 
 func _on_ready():
 	change_distance()
@@ -36,6 +36,8 @@ func find_direction() -> void:
 	var distance: float = enemy_position.distance_to(player_position)
 	# if player too close, go away from player otherwise go towards 
 	if abs(distance - distance_target) < DISTANCE_TOLERANCE:
+		direction = Vector2.ZERO
+	elif distance > distance_target:
 		direction = enemy_position.direction_to(player_position)
 	else:
 		direction = -enemy_position.direction_to(player_position)

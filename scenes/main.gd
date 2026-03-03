@@ -38,7 +38,6 @@ var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
 
 @onready var death_sound: AudioStreamPlayer2D = $DeathSound
 @onready var teleport_sound: AudioStreamPlayer2D = $TeleportSound
-@onready var score_tracker: Node = $ScoreTracker
 
 var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
@@ -66,7 +65,7 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.FODDER: 100,
 	EnemyType.SHOOTER: 300,
-	EnemyType.SHIELDED: 75,
+	EnemyType.SHIELDED: 9075,
 	EnemyType.JANITOR: 200,
 	EnemyType.DUCK: 20,
 	EnemyType.FLAMER: 100
@@ -102,7 +101,9 @@ func handle_difficulty():
 
 ## amount to scale player blood by. Decreases as more enemies spawn to keep things balanced
 func get_blood_scale() -> float:
-	return clamp(enemy_spawn_time / max_enemy_spawn_time * 1.4, 0.2, 1)
+	# print(lerpf(0.2, 1, enemy_spawn_time / max_enemy_spawn_time))
+	return lerpf(0.3, 1, enemy_spawn_time / max_enemy_spawn_time)
+	# return clamp(enemy_spawn_time / max_enemy_spawn_time * 1.4, 0.2, 1)
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
@@ -151,23 +152,24 @@ func resize_room():
 	Global.room_size = Vector2(floor(Global.room_size.x / 2) * 2, floor(Global.room_size.y / 2) * 2)
 	update_walls(Global.room_size, 0.5)
 	Global.room_resized.emit(Global.room_size)
-	score_tracker.expansion_num += 1
 	
 	spawn_obstacles(previous_room_size, Global.room_size)
 
 func spawn_obstacles(previous_room_size: Vector2i, room_size: Vector2i):
-	var spawn_range: Vector2 = previous_room_size - room_size
+	var spawn_range: Vector2 = (room_size - previous_room_size) / 2 + Vector2i(20, 20)
 	
 	## spawn on left/right. if false, spawn on top/bottom
 	var spawn_horizontal: bool = randf() > 0.5
 	var spawn_position: Vector2
 	
+	print(spawn_range)
+	
 	if spawn_horizontal:
-		spawn_position.x = (previous_room_size.x + spawn_range.x * randf()) * (-1 if randf() > 0.5 else 1)
+		spawn_position.x = (previous_room_size.x / 2.0 + spawn_range.x * randf()) * (-1 if randf() > 0.5 else 1)
 		spawn_position.y = room_size.y / 2.0 * randf_range(-1, 1)
 	else:
 		spawn_position.x = room_size.x / 2.0 * randf_range(-1, 1)
-		spawn_position.y = (previous_room_size.y + spawn_range.y * randf()) * (-1 if randf() > 0.5 else 1)
+		spawn_position.y = (previous_room_size.y / 2.0 + spawn_range.y * randf()) * (-1 if randf() > 0.5 else 1)
 		
 	var table: StaticBody2D = table_scene.instantiate()
 	add_child(table)
@@ -201,13 +203,8 @@ func _on_death() -> void:
 
 func _enemy_death(enemy: Enemy) -> void:
 	death_sound.play(0.2)
-	score_tracker.enemies_killed += 1
 	# add blood here so we can scale it
 	Global.blood += enemy.blood * get_blood_scale()
-
-
-func _on_score_timer_timeout() -> void:
-	Global.score+=1
 
 const E = 2.71828
 

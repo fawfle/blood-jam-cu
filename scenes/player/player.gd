@@ -26,8 +26,10 @@ var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_partic
 @export var blood_scale: float = 10.0
 
 @export var bleed_per_second: float = 5
+@export var bleed_per_second_small: float = 3.5
+@export var small_threshold: float = 3.5
 
-@export var dash_cost: float = 5.0
+@export var dash_cost: float = 3.5
 @export var paint_cost: float = 0.0025
 
 @export var slowdown_per_pixel: float = 0.05
@@ -53,9 +55,15 @@ func _ready() -> void:
 	update_size()
 
 func _physics_process(delta: float) -> void:
-	if dead or SceneManager.transitioning: return
+	if SceneManager.transitioning: return
 	
-	Global.blood -= bleed_per_second * delta
+	if dead:
+		velocity = velocity.move_toward(Vector2.ZERO, move_acceleration * delta)
+		move_and_slide()
+		return
+	
+	if size < small_threshold: Global.blood -= bleed_per_second_small
+	else: Global.blood -= bleed_per_second * delta
 	
 	update_size()
 	
@@ -112,7 +120,7 @@ func handle_move(delta):
 	velocity = velocity.move_toward(target_velocity, acceleration * delta)
 	
 	if Input.is_action_just_pressed("dash"):
-		Global.score+=1
+		Global.score += 1
 		dash()
 	
 	var previous_velocity: Vector2 = velocity
@@ -158,4 +166,6 @@ func play_movement_sound() -> void:
 
 func _on_out_of_blood():
 	dead = true
-	set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+	collision_shape.disabled = true
+	trail_particles.emitting = false
+	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)

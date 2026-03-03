@@ -48,9 +48,6 @@ max_polyphony = 20
 [node name="ScoreTracker" type="Node" parent="."]
 script = ExtResource("8_tipki")
 
-[node name="Timer" type="Timer" parent="ScoreTracker"]
-autostart = true
-
 [node name="Indicators" type="Node2D" parent="."]
 z_index = -3
 
@@ -61,5 +58,3 @@ texture = ExtResource("9_85g3d")
 [node name="Dash" type="Sprite2D" parent="Indicators"]
 position = Vector2(89, -7)
 texture = ExtResource("10_choun")
-
-[connection signal="timeout" from="ScoreTracker/Timer" to="ScoreTracker" method="_on_timer_timeout"]
