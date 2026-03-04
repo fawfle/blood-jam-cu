@@ -3,7 +3,7 @@ extends Node
 var blood: float = 100
 var start_blood: float = blood
 
-var room_size: Vector2i = Vector2i(288 - 10, 162 - 10):
+var room_size: Vector2i = Vector2i(288 - 10 + 4, 162 - 10 + 4):
 	get: return room_size
 	set(value):
 		room_size = value

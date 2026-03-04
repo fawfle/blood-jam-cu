@@ -61,3 +61,5 @@ func handle_command(command: String):
 	elif input_command.begins_with("g"):
 		Global.player.collision_shape.disabled = true
 		Global.player.bleed_per_second = 0
+		Global.player.bleed_per_second_small = 0
+		Global.player.dash_cost = 0

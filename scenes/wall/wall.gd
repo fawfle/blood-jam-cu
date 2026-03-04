@@ -17,6 +17,7 @@ enum WallPosition {
 const BACKGROUND_SIZE: float = 20
 const BACKGROUND_PADDING: float = 20
 const WALL_WIDTH: float = 1
+const WALL_PADDING: float = -2
 
 func set_wall_position(pos: Wall.WallPosition):
 	wall_position = pos
@@ -32,9 +33,9 @@ func set_wall_position(pos: Wall.WallPosition):
 			background.position = Vector2(0, BACKGROUND_SIZE / 2)
 
 func update_to_room_size(room_size, duration: float = 0):	
-	var size: Vector2 = Vector2(room_size.x, WALL_WIDTH)
+	var size: Vector2 = Vector2(room_size.x + WALL_PADDING * 2, WALL_WIDTH)
 	if wall_position == WallPosition.LEFT or wall_position == WallPosition.RIGHT:
-		size = Vector2(WALL_WIDTH, room_size.y)
+		size = Vector2(WALL_WIDTH, room_size.y + WALL_PADDING * 2)
 	
 	var rectangle_shape: RectangleShape2D = RectangleShape2D.new()
 	rectangle_shape.size = size
@@ -47,16 +48,16 @@ func update_to_room_size(room_size, duration: float = 0):
 	# yeah this is bad, but idc
 	match(wall_position):
 		WallPosition.LEFT:
-			target_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2, 0)
+			target_position = Vector2(-room_size.x / 2.0 + WALL_WIDTH / 2 - WALL_PADDING, 0)
 			background_rect_size = Vector2(BACKGROUND_SIZE, room_size.y + BACKGROUND_PADDING)
 		WallPosition.RIGHT:
-			target_position = Vector2(room_size.x / 2.0 - WALL_WIDTH / 2, 0)
+			target_position = Vector2(room_size.x / 2.0 - WALL_WIDTH / 2 + WALL_PADDING, 0)
 			background_rect_size = Vector2(BACKGROUND_SIZE, room_size.y + BACKGROUND_PADDING)
 		WallPosition.TOP:
-			target_position = Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2)
+			target_position = Vector2(0, -room_size.y / 2.0 + WALL_WIDTH / 2 - WALL_PADDING)
 			background_rect_size = Vector2(room_size.x + BACKGROUND_PADDING, BACKGROUND_SIZE)
 		WallPosition.BOTTOM:
-			target_position = Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2)
+			target_position = Vector2(0, room_size.y / 2.0 - WALL_WIDTH / 2 + WALL_PADDING)
 			background_rect_size = Vector2(room_size.x + BACKGROUND_PADDING, BACKGROUND_SIZE)
 	
 	background.region_rect = Rect2(Vector2.ZERO, background_rect_size)
