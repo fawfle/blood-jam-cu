@@ -63,15 +63,15 @@ func choose_animation() -> void:
 	elif orientation > 15 && orientation < 60:
 		animated_sprite.flip_h = true
 		animated_sprite.play("run_45_down")
-	elif velocity.x > 0 && velocity.x > velocity.y:
+	elif velocity.x > 0 && abs(velocity.x) > abs(velocity.y):
 		animated_sprite.flip_h = true
 		animated_sprite.play("run_side")
-	elif velocity.x < 0 && velocity.x > velocity.y:
+	elif velocity.x < 0 && abs(velocity.x) > abs(velocity.y):
 		animated_sprite.flip_h = false
 		animated_sprite.play("run_side")
-	elif velocity.y > 0 && velocity.y > velocity.x:
+	elif velocity.y > 0 && abs(velocity.y) > abs(velocity.x):
 		animated_sprite.play("run_down")
-	elif velocity.y < 0 && velocity.y > velocity.x:
+	elif velocity.y < 0 && abs(velocity.y) > abs(velocity.x):
 		animated_sprite.play("run_up")
 
 func find_direction() -> void:
@@ -81,18 +81,3 @@ func find_direction() -> void:
 	else:
 		start_flaming()
 		direction = Vector2.from_angle(get_angle_to((flame.global_position)))
-		
-func die():
-	dying = true
-	set_shields(false)
-	await move_towards_player()
-	if not dying:
-		set_shields(true)
-		return
-	Global.blood += blood
-	Global.enemy_eaten.emit(self)
-	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
-	if Global.ground: Global.ground.paint_circle_color(global_position, randi_range(6,6), blood_color, true)
-	#set_deferred("process_mode", Node.PROCESS_MODE_INHERIT)
-	if flame: flame.queue_free()
-	queue_free()

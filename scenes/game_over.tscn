@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d1r2xkgvn61wr"]
+[gd_scene load_steps=4 format=3 uid="uid://d1r2xkgvn61wr"]
 
 [ext_resource type="Script" uid="uid://n8v6sms1tk5e" path="res://scenes/game_over.gd" id="1_xeevv"]
+[ext_resource type="Texture2D" uid="uid://dg20lqd5gwx7o" path="res://sprites/ui/panel.png" id="2_tbwuq"]
 [ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="2_wqhvx"]
 
 [node name="GameOver" type="CanvasLayer"]
@@ -15,7 +16,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="GameOverMenu"]
+[node name="Panel" type="NinePatchRect" parent="GameOverMenu"]
+self_modulate = Color(0.18431373, 0.18431373, 0.18431373, 0.49019608)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -28,7 +30,11 @@ offset_right = 72.0
 offset_bottom = 79.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.055555068, 0.055555128, 0.055555113, 0.5058824)
+texture = ExtResource("2_tbwuq")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="GameOverMenu"]
 layout_mode = 1

@@ -23,11 +23,13 @@ SceneManager="*res://scripts/scene_manager.gd"
 MusicManager="*res://scenes/music/music_manager.tscn"
 Supabase="*res://scripts/supabase.gd"
 Save="*res://scripts/save.gd"
+Leaderboard="*res://scenes/ui/leaderboard/leaderboard.tscn"
 
 [display]
 
 window/size/viewport_width=288
 window/size/viewport_height=162
+window/size/always_on_top=true
 window/stretch/mode="viewport"
 window/stretch/scale=1.19
 window/stretch/scale_mode="integer"

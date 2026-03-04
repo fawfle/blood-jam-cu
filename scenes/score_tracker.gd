@@ -9,7 +9,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	@warning_ignore("integer_division")
-	Global.score = enemies_killed * 10 + int(pow(10 * expansion_num, 2)) + int(Global.game_time / 1000) * 2 + Global.ground.filled_pixels/1000
+	Global.score = enemies_killed * 1 + int(pow(10 * expansion_num, 2)) + int(Global.game_time / 1000) + Global.ground.filled_pixels/100
 
 func _on_enemy_death(_enemy: Enemy):
 	enemies_killed += 1

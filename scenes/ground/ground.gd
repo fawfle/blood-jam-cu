@@ -58,7 +58,7 @@ func resize_room(new_size: Vector2i):
 	# blood_texture.draw_rect(blood_texture, Rect2(1, 1, 1, 1), false)
 
 func get_fill_ratio() -> float:
-	return (float)(filled_pixels) / (float)(Global.room_size.x * Global.room_size.y)
+	return (float)(filled_pixels) / Global.room_size_pixels
 
 func paint_circle(circle_pos: Vector2i, radius: int) -> int:
 	return paint_circle_helper(circle_pos, radius, paint_pixel)

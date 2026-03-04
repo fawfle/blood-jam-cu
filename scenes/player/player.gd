@@ -28,7 +28,7 @@ var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_partic
 @export var blood_scale: float = 10.0
 
 @export var bleed_per_second: float = 5
-@export var bleed_per_second_small: float = 3.0
+@export var bleed_per_second_small: float = 3.5
 @export var small_threshold: float = 3.5
 
 @export var dash_cost: float = 2.5

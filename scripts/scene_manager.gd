@@ -16,6 +16,8 @@ var wipe_in_target: float = -85
 ## offset to complete wipe out
 var wipe_out_target: float = -85 + 300
 
+signal scene_changed()
+
 func _ready() -> void:
 	blood_wipe = blood_wipe_scene.instantiate()
 	add_child(blood_wipe)
@@ -35,6 +37,7 @@ func load_scene(scene: PackedScene):
 		Global.reset_game()
 	
 	get_tree().change_scene_to_packed(scene)
+	scene_changed.emit()
 	
 	await wipe_out()
 	

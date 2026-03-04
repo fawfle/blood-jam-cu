@@ -3,8 +3,15 @@ extends Node
 var blood: float = 100
 var start_blood: float = blood
 
-var room_size: Vector2i = Vector2i(288 - 10, 162 - 10)
+var room_size: Vector2i = Vector2i(288 - 10, 162 - 10):
+	get: return room_size
+	set(value):
+		room_size = value
+		room_size_pixels = value.x * value.y
 var start_room_size: Vector2i = room_size
+
+## amount of pixels in room
+var room_size_pixels: float = room_size.x * room_size.y
 
 var player: Player
 var ground: Ground

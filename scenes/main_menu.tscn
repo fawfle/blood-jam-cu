@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cg8xtskymm6cr"]
+[gd_scene load_steps=10 format=3 uid="uid://cg8xtskymm6cr"]
 
 [ext_resource type="Script" uid="uid://cptnjal7cy2ij" path="res://scenes/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="Texture2D" uid="uid://cpy4lcsmn1cxx" path="res://sprites/main_menu.png" id="3_bqqt6"]
 [ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="3_wu84c"]
+[ext_resource type="Texture2D" uid="uid://dw7vhug0yxake" path="res://sprites/ui/trophy.png" id="4_wu84c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ekxnf"]
 atlas = ExtResource("3_bqqt6")
@@ -55,4 +56,14 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_ekxnf")
 text = "START"
 flat = true
 
+[node name="LeaderboardButton" type="TextureButton" parent="."]
+offset_left = 267.0
+offset_top = 142.0
+offset_right = 283.0
+offset_bottom = 158.0
+focus_mode = 0
+theme = ExtResource("3_wu84c")
+texture_normal = ExtResource("4_wu84c")
+
 [connection signal="pressed" from="StartButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="LeaderboardButton" to="." method="_on_leaderboard_button_pressed"]

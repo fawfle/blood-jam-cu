@@ -40,13 +40,24 @@ func handle_command(command: String):
 	
 	if input_command.begins_with("b"):
 		Global.blood += int(input_num)
-	if input_command.begins_with("br"):
+	elif input_command.begins_with("br"):
 		Global.blood = int(input_num)
-	if input_command.begins_with("r"):
+	elif input_command.begins_with("r"):
 		Global.main.resize_room()
-	if input_command.begins_with("s"):
-		Global.main.enemy_spawn_time = 0.2
-	if input_command.begins_with("k"):
+	#elif input_command.begins_with("s"):
+	#	Global.main.enemy_spawn_time = 0.2
+	elif input_command.begins_with("k"):
 		Global.out_of_blood.emit()
-	if input_command.begins_with("j"):
-		Global.main.enemy_spawn_rates[Main.EnemyType.JANITOR] = 10000
+	elif input_command.begins_with("s"):
+		match(input_command.substr(1)):
+			"f": Global.main.enemy_spawn_rates[Main.EnemyType.FODDER] = 10000
+			"s": Global.main.enemy_spawn_rates[Main.EnemyType.SHOOTER] = 10000
+			"sh": Global.main.enemy_spawn_rates[Main.EnemyType.SHIELDED] = 10000
+			"j": Global.main.enemy_spawn_rates[Main.EnemyType.JANITOR] = 10000
+			"fl": Global.main.enemy_spawn_rates[Main.EnemyType.FLAMER] = 10000
+			"d": Global.main.enemy_spawn_rates[Main.EnemyType.DUCK] = 10000
+	elif input_command.begins_with("deletesave"):
+		Save.delete_save()
+	elif input_command.begins_with("g"):
+		Global.player.collision_shape.disabled = true
+		Global.player.bleed_per_second = 0

@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://gg4nwdepjqwq"]
+[gd_scene load_steps=15 format=3 uid="uid://gg4nwdepjqwq"]
 
 [ext_resource type="Script" uid="uid://cxbvayshwwwc2" path="res://scenes/enemies/flame/flame.gd" id="1_wsa0b"]
 [ext_resource type="Texture2D" uid="uid://dofefjnoq41y8" path="res://sprites/enemies/flame/flame-fireconstant.png" id="2_lkwsg"]
 [ext_resource type="Texture2D" uid="uid://c2o1ii6leffcf" path="res://sprites/enemies/flame/flame-firestart.png" id="3_ysxqd"]
+[ext_resource type="AudioStream" uid="uid://dssq81hd877lk" path="res://audio/sounds/flamethrower_396890__pugaeme.wav" id="4_ysxqd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2p2we"]
 atlas = ExtResource("2_lkwsg")
@@ -82,6 +83,7 @@ collision_layer = 0
 script = ExtResource("1_wsa0b")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_6fst6")
 animation = &"fire_last"
 
@@ -89,6 +91,10 @@ animation = &"fire_last"
 position = Vector2(-1, 0)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_pwxdy")
+
+[node name="FlameSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ysxqd")
+autoplay = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

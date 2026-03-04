@@ -58,6 +58,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		find_direction()
 	
+	_on_physics_process(delta)
 	choose_animation()
 	velocity = direction * speed
 	move_and_slide()
@@ -65,8 +66,6 @@ func _physics_process(delta: float) -> void:
 	var collision := get_last_slide_collision()
 	if collision:
 		start_panicking()
-	
-	_on_physics_process(delta)
 
 func _panic_process(delta: float) -> void:
 	_panic_timer -= delta
@@ -107,10 +106,10 @@ func _on_area_entered(entered_area: Node2D) -> void:
 func die():
 	dying = true
 	set_shields(false)
-	await move_towards_player()
-	if not dying:
-		set_shields(true)
-		return
+	#await move_towards_player()
+	#if not dying:
+	#	set_shields(true)
+	#	return
 	## blood and stuff gets handled here
 	Global.enemy_eaten.emit(self)
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
@@ -123,18 +122,18 @@ func die():
 	
 	queue_free()
 
-## played on death
-func move_towards_player() -> void:
-	var move_toward_speed = 600.0
-	
-	while global_position.distance_to(Global.player.global_position) > max(Global.player.size - 1, 4):
-		var speed_delta: float = move_toward_speed * get_physics_process_delta_time()
-		move_toward_speed *= 1.5
-		position = global_position.move_toward(Global.player.global_position, speed_delta)
-		await get_tree().physics_frame
-		if global_position.distance_to(Global.player.global_position) > Global.player.size + 4:
-			dying = false
-			break
+## played on death. UNUSED now
+#func move_towards_player() -> void:
+#	var move_toward_speed = 600.0
+#	
+#	while global_position.distance_to(Global.player.global_position) > max(Global.player.size - 1, 4):
+#		var speed_delta: float = move_toward_speed * get_physics_process_delta_time()
+#		move_toward_speed *= 1.5
+#		position = global_position.move_toward(Global.player.global_position, speed_delta)
+#		await get_tree().physics_frame
+#		if global_position.distance_to(Global.player.global_position) > Global.player.size + 4:
+#			dying = false
+#			break
 	
 
 func set_shields(enabled: bool):

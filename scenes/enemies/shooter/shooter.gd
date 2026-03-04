@@ -69,6 +69,7 @@ func choose_animation() -> void:
 		animated_sprite.play("run_up")
 
 func _on_timer_timeout() -> void:
+	if Global.player.dead: return
 	animated_sprite.play("shoot")
 	shoot()
 

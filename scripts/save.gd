@@ -2,7 +2,7 @@ extends Node
 
 var uuid: String
 var high_score: int = 0
-var player_name: String = "username"
+var player_name: String
 
 func _ready() -> void:
 	var save_file = FileAccess.open("user://savegame.save", FileAccess.READ)
@@ -37,6 +37,7 @@ func save_data():
 
 func create_new_save():
 	uuid = UUID.uuid4()
+	player_name = "player"
 	print(uuid)
 
 func delete_save():

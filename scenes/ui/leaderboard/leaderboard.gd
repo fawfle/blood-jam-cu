@@ -1,0 +1,49 @@
+extends CanvasLayer
+
+var current_data: Array = []
+
+@onready var close_button: TextureButton = $Panel/Close
+@onready var leaderboard_container: VBoxContainer = $Panel/ScrollContainer/VBoxContainer
+
+var leaderboard_entry_scene: PackedScene = preload("res://scenes/ui/leaderboard/leaderboard_entry.tscn")
+
+const MAX_USERNAME_LENGTH: int = 15
+
+func _ready() -> void:
+	visible = false
+	Supabase.leaderboard_fetched.connect(update_with_leaderboard_data)
+	
+	# update_with_leaderboard_data(Supabase.current_leaderboard)
+	visibility_changed.connect(_on_visibility_changed)
+	
+	close_button.pressed.connect(hide_window)
+	SceneManager.scene_changed.connect(hide_window)
+
+func _on_visibility_changed():
+	if visible:
+		Supabase.get_leaderboard()
+
+func update_with_leaderboard_data(leaderboard_data: Array):
+	clear_leaderboard()
+	# print(leaderboard_data)
+	for i in range(len(leaderboard_data)):
+		var data = leaderboard_data[i]
+		var entry: LeaderboardEntry = add_leaderboard_entry(i, data)
+		if data.id == Save.uuid:
+			entry.highlight()
+
+func clear_leaderboard():
+	for child in leaderboard_container.get_children():
+		child.queue_free()
+
+func add_leaderboard_entry(index: int, data) -> LeaderboardEntry:
+	var leaderboard_entry: LeaderboardEntry = leaderboard_entry_scene.instantiate()
+	leaderboard_container.add_child(leaderboard_entry)
+	leaderboard_entry.load_data(index, data)
+	return leaderboard_entry
+
+func hide_window():
+	visible = false
+
+func show_window():
+	visible = true
