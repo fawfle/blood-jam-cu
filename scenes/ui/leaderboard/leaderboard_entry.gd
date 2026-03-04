@@ -13,4 +13,5 @@ func load_data(index: int, data):
 
 func highlight():
 	place_label.modulate = highlighted_color
+	name_label.modulate = highlighted_color
 	score_label.modulate = highlighted_color
