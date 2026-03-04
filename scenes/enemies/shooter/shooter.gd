@@ -1,5 +1,7 @@
 class_name Shooter extends Enemy
 
+# time to wait before shooting
+@export var shoot_time: float = 0.25
 # minimum distance away from player shooter enemy needs to be
 @export var distance_target: int = 120
 var projectile_scene: PackedScene = preload("res://scenes/enemies/projectile/projectile.tscn")
@@ -13,6 +15,9 @@ var is_shooting = false
 
 func shoot() -> void:
 	is_shooting = true
+	move_in_direction = false
+	panicking = false
+	await get_tree().create_timer(shoot_time).timeout
 	var projectile: Area2D = projectile_scene.instantiate()
 	projectile.direction = position.direction_to(player.global_position)
 	projectile.global_position = global_position
@@ -33,19 +38,21 @@ func find_direction() -> void:
 		direction = global_position.direction_to(player_position)
 	else:
 		direction = Vector2.ZERO
-	if is_shooting: velocity = Vector2.ZERO
+	
+	if is_shooting: direction = Vector2.ZERO
 
 func choose_animation() -> void:
-	var orientation = rad_to_deg(velocity.angle())
+	
 	var player_direction = position.direction_to(player.global_position)
-	if velocity == Vector2.ZERO:
-		if player_direction.x > 0:
-			animated_sprite.flip_h = true
-			animated_sprite.play("shoot")
-		else:
-			animated_sprite.flip_h = false
-			animated_sprite.play("shoot")
-	elif orientation < -15 && orientation > -60:
+	
+	var look_direction: Vector2 = velocity
+	if is_shooting:
+		look_direction = player_direction
+	var orientation = rad_to_deg(look_direction.angle())
+	
+	animated_sprite.speed_scale = 1 if not is_shooting else 0
+	
+	if orientation < -15 && orientation > -60:
 		animated_sprite.flip_h = true
 		animated_sprite.play("run_45_up")
 	elif orientation < -105 && orientation > -150:
@@ -57,24 +64,22 @@ func choose_animation() -> void:
 	elif orientation > 15 && orientation < 60:
 		animated_sprite.flip_h = true
 		animated_sprite.play("run_45_down")
-	elif velocity.x > 0 && velocity.x > velocity.y:
-		animated_sprite.flip_h = false
-		animated_sprite.play("run_side")
-	elif velocity.x < 0 && velocity.x > velocity.y:
-		animated_sprite.flip_h = true
-		animated_sprite.play("run_side")
-	elif velocity.y > 0 && velocity.y > velocity.x:
+	elif abs(look_direction.x) > abs(look_direction.y):
+		animated_sprite.flip_h = look_direction.x > 0
+		if is_shooting:
+			animated_sprite.play("shoot")
+		else:
+			animated_sprite.play("run_side")
+	elif look_direction.y > 0 && abs(look_direction.y) > abs(look_direction.x):
 		animated_sprite.play("run_down")
-	elif velocity.y < 0 && velocity.y > velocity.x:
+	elif look_direction.y < 0 && abs(look_direction.y) > abs(look_direction.x):
 		animated_sprite.play("run_up")
 
 func _on_timer_timeout() -> void:
 	if Global.player.dead: return
-	animated_sprite.play("shoot")
 	shoot()
 
 
 func _on_initial_shoot_timer_timeout() -> void:
-	animated_sprite.play("shoot")
 	shoot()
 	shoot_timer.start()
