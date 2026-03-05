@@ -67,7 +67,7 @@ var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.SHOOTER: 200,
 	EnemyType.SHIELDED: 75,
 	EnemyType.JANITOR: 200,
-	EnemyType.DUCK: 20,
+	EnemyType.DUCK: 40,
 	EnemyType.FLAMER: 100
 }
 
