@@ -18,6 +18,8 @@ func _ready() -> void:
 	
 	close_button.pressed.connect(hide_window)
 	SceneManager.scene_changed.connect(hide_window)
+	
+	Global.menu_changed.connect(_on_menu_changed)
 
 func _on_visibility_changed():
 	if visible:
@@ -42,8 +44,18 @@ func add_leaderboard_entry(index: int, data) -> LeaderboardEntry:
 	leaderboard_entry.load_data(index, data)
 	return leaderboard_entry
 
+func _on_menu_changed(node: Node, visibility: bool):
+	if node == self: return
+	if visibility: hide_window()
+
 func hide_window():
 	visible = false
+	Global.menu_changed.emit(self, visible)
 
 func show_window():
 	visible = true
+	Global.menu_changed.emit(self, visible)
+
+func toggle_window():
+	visible = not visible
+	Global.menu_changed.emit(self, visible)

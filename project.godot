@@ -24,6 +24,7 @@ MusicManager="*res://scenes/music/music_manager.tscn"
 Supabase="*res://scripts/supabase.gd"
 Save="*res://scripts/save.gd"
 Leaderboard="*res://scenes/ui/leaderboard/leaderboard.tscn"
+OptionsMenu="*res://scenes/ui/options/options_menu.tscn"
 
 [display]
 

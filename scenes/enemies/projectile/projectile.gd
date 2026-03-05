@@ -5,7 +5,8 @@ extends Area2D
 @export var knockback_force: float = 150
 
 var direction: Vector2
-const SHOT_BLOD_COLOR = Color(0.441, 0.071, 0.022, 1.0)
+const INNER_SHOT_BLOOD_COLOR: Color  = Color(1.0, 1.0, 1.0, 1.0)
+const OUTER_SHOT_BLOOD_COLOR: Color = Color(0.969, 0.918, 0.408, 1.0)
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
@@ -13,6 +14,14 @@ func _physics_process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		Global.blood -= damage
+		Global.player.play_damage_flash()
 		Global.player.velocity += direction * knockback_force
-		Global.ground.paint_circle_color(global_position, randi_range(6,6), SHOT_BLOD_COLOR, true)
+	
+	var sprite: DissapearSprite = DissapearSprite.new()
+	get_parent().add_child(sprite)
+	sprite.global_position = global_position
+	sprite.texture = TextureHelper.create_circle_texture_gradient(randi_range(4, 6), INNER_SHOT_BLOOD_COLOR, OUTER_SHOT_BLOOD_COLOR)
+	
+	sprite.disapear_after(5.0, true)
+	
 	queue_free()

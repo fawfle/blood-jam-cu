@@ -21,8 +21,10 @@ func _physics_process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		burning_player = true
+		(body as Player).set_burning(true)
 		Global.blood -= initial_damage
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		burning_player = false
+		(body as Player).set_burning(false)

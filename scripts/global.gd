@@ -35,6 +35,10 @@ signal out_of_blood()
 
 const spawn_padding: float = 5
 
+## emited when menu (leaderboard, options, etc. is changed)
+@warning_ignore("unused_signal")
+signal menu_changed(node: Node, visibility: bool)
+
 ## update gametime
 func _physics_process(delta: float) -> void:
 	game_time += delta

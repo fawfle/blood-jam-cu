@@ -2,7 +2,7 @@ extends Camera2D
 
 @export var target: Node2D
 
-const MARGIN = 2
+const MARGIN = 4 + Wall.WALL_PADDING
 
 var tween_time: float = 0.5
 

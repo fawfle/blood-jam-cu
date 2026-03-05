@@ -8,8 +8,12 @@ class_name Player extends CharacterBody2D
 @onready var dash_sound: AudioStreamPlayer2D = $DashSound
 @onready var death_sound: AudioStreamPlayer2D = $DeathSound
 
+@onready var take_damage_timer: Timer = $TakeDamageTimer
+
 @onready var trail_particles: GPUParticles2D = $TrailParticles
 var dash_particles_scene: PackedScene = preload("res://scenes/player/dash_particles.tscn")
+
+@onready var burn_particles: GPUParticles2D = $BurnParticles
 
 @export var move_acceleration: float = 400.0
 @export var stop_acceleration: float = 800.0
@@ -53,7 +57,10 @@ func _init() -> void:
 func _ready() -> void:
 	animated_sprite.play("big_idle")
 	trail_particles.emitting = true
+	
 	Global.out_of_blood.connect(_on_out_of_blood)
+	take_damage_timer.timeout.connect(_on_take_damage_timer_end)
+	
 	update_size()
 
 func _physics_process(delta: float) -> void:
@@ -174,3 +181,15 @@ func _on_out_of_blood():
 	trail_particles.emitting = false
 	death_sound.play(0.2)
 	#set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+
+func play_damage_flash():
+	take_damage_timer.start()
+	(animated_sprite.material as ShaderMaterial).set_shader_parameter("taking_damage", 1.0)
+
+func _on_take_damage_timer_end():
+	(animated_sprite.material as ShaderMaterial).set_shader_parameter("taking_damage", 0.0)
+
+func set_burning(burning: bool) -> void:
+	if dead and burning: return
+	burn_particles.emitting = burning
+	(burn_particles.process_material as ParticleProcessMaterial).emission_shape_scale = Vector3(size / 2, size / 2, 1)
