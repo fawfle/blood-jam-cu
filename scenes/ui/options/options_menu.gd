@@ -6,6 +6,7 @@ func _ready() -> void:
 	visible = false
 	music_volume_slider.value_changed.connect(_on_music_volume_value_changed)
 	
+	SceneManager.scene_changed.connect(hide_window)
 	Global.menu_changed.connect(_on_menu_changed)
 	
 	music_volume_slider.value = Save.music_volume

@@ -50,4 +50,3 @@ func create_new_save():
 
 func delete_save():
 	DirAccess.remove_absolute("user://savegame.save")
-	

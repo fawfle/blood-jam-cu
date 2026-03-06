@@ -1,23 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7kujr45py2yp"]
+[gd_scene load_steps=8 format=3 uid="uid://b7kujr45py2yp"]
 
 [ext_resource type="Script" uid="uid://c072xqknfkxmy" path="res://scenes/ui/leaderboard/leaderboard.gd" id="1_owmi3"]
 [ext_resource type="Texture2D" uid="uid://b4npqk0v6jd5g" path="res://sprites/ui/close.png" id="2_53sna"]
 [ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="2_p5tgx"]
+[ext_resource type="Texture2D" uid="uid://dg20lqd5gwx7o" path="res://sprites/ui/panel.png" id="2_pgl8d"]
 [ext_resource type="PackedScene" uid="uid://bv2vfr8e5gkva" path="res://scenes/ui/leaderboard/leaderboard_entry.tscn" id="3_7p4yg"]
+[ext_resource type="Theme" uid="uid://dnk2hbpm7aqdd" path="res://fonts/smaller_font.tres" id="5_t745n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pgl8d"]
 
 [node name="Leaderboard" type="CanvasLayer"]
 script = ExtResource("1_owmi3")
 
-[node name="Panel" type="ColorRect" parent="."]
+[node name="Panel" type="NinePatchRect" parent="."]
+self_modulate = Color(0.32914385, 0.32914388, 0.3291438, 1)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -65.0
-offset_top = 10.0
+offset_top = 6.0
 offset_right = 65.0
 offset_bottom = 153.0
 grow_horizontal = 2
-color = Color(0.17231423, 0.17231423, 0.17231423, 1)
+texture = ExtResource("2_pgl8d")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="Close" type="TextureButton" parent="Panel"]
 layout_mode = 1
@@ -48,8 +57,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
-offset_top = 27.0
+offset_top = 25.0
 offset_right = -1.0
+offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 3
@@ -63,3 +73,14 @@ theme_override_constants/separation = -1
 
 [node name="LeaderboardEntry" parent="Panel/ScrollContainer/VBoxContainer" instance=ExtResource("3_7p4yg")]
 layout_mode = 2
+
+[node name="ChangeNameEdit" type="LineEdit" parent="."]
+offset_left = 79.0
+offset_top = 134.0
+offset_right = 163.0
+offset_bottom = 155.0
+theme = ExtResource("5_t745n")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pgl8d")
+placeholder_text = "username"
+max_length = 14
+flat = true

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1r2xkgvn61wr"]
+[gd_scene load_steps=5 format=3 uid="uid://d1r2xkgvn61wr"]
 
 [ext_resource type="Script" uid="uid://n8v6sms1tk5e" path="res://scenes/game_over.gd" id="1_xeevv"]
 [ext_resource type="Texture2D" uid="uid://dg20lqd5gwx7o" path="res://sprites/ui/panel.png" id="2_tbwuq"]
 [ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="2_wqhvx"]
+[ext_resource type="Theme" uid="uid://dnk2hbpm7aqdd" path="res://fonts/smaller_font.tres" id="4_racf3"]
 
 [node name="GameOver" type="CanvasLayer"]
 layer = 2
@@ -56,9 +57,9 @@ horizontal_alignment = 1
 [node name="PlayAgain" type="Button" parent="GameOverMenu"]
 layout_mode = 0
 offset_left = 74.0
-offset_top = 90.0
+offset_top = 84.0
 offset_right = 214.0
-offset_bottom = 124.0
+offset_bottom = 118.0
 focus_mode = 0
 theme = ExtResource("2_wqhvx")
 text = "RESTART"
@@ -83,6 +84,19 @@ theme = ExtResource("2_wqhvx")
 text = "EXIT"
 flat = true
 text_overrun_behavior = 1
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(0.9210625, 0.9210625, 0.9210625, 1)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -19.0
+offset_top = 107.0
+offset_right = 21.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme = ExtResource("4_racf3")
+text = "press r"
 
 [connection signal="pressed" from="GameOverMenu/PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="pressed" from="GameOverMenu/ExitGame" to="." method="_on_exit_game_pressed"]
