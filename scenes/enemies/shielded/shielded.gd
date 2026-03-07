@@ -19,6 +19,7 @@ const DISTANCE_TOLERANCE: float = 5
 
 func _on_ready():
 	change_distance()
+	shield.rotation = randf() * PI * 2
 	
 func choose_animation() -> void:
 	if velocity == Vector2.ZERO:
