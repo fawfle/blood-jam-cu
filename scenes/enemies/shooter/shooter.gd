@@ -18,13 +18,25 @@ func shoot() -> void:
 	move_in_direction = false
 	panicking = false
 	await get_tree().create_timer(shoot_time).timeout
+	#var projectile: Area2D = projectile_scene.instantiate()
+	#projectile.direction = position.direction_to(player.global_position)
+	#projectile.global_position = global_position
+	#projectile.look_at(player.global_position)
+	#if owner: owner.add_child(projectile)
+	#else: get_tree().add_child(projectile)
+	create_projectile_in_direction(position.direction_to(player.global_position))
+	if elite:
+		create_projectile_in_direction(position.direction_to(player.global_position).rotated(PI / 6))
+		create_projectile_in_direction(position.direction_to(player.global_position).rotated(-PI / 6))
+	is_shooting = false
+
+func create_projectile_in_direction(dir: Vector2):
 	var projectile: Area2D = projectile_scene.instantiate()
-	projectile.direction = position.direction_to(player.global_position)
+	projectile.direction = dir
 	projectile.global_position = global_position
-	projectile.look_at(player.global_position)
+	projectile.rotation = dir.angle()
 	if owner: owner.add_child(projectile)
 	else: get_tree().add_child(projectile)
-	is_shooting = false
 
 func find_direction() -> void:
 	var player_position: Vector2 = player.global_position

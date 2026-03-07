@@ -2,10 +2,14 @@ extends Enemy
 
 @onready var animated_sprite = $AnimatedSprite2D
 
+@onready var shield: Shield = $ShieldPivot
+
 # shield guy works similarly to shooter, but min distance will change
 @export var distance_min: int
 var distance_target_min = 80
 var distance_target_max = 200
+
+var elite_shield_size: Vector2 = Vector2(10, 5)
 
 var distance_target
 
@@ -44,3 +48,7 @@ func change_distance():
 
 func _on_timer_timeout() -> void:
 	change_distance()
+
+func on_elite_changed():
+	if elite:
+		shield.set_shield_size(Vector2(4, 24))

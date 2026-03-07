@@ -3,6 +3,7 @@ class_name Enemy
 extends CharacterBody2D
 
 @export var speed: float = 20
+var elite_speed: float = speed
 @export var blood: int = 10
 var player = Global.player
 var direction: Vector2 = Vector2.ZERO
@@ -14,6 +15,15 @@ var _panic_timer: float = 0
 var _panic_timer_duration: float = 1.0
 var move_in_direction_timer: float = 0
 var move_in_direction_duration: float = 0.4
+
+var elite: bool = false:
+	get: return elite
+	set(value):
+		elite = value
+		on_elite_changed()
+
+var current_speed:
+	get: return elite_speed if elite else speed
 
 @onready var area: Area2D = $Area2D 
 # var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
@@ -60,7 +70,7 @@ func _physics_process(delta: float) -> void:
 	
 	_on_physics_process(delta)
 	choose_animation()
-	velocity = direction * speed
+	velocity = direction * current_speed
 	move_and_slide()
 	
 	var collision := get_last_slide_collision()
@@ -77,7 +87,7 @@ func _panic_process(delta: float) -> void:
 	if not move_in_direction:
 		move_in_direction_until(move_in_direction_duration + randf() * 0.2)
 		
-	velocity = direction * speed
+	velocity = direction * current_speed
 	choose_animation()
 	move_and_slide()
 
@@ -87,7 +97,7 @@ func move_in_direction_until_process(delta: float) -> void:
 		move_in_direction = false
 		return
 	
-	velocity = direction * speed
+	velocity = direction * current_speed
 
 func start_panicking(time: float = _panic_timer_duration):
 	panicking = true
@@ -142,3 +152,6 @@ func set_shields(enabled: bool):
 	for child in children:
 		if child.is_in_group("shield"):
 			(child as Shield).set_enabled(enabled)
+
+func on_elite_changed():
+	pass

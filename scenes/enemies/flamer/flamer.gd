@@ -8,6 +8,7 @@ extends Enemy
 var flame_scene: PackedScene = preload("res://scenes/enemies/flame/Flame.tscn")
 var is_flaming = false
 var flame: Flame
+var back_flame: Flame
 
 @onready var flame_pivot: Node2D = $FlamePivot
 
@@ -18,18 +19,31 @@ func start_flaming() -> void:
 	#await get_tree().create_timer(0.2).timeout
 	# if dying: return
 	
-	flame = flame_scene.instantiate()
+	# create_flame(Vector2(24, 0))
+	flame = create_flame_in_direction(Vector2(24, 0)) # , global_position.direction_to(player.global_position))
+	#flame = flame_scene.instantiate()
 	
-	flame_pivot.add_child(flame)
-	flame.owner = flame_pivot
+	if elite:
+		back_flame = create_flame_in_direction(Vector2(-24, 0)) #, -global_position.direction_to(player.global_position))
 	
-	flame.position = Vector2(24, 0)
+	
+	#flame.position = Vector2(24, 0)
 	flame_pivot.look_at(Global.player.global_position)
+
+func create_flame_in_direction(offset: Vector2):
+	var f: Flame = flame_scene.instantiate()
+	# fixed offset
+	f.position = offset
+	# flame_pivot.rotation = dir.angle()
+	flame_pivot.add_child(f)
+	f.owner = flame_pivot
+	return f
 
 func stop_flaming() -> void:
 	if not is_flaming: return
 	is_flaming = false
 	flame.queue_free()
+	if back_flame: back_flame.queue_free()
 	flame = null
 
 func _on_physics_process(delta: float):

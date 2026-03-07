@@ -4,6 +4,10 @@ extends Enemy
 
 @onready var max_escape_distance: float = 100.0
 
+
+func _on_ready() -> void:
+	elite_speed = 100
+
 # func bouncing: bool = false
 
 func choose_animation() -> void:

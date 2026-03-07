@@ -1,8 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://urujg6q1wbmg"]
+[gd_scene load_steps=6 format=3 uid="uid://urujg6q1wbmg"]
 
 [ext_resource type="Script" uid="uid://do2blknw12tmg" path="res://scenes/enemies/shield/shield.gd" id="1_uk3dt"]
-[ext_resource type="Texture2D" uid="uid://c4ifpdwaom7ya" path="res://sprites/enemies/shield/shield.png" id="2_fgeeo"]
 [ext_resource type="Script" uid="uid://bpl3ytxrfsjal" path="res://scripts/bloody_collider.gd" id="3_xu62e"]
+
+[sub_resource type="Gradient" id="Gradient_fgeeo"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xu62e"]
+gradient = SubResource("Gradient_fgeeo")
+width = 2
+height = 8
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46l8f"]
 radius = 1.0
@@ -15,7 +22,7 @@ script = ExtResource("1_uk3dt")
 modulate = Color(0.60849, 0.60849, 0.60849, 1)
 clip_children = 2
 position = Vector2(8, 0)
-texture = ExtResource("2_fgeeo")
+texture = SubResource("GradientTexture2D_xu62e")
 
 [node name="Shield" type="StaticBody2D" parent="."]
 position = Vector2(8, 0)

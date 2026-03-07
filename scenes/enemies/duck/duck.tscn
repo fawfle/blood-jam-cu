@@ -4,9 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://c3ar3n77ua6yw" path="res://sprites/duck/duck-idle.png" id="2_rrwfh"]
 [ext_resource type="Texture2D" uid="uid://caof0vs4u4cio" path="res://sprites/duck/duck-run.png" id="3_j6bwj"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8rfea"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_rrwfh"]
 radius = 5.0
-height = 10.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x0nxn"]
 atlas = ExtResource("2_rrwfh")
@@ -56,14 +55,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rqw3e"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_j6bwj"]
 radius = 6.0
-height = 12.0
 
 [node name="Duck" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_rrwfh")
+blood = 15
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -71,7 +70,7 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -1)
-shape = SubResource("CapsuleShape2D_8rfea")
+shape = SubResource("CircleShape2D_rrwfh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_v2tag")
@@ -81,4 +80,4 @@ frame_progress = 0.78920597
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
-shape = SubResource("CapsuleShape2D_rqw3e")
+shape = SubResource("CircleShape2D_j6bwj")
