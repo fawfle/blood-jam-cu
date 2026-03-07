@@ -58,6 +58,7 @@ func get_max_spawn_distance() -> float:
 
 const MAX_ITERATIONS = 20
 
+# TODO: fix with algorithm
 func random_position_in_room_away_from_player() -> Vector2:
 	var random_pos = Global.random_position_in_room()
 	var iterations: int = 0

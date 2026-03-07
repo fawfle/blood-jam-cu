@@ -94,7 +94,7 @@ func paint_circle_helper(circle_pos: Vector2i, radius: int, paint_callable: Call
 	
 
 func is_in_circle(circle_pos: Vector2i, radius: int, pos: Vector2i) -> bool:
-	print(circle_pos.distance_to(pos))
+	# print(circle_pos.distance_to(pos))
 	return circle_pos.distance_to(pos) < radius
 	
 

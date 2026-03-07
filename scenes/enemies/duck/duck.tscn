@@ -62,6 +62,7 @@ radius = 6.0
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_rrwfh")
+speed = null
 blood = 15
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 
@@ -81,3 +82,11 @@ frame_progress = 0.78920597
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_j6bwj")
+
+[node name="FlamePivot" type="Node2D" parent="."]
+position = Vector2(0, -2)
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

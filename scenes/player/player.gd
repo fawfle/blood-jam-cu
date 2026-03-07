@@ -61,6 +61,8 @@ func _ready() -> void:
 	Global.out_of_blood.connect(_on_out_of_blood)
 	take_damage_timer.timeout.connect(_on_take_damage_timer_end)
 	
+	(animated_sprite.material as ShaderMaterial).set_shader_parameter("taking_damage", 0.0)
+	
 	update_size()
 
 func _physics_process(delta: float) -> void:

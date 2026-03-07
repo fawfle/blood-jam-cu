@@ -95,7 +95,7 @@ func _physics_process(delta: float) -> void:
 	handle_difficulty()
 
 func handle_difficulty():
-	difficulty = resize_number * 50
+	difficulty = resize_number * 50 + Global.game_time / 1000
 	
 	enemy_spawn_time = approach_from(max_enemy_spawn_time, min_enemy_spawn_time, 0.01, difficulty)
 
@@ -104,6 +104,9 @@ func get_blood_scale() -> float:
 	# print(lerpf(0.2, 1, enemy_spawn_time / max_enemy_spawn_time))
 	return lerpf(0.3, 1, enemy_spawn_time / max_enemy_spawn_time)
 	# return clamp(enemy_spawn_time / max_enemy_spawn_time * 1.4, 0.2, 1)
+
+func get_elite_chance() -> float:
+	return lerpf(0, 0.4, difficulty / 800)
 
 func handle_fill():
 	var fill_ratio: float = Global.ground.get_fill_ratio()
@@ -115,10 +118,11 @@ func handle_fill():
 func handle_spawning(delta: float):
 	enemy_spawn_timer -= delta
 	if enemy_spawn_timer <= 0:
-		spawn_enemy()
+		var is_elite: bool = randf() < get_elite_chance()
+		spawn_enemy(is_elite)
 		enemy_spawn_timer = enemy_spawn_time + randf() * enemy_spawn_time_variation
 
-func spawn_enemy():
+func spawn_enemy(is_elite: bool = false):
 	var random_pos = Global.random_position_in_room_away_from_player()
 	
 	var enemy: Enemy =  get_random_enemy().instantiate()
@@ -131,6 +135,9 @@ func spawn_enemy():
 	add_child(enemy)
 	enemy.owner = self
 	enemy.global_position = random_pos
+	
+	if is_elite:
+		enemy.elite = true
 
 func get_random_enemy() -> PackedScene:
 	var enemy_weight: float = get_enemy_spawn_weight_total()
@@ -155,6 +162,8 @@ func resize_room():
 	
 	spawn_obstacles(previous_room_size, Global.room_size)
 
+const MIN_SPAWN_DISTANCE_OBSTACLES = 35
+
 func spawn_obstacles(previous_room_size: Vector2i, room_size: Vector2i):
 	var spawn_range: Vector2 = (room_size - previous_room_size) / 2 + Vector2i(20, 20)
 	
@@ -162,14 +171,22 @@ func spawn_obstacles(previous_room_size: Vector2i, room_size: Vector2i):
 	var spawn_horizontal: bool = randf() > 0.5
 	var spawn_position: Vector2
 	
-	print(spawn_range)
-	
-	if spawn_horizontal:
-		spawn_position.x = (previous_room_size.x / 2.0 + spawn_range.x * randf()) * (-1 if randf() > 0.5 else 1)
-		spawn_position.y = room_size.y / 2.0 * randf_range(-1, 1)
-	else:
-		spawn_position.x = room_size.x / 2.0 * randf_range(-1, 1)
-		spawn_position.y = (previous_room_size.y / 2.0 + spawn_range.y * randf()) * (-1 if randf() > 0.5 else 1)
+	for i in range(100):
+		if spawn_horizontal:
+			spawn_position.x = (previous_room_size.x / 2.0 + spawn_range.x * randf()) * (-1 if randf() > 0.5 else 1)
+			spawn_position.y = room_size.y / 2.0 * randf_range(-1, 1)
+		else:
+			spawn_position.x = room_size.x / 2.0 * randf_range(-1, 1)
+			spawn_position.y = (previous_room_size.y / 2.0 + spawn_range.y * randf()) * (-1 if randf() > 0.5 else 1)
+		
+		var recalculate: bool  = false
+		for obstacle: Node2D in get_tree().get_nodes_in_group("obstacles"):
+			if spawn_position.distance_to(obstacle.global_position) < MIN_SPAWN_DISTANCE_OBSTACLES:
+				recalculate = true
+				break
+				
+		if not recalculate:
+			break
 		
 	var table: StaticBody2D = table_scene.instantiate()
 	add_child(table)

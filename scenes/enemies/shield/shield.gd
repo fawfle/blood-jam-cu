@@ -8,6 +8,10 @@ class_name Shield extends Node2D
 ## rotation speed in radians
 var rotation_speed: float = 0.5
 
+func _ready() -> void:
+	shield_collision.shape = shield_collision.shape.duplicate()
+	shield_sprite.texture = shield_sprite.texture.duplicate()
+
 func _process(delta: float) -> void:
 	var angle_to_player: float = get_angle_to(Global.player.global_position)
 	

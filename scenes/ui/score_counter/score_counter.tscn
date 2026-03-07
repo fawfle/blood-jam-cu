@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhq64qknuwgna"]
+
+[ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="1_gsbbg"]
+[ext_resource type="Script" uid="uid://dm0luoh7vd5mp" path="res://scenes/ui/score_counter/score_counter.gd" id="2_kqnr8"]
+
+[node name="ScoreCounter" type="Label"]
+offset_top = 1.0
+offset_right = 56.0
+offset_bottom = 27.0
+theme = ExtResource("1_gsbbg")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+text = "0000"
+horizontal_alignment = 1
+script = ExtResource("2_kqnr8")
+metadata/_edit_use_anchors_ = true
+
+[node name="ExpandTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true

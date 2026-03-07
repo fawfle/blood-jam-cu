@@ -7,8 +7,8 @@ extends Enemy
 
 var flame_scene: PackedScene = preload("res://scenes/enemies/flame/Flame.tscn")
 var is_flaming = false
-var flame: Flame
-var back_flame: Flame
+var flames: Array[Flame]
+# var back_flame: Flame
 
 @onready var flame_pivot: Node2D = $FlamePivot
 
@@ -20,17 +20,17 @@ func start_flaming() -> void:
 	# if dying: return
 	
 	# create_flame(Vector2(24, 0))
-	flame = create_flame_in_direction(Vector2(24, 0)) # , global_position.direction_to(player.global_position))
+	flames.append(create_flame(Vector2(24, 0))) # , global_position.direction_to(player.global_position))
 	#flame = flame_scene.instantiate()
 	
 	if elite:
-		back_flame = create_flame_in_direction(Vector2(-24, 0)) #, -global_position.direction_to(player.global_position))
+		flames.append(create_flame(Vector2(-24, 0))) #, -global_position.direction_to(player.global_position))
 	
 	
 	#flame.position = Vector2(24, 0)
 	flame_pivot.look_at(Global.player.global_position)
 
-func create_flame_in_direction(offset: Vector2):
+func create_flame(offset: Vector2):
 	var f: Flame = flame_scene.instantiate()
 	# fixed offset
 	f.position = offset
@@ -42,18 +42,19 @@ func create_flame_in_direction(offset: Vector2):
 func stop_flaming() -> void:
 	if not is_flaming: return
 	is_flaming = false
-	flame.queue_free()
-	if back_flame: back_flame.queue_free()
-	flame = null
+	for flame in flames:
+		flame.queue_free()
+	flames.clear()
 
 func _on_physics_process(delta: float):
-	if flame == null: return
+	if flames.size() == 0: return
 	
 	var angle_to_player: float = flame_pivot.get_angle_to(Global.player.global_position)
 	var rotate_angle: float = max(abs(angle_to_player), rotation_speed) * sign(angle_to_player)
 	
 	flame_pivot.rotate(rotate_angle * delta)
-	flame.animated_sprite.flip_h = abs(flame_pivot.rotation_degrees) > PI / 2
+	for flame in flames:
+		flame.animated_sprite.flip_h = abs(flame_pivot.rotation_degrees) > PI / 2
 
 func choose_animation() -> void:
 	#if is_flaming && velocity.x > 0:
@@ -94,4 +95,4 @@ func find_direction() -> void:
 		stop_flaming()
 	else:
 		start_flaming()
-		direction = Vector2.from_angle(get_angle_to((flame.global_position)))
+		direction = Vector2.from_angle(get_angle_to((flames[0].global_position)))
