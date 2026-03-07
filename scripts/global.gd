@@ -21,6 +21,8 @@ var score: int
 ## time game has spent running
 var game_time: float = 0
 
+var game_over: bool = false
+
 ## signal enemy sends when getting eaten
 @warning_ignore("unused_signal")
 signal enemy_eaten(enemy: Enemy)
@@ -38,6 +40,9 @@ const spawn_padding: float = 5
 ## emited when menu (leaderboard, options, etc. is changed)
 @warning_ignore("unused_signal")
 signal menu_changed(node: Node, visibility: bool)
+
+func _ready() -> void:
+	out_of_blood.connect(func(): game_over = true)
 
 ## update gametime
 func _physics_process(delta: float) -> void:
@@ -76,3 +81,4 @@ func reset_game():
 	blood = start_blood
 	room_size = start_room_size
 	game_time = 0
+	game_over = false
