@@ -86,6 +86,8 @@ reset={
 2d_physics/layer_2="wall"
 2d_physics/layer_3="enemy"
 2d_physics/layer_4="shield"
+2d_physics/layer_9="decoration"
+2d_physics/layer_10="obstacle"
 
 [rendering]
 

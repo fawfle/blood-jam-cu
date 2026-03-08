@@ -60,9 +60,8 @@ radius = 6.0
 
 [node name="Duck" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 514
 script = ExtResource("1_rrwfh")
-speed = null
 blood = 15
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 

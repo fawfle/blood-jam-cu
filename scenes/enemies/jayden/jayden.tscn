@@ -185,7 +185,7 @@ height = 18.0
 
 [node name="Jayden" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 0
+collision_mask = 258
 script = ExtResource("1_xdcxv")
 
 [node name="Area2D" type="Area2D" parent="."]

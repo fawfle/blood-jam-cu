@@ -28,10 +28,13 @@ var current_speed:
 @onready var area: Area2D = $Area2D 
 # var death_sound: PackedScene = preload("res://scenes/enemies/Sounds/death_sound.tscn")
 var death_particles_scene: PackedScene = preload("res://scenes/particles/enemy_death_particles.tscn")
+var bone_scene: PackedScene = preload("res://scenes/decorations/bone.tscn")
 
 var blood_color = Color(0.631, 0.0, 0.0, 1.0)
 
 var dying: bool = false
+
+@export var bone_chance: float = 0.01
 
 func _ready() -> void:
 	add_to_group("enemies")
@@ -129,6 +132,13 @@ func die():
 	var death_particles: GPUParticles2D = death_particles_scene.instantiate()
 	Global.player.add_child(death_particles)
 	death_particles.global_position = global_position
+	
+	if randf() < bone_chance:
+		var bone: RigidBody2D = bone_scene.instantiate()
+		bone.global_position = global_position
+		get_parent().call_deferred("add_child", bone)
+		bone.apply_impulse(Vector2.from_angle(randf() * 5) * randf_range(5, 10))
+		bone.apply_torque_impulse(randf_range(20, 30))
 	
 	queue_free()
 

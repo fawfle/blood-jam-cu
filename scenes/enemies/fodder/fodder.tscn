@@ -179,7 +179,7 @@ height = 22.0
 
 [node name="Fodder" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 514
 script = ExtResource("1_mbmad")
 metadata/_custom_type_script = "uid://shvkl6fgbo11"
 

@@ -180,7 +180,7 @@ height = 18.0
 
 [node name="Shielded" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 258
 script = ExtResource("1_kh67j")
 blood = 25
 metadata/_custom_type_script = "uid://shvkl6fgbo11"

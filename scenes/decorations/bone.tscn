@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnuvcgf7cosfx"]
+
+[ext_resource type="Texture2D" uid="uid://cji1ro2c1eevc" path="res://sprites/decorations/bone.png" id="1_nk6c2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nk6c2"]
+bounce = 0.1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nk6c2"]
+radius = 1.0
+height = 4.0
+
+[node name="Bone" type="RigidBody2D"]
+collision_layer = 256
+collision_mask = 515
+mass = 40.0
+physics_material_override = SubResource("PhysicsMaterial_nk6c2")
+gravity_scale = 0.0
+inertia = 4.0
+continuous_cd = 1
+linear_damp = 1.0
+angular_damp = 2.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nk6c2")
+offset = Vector2(0, -0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_nk6c2")
