@@ -56,6 +56,7 @@ func handle_command(command: String):
 			"j": Global.main.enemy_spawn_rates[Main.EnemyType.JANITOR] = 10000
 			"fl": Global.main.enemy_spawn_rates[Main.EnemyType.FLAMER] = 10000
 			"d": Global.main.enemy_spawn_rates[Main.EnemyType.DUCK] = 10000
+			"ja": Global.main.enemy_spawn_rates[Main.EnemyType.JAYDEN] = 10000
 	elif input_command.begins_with("deletesave"):
 		Save.delete_save()
 	elif input_command.begins_with("g"):

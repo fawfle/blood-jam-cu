@@ -6,7 +6,8 @@ enum EnemyType {
 	SHIELDED,
 	JANITOR,
 	DUCK,
-	FLAMER
+	FLAMER,
+	JAYDEN
 }
 
 const wall_scene := preload("res://scenes/wall/wall.tscn")
@@ -47,6 +48,8 @@ var janitor_scene: PackedScene = preload("res://scenes/enemies/janitor/janitor.t
 var duck_scene: PackedScene = preload("res://scenes/enemies/duck/duck.tscn")
 var flamer_scene: PackedScene = preload("res://scenes/enemies/flamer/flamer.tscn")
 
+var jayden_scene: PackedScene = preload("res://scenes/enemies/jayden/jayden.tscn")
+
 var table_scene: PackedScene = preload("res://scenes/obstacles/table.tscn")
 
 var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
@@ -58,7 +61,8 @@ var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
 	EnemyType.SHIELDED: shielded_scene,
 	EnemyType.JANITOR: janitor_scene,
 	EnemyType.DUCK: duck_scene,
-	EnemyType.FLAMER: flamer_scene
+	EnemyType.FLAMER: flamer_scene,
+	EnemyType.JAYDEN: jayden_scene
 }
 
 ## map types to spawn rates
@@ -68,7 +72,8 @@ var enemy_spawn_rates: Dictionary[EnemyType, float] = {
 	EnemyType.SHIELDED: 75,
 	EnemyType.JANITOR: 200,
 	EnemyType.DUCK: 40,
-	EnemyType.FLAMER: 100
+	EnemyType.FLAMER: 100,
+	EnemyType.JAYDEN: 1
 }
 
 func _init() -> void:

@@ -1,0 +1,204 @@
+[gd_scene load_steps=29 format=3 uid="uid://dy3vu34h5qkso"]
+
+[ext_resource type="Texture2D" uid="uid://k47kbbpxwauv" path="res://sprites/jaden/jaden-idle.png" id="1_pta0i"]
+[ext_resource type="Script" uid="uid://blrx41i2e6bbv" path="res://scenes/enemies/fodder/fodder.gd" id="1_xdcxv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wnj7f"]
+radius = 3.0
+height = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gkbs"]
+atlas = ExtResource("1_pta0i")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0qwo"]
+atlas = ExtResource("1_pta0i")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwyuk"]
+atlas = ExtResource("1_pta0i")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eprmg"]
+atlas = ExtResource("1_pta0i")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_e3ma4"]
+load_path = "res://.godot/imported/jaden-rundown.png-289673804ad9f2e97d6120b9129d39ce.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vt2jh"]
+atlas = SubResource("CompressedTexture2D_e3ma4")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixp7n"]
+atlas = SubResource("CompressedTexture2D_e3ma4")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f86mh"]
+atlas = SubResource("CompressedTexture2D_e3ma4")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnpq7"]
+atlas = SubResource("CompressedTexture2D_e3ma4")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jxq3l"]
+load_path = "res://.godot/imported/jaden-runside.png-b90474da28f13f6b57ac7e5497ec62e5.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfggu"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_po8dn"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gy84q"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4lm8"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7shjt"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_053t8"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cltmi"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6m5wo"]
+atlas = SubResource("CompressedTexture2D_jxq3l")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pta0i"]
+load_path = "res://.godot/imported/jaden-runup.png-643e551f89a31ff1f9d281b71fdf5799.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3aj3"]
+atlas = SubResource("CompressedTexture2D_pta0i")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mtt68"]
+atlas = SubResource("CompressedTexture2D_pta0i")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o82kp"]
+atlas = SubResource("CompressedTexture2D_pta0i")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3i43i"]
+atlas = SubResource("CompressedTexture2D_pta0i")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dtoso"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gkbs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0qwo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwyuk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eprmg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vt2jh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixp7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f86mh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cnpq7")
+}],
+"loop": true,
+"name": &"run_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfggu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_po8dn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gy84q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4lm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7shjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_053t8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cltmi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6m5wo")
+}],
+"loop": true,
+"name": &"run_side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3aj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mtt68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o82kp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3i43i")
+}],
+"loop": true,
+"name": &"run_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xdnfd"]
+radius = 5.0
+height = 18.0
+
+[node name="Jayden" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_xdcxv")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_wnj7f")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dtoso")
+animation = &"run_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+light_mask = 0
+visibility_layer = 0
+shape = SubResource("CapsuleShape2D_xdnfd")
