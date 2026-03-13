@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1r2xkgvn61wr"]
+[gd_scene load_steps=6 format=3 uid="uid://d1r2xkgvn61wr"]
 
 [ext_resource type="Script" uid="uid://n8v6sms1tk5e" path="res://scenes/game_over.gd" id="1_xeevv"]
 [ext_resource type="Texture2D" uid="uid://dg20lqd5gwx7o" path="res://sprites/ui/panel.png" id="2_tbwuq"]
 [ext_resource type="Theme" uid="uid://dbjabgliedfsc" path="res://fonts/main_theme.tres" id="2_wqhvx"]
 [ext_resource type="Theme" uid="uid://dnk2hbpm7aqdd" path="res://fonts/smaller_font.tres" id="4_racf3"]
+[ext_resource type="PackedScene" uid="uid://bkoe4ptk7hgsr" path="res://scenes/ui/leaderboard_button/leaderboard_button.tscn" id="5_7m3ot"]
 
 [node name="GameOver" type="CanvasLayer"]
 layer = 2
@@ -97,6 +98,12 @@ offset_bottom = 120.0
 grow_horizontal = 2
 theme = ExtResource("4_racf3")
 text = "press r"
+
+[node name="LeaderboardButton" parent="." instance=ExtResource("5_7m3ot")]
+offset_left = 196.0
+offset_top = 6.0
+offset_right = 212.0
+offset_bottom = 22.0
 
 [connection signal="pressed" from="GameOverMenu/PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="pressed" from="GameOverMenu/ExitGame" to="." method="_on_exit_game_pressed"]

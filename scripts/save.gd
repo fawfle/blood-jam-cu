@@ -5,6 +5,7 @@ var high_score: int = 0
 var player_name: String
 ## volume of music. 1 is max
 var music_volume: float = 1
+var score_counter_opacity: float = 1
 
 # call before everything else!
 func _init() -> void:
@@ -38,7 +39,8 @@ func save_data():
 		"uuid": uuid,
 		"high_score": high_score,
 		"player_name": player_name,
-		"music_volume": music_volume
+		"music_volume": music_volume,
+		"score_counter_opacity": score_counter_opacity,
 	}
 	var json_string = JSON.stringify(data)
 	save_file.store_line(json_string)

@@ -130,7 +130,7 @@ func handle_spawning(delta: float):
 func spawn_enemy(is_elite: bool = false):
 	var random_pos = Global.random_position_in_room_away_from_player()
 	
-	var enemy: Enemy =  get_random_enemy().instantiate()
+	var enemy: Enemy = get_random_enemy().instantiate()
 	var teleport: EnemyTeleport = enemy_teleport_scene.instantiate()
 	add_child(teleport)
 	teleport.owner = self

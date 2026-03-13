@@ -11,6 +11,9 @@ const CHECK_FRAMES: int = 10
 
 @onready var expand_timer: Timer = $ExpandTimer
 
+func _ready() -> void:
+	modulate.a = Save.score_counter_opacity
+
 func _physics_process(_delta: float) -> void:
 	if Global.game_over: return
 	
