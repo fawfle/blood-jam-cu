@@ -35,10 +35,13 @@ var max_enemy_spawn_time: float = enemy_spawn_time
 var min_enemy_spawn_time: float = 0.7
 var enemy_spawn_timer: float = 0.0
 
+var COMBO_TIME: float = 0.9
+
 var game_over_scene: PackedScene = preload("res://scenes/game_over.tscn")
 
 @onready var death_sound: AudioStreamPlayer2D = $DeathSound
 @onready var teleport_sound: AudioStreamPlayer2D = $TeleportSound
+@onready var combo_timer: Timer = $ComboTimer
 
 var main_menu: PackedScene = preload("res://scenes/main_menu.tscn")
 var fodder_scene: PackedScene = preload("res://scenes/enemies/fodder/fodder.tscn")
@@ -53,6 +56,8 @@ var jayden_scene: PackedScene = preload("res://scenes/enemies/jayden/jayden.tscn
 var table_scene: PackedScene = preload("res://scenes/obstacles/table.tscn")
 
 var enemy_teleport_scene: PackedScene = preload("res://scenes/enemies/teleport/enemy_teleport.tscn")
+
+const floating_number_scene: PackedScene = preload("res://scenes/ui/floating_number/floating_number.tscn")
 
 ## pretend its constant lol. Map enemy type enums to scenes
 var ENEMY_SCENES: Dictionary[EnemyType, PackedScene] = {
@@ -223,10 +228,23 @@ func _on_death() -> void:
 	var game_over := game_over_scene.instantiate()
 	add_child(game_over)
 
+var combo_count: int = 0
+
 func _enemy_death(enemy: Enemy) -> void:
+	# terrible organization but it works lol
 	death_sound.play(0.2)
 	# add blood here so we can scale it
 	Global.blood += enemy.blood * get_blood_scale()
+	
+	combo_count += 1;
+	
+	if not combo_timer.is_stopped():
+		var fn: FloatingNumber = floating_number_scene.instantiate()
+		$WorldCanvasLayer.add_child(fn)
+		fn.set_text(str(combo_count) + "X")
+		fn.position = enemy.global_position - Vector2(0, 10)
+	
+	combo_timer.start(COMBO_TIME)
 
 const E = 2.71828
 
@@ -237,3 +255,7 @@ func approach(max_val: float, k: float, x: float) -> float:
 
 func approach_from(start: float, end: float, k: float, x: float) -> float:
 	return start + approach(end - start, k, x)
+
+
+func _on_combo_timer_timeout() -> void:
+	combo_count = 0

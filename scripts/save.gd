@@ -23,6 +23,7 @@ func _init() -> void:
 	high_score = data.high_score
 	player_name = data.player_name
 	if data.has("music_volume"): music_volume = data.music_volume
+	if data.has("score_counter_opacity"): score_counter_opacity = data.score_counter_opacity
 	
 	# apply volume
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"), music_volume)

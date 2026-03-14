@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://dnk2hbpm7aqdd" path="res://fonts/smaller_font.tres" id="2_7heov"]
 
 [node name="OptionsMenu" type="CanvasLayer"]
+layer = 4
 script = ExtResource("1_38r3w")
 
 [node name="MusicVolumeSlider" type="HSlider" parent="."]
